@@ -3,6 +3,8 @@ $input-border-width: 0.125rem;
 $input-border-color: rgb(220, 220, 220);
 
 .first-form {
+  padding: 1rem;
+
   section {
     display: flex;
     gap: 1.5rem;
@@ -44,6 +46,18 @@ $input-border-color: rgb(220, 220, 220);
       input {
         width: 100%;
       }
+    }
+  }
+
+  .phone-number-div {
+    flex-direction: row;
+
+    select {
+      // width: 20%;
+    }
+
+    input {
+      // width: 80%;
     }
   }
 }

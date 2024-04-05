@@ -10,7 +10,8 @@ export default function FormPage() {
 
       <Title />
 
-      <div className="p-8">
+      <div className="px-16">
+        <hr className="my-4 border-t-2 border-gray-300" />
         {sections.map((section, i) => (
           <div
             key={i}
