@@ -136,9 +136,9 @@ export default function FirstForm() {
 
         <section>
           <div>
-            <label>Date of Birth (required)</label>
+            <label>* Date of Birth (required)</label>
             <div>
-              <section>
+              <section className="date-of-birth">
                 <input
                   className=""
                   type="number"
@@ -190,8 +190,9 @@ export default function FirstForm() {
               </section>
             </div>
           </div>
+
           <div>
-            <label>Gender (required)</label>
+            <label>* Gender (required)</label>
             <select
               className=""
               name="gender"
@@ -209,7 +210,7 @@ export default function FirstForm() {
 
         <section>
           <div>
-            <label>Country of birth (required)</label>
+            <label>* Country of birth (required)</label>
             <input
               className=""
               type="text"
@@ -221,7 +222,7 @@ export default function FirstForm() {
             />
           </div>
           <div>
-            <label>City/town of birth (required)</label>
+            <label>* City/town of birth (required)</label>
             <input
               className=""
               type="text"
@@ -236,7 +237,7 @@ export default function FirstForm() {
 
         <section>
           <div>
-            <label>Marital status (required)</label>
+            <label>* Marital status (required)</label>
             <select
               className=""
               name="maritalStatus"
@@ -252,7 +253,7 @@ export default function FirstForm() {
             </select>
           </div>
           <div>
-            <label>Preferred language to contact you (required)</label>
+            <label>* Preferred language to contact you (required)</label>
             <select
               className=""
               name="preferredLanguage"

@@ -5,6 +5,8 @@ $input-border-color: rgb(220, 220, 220);
 .first-form {
   section {
     display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   div {
@@ -35,6 +37,13 @@ $input-border-color: rgb(220, 220, 220);
     select:focus {
       border: $input-border-width solid red;
       outline: none;
+    }
+
+    .date-of-birth {
+      margin-bottom: 0rem;
+      input {
+        width: 100%;
+      }
     }
   }
 }
