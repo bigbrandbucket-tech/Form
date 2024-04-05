@@ -10,6 +10,7 @@ export default function FirstForm() {
     emailConfirm: "",
     phoneCode: "",
     phone: "",
+    phoneConfirm: "",
     countryCode: "+91",
     countryOfBirth: "",
     cityOfBirth: "",
@@ -153,9 +154,9 @@ export default function FirstForm() {
               <input
                 className=""
                 type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
+                id="phoneConfirm"
+                name="phoneConfirm"
+                value={formData.phoneConfirm}
                 onChange={handleChange}
                 placeholder="Enter your phone number"
                 required
@@ -428,11 +429,10 @@ function PhoneNumberCodeSelect({ handleChange, formData }) {
       onChange={handleChange}
       required
     >
-      {/* <option value="">Please Select</option> */}
-      {/* Map over the countryOptions array and create an option for each country */}
+      <option value="">Please Select</option>
       {countryOptions.map((country, index) => (
         <option key={index} value={country.code}>
-          {`${country.name} (${country.code})`}
+          {country.code} {country.name}
         </option>
       ))}
     </select>

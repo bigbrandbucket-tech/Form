@@ -51,12 +51,16 @@ $input-border-color: rgb(220, 220, 220);
 
   .phone-number-div {
     flex-direction: row;
+    width: 100%;
 
     select {
+      max-width: 100px;
+      font-size: smaller;
       // width: 20%;
     }
 
     input {
+      // max-width: 80%;
       // width: 80%;
     }
   }
