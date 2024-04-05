@@ -1,5 +1,5 @@
 import "./FirstForm.scss";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function FirstForm() {
   const [formData, setFormData] = useState({
@@ -24,6 +24,12 @@ export default function FirstForm() {
     },
   });
 
+  const [emailMatch, setEmailMatch] = useState("");
+
+  const handlePaste = (event) => {
+    event.preventDefault();
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -31,8 +37,15 @@ export default function FirstForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
   };
+
+  useEffect(() => {
+    if (formData.email !== formData.emailConfirm) {
+      setEmailMatch("Email Does not match");
+    } else {
+      setEmailMatch("required");
+    }
+  }, [formData]);
 
   return (
     <div className="first-form">
@@ -68,7 +81,8 @@ export default function FirstForm() {
           </div>
           <div className="">
             <label htmlFor="lastName">
-              Last name <span className="text-red-500 italic">(required)</span>
+              Last name{" "}
+              <span className="text-red-500 italic"> (required) </span>
             </label>
             <input
               className=""
@@ -103,7 +117,7 @@ export default function FirstForm() {
           <div>
             <label>
               * Email address (re-enter){" "}
-              <span className="text-red-500 italic">(required)</span>
+              <span className="text-red-500 italic">({emailMatch})</span>
             </label>
             <input
               className=""
@@ -113,6 +127,7 @@ export default function FirstForm() {
               value={formData.emailConfirm}
               onChange={handleChange}
               placeholder="Re-enter your email address"
+              onPaste={handlePaste}
               required
             />
           </div>
