@@ -4,19 +4,35 @@ import { sections } from "../utils/data/form/FormPageData";
 export default function FormPage() {
   return (
     <div className="form-page">
-      <Banner />
+      <div className="banner">
+        <Banner />
+      </div>
 
       <Title />
 
-      {sections.map((section, i) => (
-        <div key={i} className="collapse collapse-arrow bg-base-200">
-          <input type="checkbox" name="my-accordion-2" />
-          <div className="collapse-title text-xl font-medium">
-            {section.title}
+      <div className="p-8">
+        {sections.map((section, i) => (
+          <div
+            key={i}
+            className="collapse collapse-arrow bg-base-200 border-[1px] rounded-none"
+          >
+            <input
+              type="checkbox"
+              name="my-accordion-2"
+              checked={i === 0}
+              onChange={() => {}}
+            />
+            <div
+              className={`collapse-title text-lg font-medium ${
+                i === 0 ? "bg-[#960101] text-white p-4" : ""
+              }`}
+            >
+              {section.title}
+            </div>
+            <div className="collapse-content">{section.component}</div>
           </div>
-          <div className="collapse-content">{section.component}</div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
