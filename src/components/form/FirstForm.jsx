@@ -5,8 +5,11 @@ import {
   PhoneNumberCodeSelect,
 } from "../../utils/components/form/SelectCountry";
 import DatePicker from "../../utils/components/form/DatePicker";
+import { useStore } from "../../context/stores/form/main";
 
 export default function FirstForm() {
+  const { currentComponent, setCurrentComponent } = useStore();
+
   const [formData, setFormData] = useState({
     firstName: "",
     middleName: "",
@@ -43,6 +46,7 @@ export default function FirstForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setCurrentComponent(currentComponent + 1);
   };
 
   useEffect(() => {

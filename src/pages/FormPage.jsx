@@ -1,7 +1,10 @@
 import "./FormPage.scss";
 import { sections } from "../utils/data/form/FormPageData";
+import { useStore } from "../context/stores/form/main";
 
 export default function FormPage() {
+  const { currentComponent, setCurrentComponent } = useStore();
+
   return (
     <div className="form-page">
       <div className="banner">
@@ -16,17 +19,20 @@ export default function FormPage() {
           <div
             key={i}
             className="collapse collapse-arrow bg-base-200 border-[1px] rounded-none"
+            onClick={() => {
+              setCurrentComponent(i);
+            }}
           >
             <input
               type="checkbox"
               name="my-accordion-2"
-              // checked={i === 0}
+              checked={i === currentComponent}
               onChange={() => {}}
-              disabled={i > 1}
+              disabled={i > currentComponent}
             />
             <div
               className={`collapse-title text-lg font-medium ${
-                i === 0 ? "bg-[#960101] text-white p-4" : ""
+                i === currentComponent ? "bg-[#960101] text-white p-4" : ""
               }`}
             >
               {section.title}
