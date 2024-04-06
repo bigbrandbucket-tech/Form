@@ -25,6 +25,7 @@ export default function FirstForm() {
   });
 
   const [emailMatch, setEmailMatch] = useState("");
+  const [phoneMatch, setPhoneMatch] = useState("");
 
   const handlePaste = (event) => {
     event.preventDefault();
@@ -44,6 +45,12 @@ export default function FirstForm() {
       setEmailMatch("Email Does not match");
     } else {
       setEmailMatch("required");
+    }
+
+    if (formData.phone !== formData.phoneConfirm) {
+      setPhoneMatch("Phone no. Does not match");
+    } else {
+      setPhoneMatch("required");
     }
   }, [formData]);
 
@@ -159,7 +166,8 @@ export default function FirstForm() {
 
           <div>
             <label>
-              * Re-Phone <span className="text-red-500 italic">(required)</span>
+              * Re-Phone{" "}
+              <span className="text-red-500 italic">({phoneMatch})</span>
             </label>
             <div className="phone-number-div">
               <PhoneNumberCodeSelect
