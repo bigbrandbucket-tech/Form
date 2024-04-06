@@ -1,8 +1,11 @@
 import "./SecondForm.scss";
 import React, { useState } from "react";
 import { PhoneNumberCodeSelect } from "../../utils/components/form/SelectCountry";
+import { useStore } from "../../context/stores/form/main";
 
 export default function SecondForm() {
+  const { currentComponent, setCurrentComponent } = useStore();
+
   const [formData, setFormData] = useState({
     someoneElse: "NO",
     iam: "",
@@ -23,6 +26,7 @@ export default function SecondForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setCurrentComponent(currentComponent + 1);
   };
 
   return (

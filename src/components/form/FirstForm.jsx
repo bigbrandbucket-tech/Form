@@ -46,7 +46,12 @@ export default function FirstForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setCurrentComponent(currentComponent + 1);
+    if (
+      formData.email === formData.emailConfirm &&
+      formData.phone === formData.phoneConfirm
+    ) {
+      setCurrentComponent(currentComponent + 1);
+    }
   };
 
   useEffect(() => {
