@@ -1,5 +1,10 @@
 import "./FirstForm.scss";
 import React, { useEffect, useState } from "react";
+import {
+  SelectCountry,
+  PhoneNumberCodeSelect,
+} from "../../utils/components/form/SelectCountry";
+import DatePicker from "../../utils/components/form/DatePicker";
 
 export default function FirstForm() {
   const [formData, setFormData] = useState({
@@ -290,174 +295,174 @@ export default function FirstForm() {
   );
 }
 
-function DatePicker({ handleChange, formData }) {
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
+// function DatePicker({ handleChange, formData }) {
+//   const monthNames = [
+//     "January",
+//     "February",
+//     "March",
+//     "April",
+//     "May",
+//     "June",
+//     "July",
+//     "August",
+//     "September",
+//     "October",
+//     "November",
+//     "December",
+//   ];
 
-  const getDaysInMonth = (year, month) => {
-    return new Date(year, month, 0).getDate();
-  };
+//   const getDaysInMonth = (year, month) => {
+//     return new Date(year, month, 0).getDate();
+//   };
 
-  // Function to generate an array of numbers from 1 to n
-  const range = (start, end) => {
-    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-  };
+//   // Function to generate an array of numbers from 1 to n
+//   const range = (start, end) => {
+//     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+//   };
 
-  // Year options (adjust the range as needed)
-  const yearOptions = range(
-    new Date().getFullYear() - 100,
-    new Date().getFullYear()
-  ).reverse();
+//   // Year options (adjust the range as needed)
+//   const yearOptions = range(
+//     new Date().getFullYear() - 100,
+//     new Date().getFullYear()
+//   ).reverse();
 
-  return (
-    <>
-      <select
-        name="year"
-        value={formData.dob.year}
-        onChange={(e) =>
-          handleChange({
-            target: {
-              name: "dob",
-              value: { ...formData.dob, year: e.target.value },
-            },
-          })
-        }
-        required
-      >
-        <option value="">Year</option>
-        {/* Generate options for years */}
-        {yearOptions.map((year) => (
-          <option key={year} value={year}>
-            {year}
-          </option>
-        ))}
-      </select>
+//   return (
+//     <>
+//       <select
+//         name="year"
+//         value={formData.dob.year}
+//         onChange={(e) =>
+//           handleChange({
+//             target: {
+//               name: "dob",
+//               value: { ...formData.dob, year: e.target.value },
+//             },
+//           })
+//         }
+//         required
+//       >
+//         <option value="">Year</option>
+//         {/* Generate options for years */}
+//         {yearOptions.map((year) => (
+//           <option key={year} value={year}>
+//             {year}
+//           </option>
+//         ))}
+//       </select>
 
-      <select
-        name="month"
-        value={formData.dob.month}
-        onChange={(e) => {
-          const monthValue = e.target.value;
-          const yearValue = formData.dob.year;
-          const daysInMonth =
-            monthValue && yearValue
-              ? getDaysInMonth(yearValue, monthValue)
-              : 31; // Default to 31 days if month or year is not selected
+//       <select
+//         name="month"
+//         value={formData.dob.month}
+//         onChange={(e) => {
+//           const monthValue = e.target.value;
+//           const yearValue = formData.dob.year;
+//           const daysInMonth =
+//             monthValue && yearValue
+//               ? getDaysInMonth(yearValue, monthValue)
+//               : 31; // Default to 31 days if month or year is not selected
 
-          handleChange({
-            target: {
-              name: "dob",
-              value: {
-                ...formData.dob,
-                month: monthValue,
-                day: formData.dob.day > daysInMonth ? "" : formData.dob.day,
-              }, // Reset day if it exceeds the number of days in the selected month
-            },
-          });
-        }}
-        required
-      >
-        <option value="">Month</option>
-        {/* Generate options for months */}
-        {monthNames.map((month, index) => (
-          <option key={index + 1} value={index + 1}>
-            {month}
-          </option>
-        ))}
-      </select>
+//           handleChange({
+//             target: {
+//               name: "dob",
+//               value: {
+//                 ...formData.dob,
+//                 month: monthValue,
+//                 day: formData.dob.day > daysInMonth ? "" : formData.dob.day,
+//               }, // Reset day if it exceeds the number of days in the selected month
+//             },
+//           });
+//         }}
+//         required
+//       >
+//         <option value="">Month</option>
+//         {/* Generate options for months */}
+//         {monthNames.map((month, index) => (
+//           <option key={index + 1} value={index + 1}>
+//             {month}
+//           </option>
+//         ))}
+//       </select>
 
-      <select
-        name="day"
-        value={formData.dob.day}
-        onChange={(e) =>
-          handleChange({
-            target: {
-              name: "dob",
-              value: { ...formData.dob, day: e.target.value },
-            },
-          })
-        }
-        required
-      >
-        <option value="">Day</option>
-        {/* Generate options for days based on the selected month and year */}
-        {range(1, getDaysInMonth(formData.dob.year, formData.dob.month)).map(
-          (day) => (
-            <option key={day} value={day}>
-              {day}
-            </option>
-          )
-        )}
-      </select>
-    </>
-  );
-}
+//       <select
+//         name="day"
+//         value={formData.dob.day}
+//         onChange={(e) =>
+//           handleChange({
+//             target: {
+//               name: "dob",
+//               value: { ...formData.dob, day: e.target.value },
+//             },
+//           })
+//         }
+//         required
+//       >
+//         <option value="">Day</option>
+//         {/* Generate options for days based on the selected month and year */}
+//         {range(1, getDaysInMonth(formData.dob.year, formData.dob.month)).map(
+//           (day) => (
+//             <option key={day} value={day}>
+//               {day}
+//             </option>
+//           )
+//         )}
+//       </select>
+//     </>
+//   );
+// }
 
-import { countries } from "countries-list"; // Importing countries list from the package
+// import { countries } from "countries-list"; // Importing countries list from the package
 
-function SelectCountry({ handleChange, formData }) {
-  // Convert the object of countries into an array of objects
-  const countryOptions = Object.keys(countries).map((countryCode) => ({
-    code: countryCode,
-    name: countries[countryCode].name,
-  }));
+// function SelectCountry({ handleChange, formData }) {
+//   // Convert the object of countries into an array of objects
+//   const countryOptions = Object.keys(countries).map((countryCode) => ({
+//     code: countryCode,
+//     name: countries[countryCode].name,
+//   }));
 
-  return (
-    <div>
-      <label>
-        * Country of birth{" "}
-        <span className="text-red-500 italic">(required)</span>
-      </label>
-      <select
-        name="countryOfBirth"
-        value={formData.countryOfBirth}
-        onChange={handleChange}
-        required
-      >
-        <option value="">Select Country</option>
-        {/* Map over the countryOptions array and create an option for each country */}
-        {countryOptions.map((country) => (
-          <option key={country.code} value={country.code}>
-            {country.name}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
-}
+//   return (
+//     <div>
+//       <label>
+//         * Country of birth{" "}
+//         <span className="text-red-500 italic">(required)</span>
+//       </label>
+//       <select
+//         name="countryOfBirth"
+//         value={formData.countryOfBirth}
+//         onChange={handleChange}
+//         required
+//       >
+//         <option value="">Select Country</option>
+//         {/* Map over the countryOptions array and create an option for each country */}
+//         {countryOptions.map((country) => (
+//           <option key={country.code} value={country.code}>
+//             {country.name}
+//           </option>
+//         ))}
+//       </select>
+//     </div>
+//   );
+// }
 
-function PhoneNumberCodeSelect({ handleChange, formData }) {
-  // Convert the object of countries into an array of objects
-  const countryOptions = Object.keys(countries).map((countryCode) => ({
-    code: "+" + countries[countryCode].phone,
-    name: countries[countryCode].name,
-  }));
+// function PhoneNumberCodeSelect({ handleChange, formData }) {
+//   // Convert the object of countries into an array of objects
+//   const countryOptions = Object.keys(countries).map((countryCode) => ({
+//     code: "+" + countries[countryCode].phone,
+//     name: countries[countryCode].name,
+//   }));
 
-  return (
-    <select
-      name="countryCode"
-      value={formData.countryCode}
-      onChange={handleChange}
-      required
-    >
-      <option value="">Please Select</option>
-      {countryOptions.map((country, index) => (
-        <option key={index} value={country.code}>
-          {country.code} {country.name}
-        </option>
-      ))}
-    </select>
-  );
-}
+//   return (
+//     <select
+//       name="countryCode"
+//       value={formData.countryCode}
+//       onChange={handleChange}
+//       required
+//     >
+//       <option value="">Please Select</option>
+//       {countryOptions.map((country, index) => (
+//         <option key={index} value={country.code}>
+//           {country.code} {country.name}
+//         </option>
+//       ))}
+//     </select>
+//   );
+// }
