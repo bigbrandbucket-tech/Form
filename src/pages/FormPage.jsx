@@ -20,8 +20,9 @@ export default function FormPage() {
             <input
               type="checkbox"
               name="my-accordion-2"
-              checked={i === 0}
+              // checked={i === 0}
               onChange={() => {}}
+              disabled={i > 1}
             />
             <div
               className={`collapse-title text-lg font-medium ${

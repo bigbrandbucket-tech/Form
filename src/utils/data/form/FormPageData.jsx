@@ -1,9 +1,10 @@
 //
 import FirstForm from "../../../components/form/FirstForm";
+import SecondForm from "../../../components/form/SecondForm";
 
 export const sections = [
   { title: "Personal Information", component: <FirstForm /> },
-  { title: "Applicant Status", component: <div>Applicant Status</div> },
+  { title: "Applicant Status", component: <SecondForm /> },
   { title: "Passport Details", component: <div>Passport Details</div> },
   { title: "Residential Address", component: <div>Residential Address</div> },
   {

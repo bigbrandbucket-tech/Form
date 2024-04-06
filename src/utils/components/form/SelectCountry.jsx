@@ -40,6 +40,7 @@ export function PhoneNumberCodeSelect({ handleChange, formData }) {
 
   return (
     <select
+      className="input-field"
       name="countryCode"
       value={formData.countryCode}
       onChange={handleChange}
