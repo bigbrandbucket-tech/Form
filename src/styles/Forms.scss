@@ -1,0 +1,75 @@
+$input-border-width: 0.125rem;
+$input-border-color: rgb(220, 220, 220);
+
+.my-form {
+  padding: 1rem;
+
+  .red-checkbox {
+  }
+
+  .checkbox-span {
+    font-size: small;
+    font-weight: 500;
+    display: flex;
+    gap: 0.7rem;
+    padding: 0.5rem;
+  }
+
+  .form-section {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .date-picker {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0rem;
+    gap: 0.25rem;
+    flex: 1;
+    font-size: 0.95rem;
+
+    label {
+      padding-left: 0.3rem;
+      font-weight: 500;
+    }
+
+    .submit-button,
+    .input-field {
+      flex: 1;
+      padding: 0.5rem;
+      border-radius: 0px;
+      border: $input-border-width solid $input-border-color;
+      transition: 0.3s;
+    }
+
+    .submit-button:focus,
+    .input-field:focus {
+      border: $input-border-width solid red;
+      outline: none;
+    }
+
+    .date-of-birth {
+      margin-bottom: 0rem;
+      input {
+        width: 100%;
+      }
+    }
+  }
+
+  .phone-number-div {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+    select {
+      max-width: 100px;
+      font-size: smaller;
+    }
+  }
+}

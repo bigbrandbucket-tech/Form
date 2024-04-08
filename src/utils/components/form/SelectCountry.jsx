@@ -18,6 +18,7 @@ export function SelectCountry({ handleChange, formData }) {
         value={formData.countryOfBirth}
         onChange={handleChange}
         required
+        className="input-field"
       >
         <option value="">Select Country</option>
         {/* Map over the countryOptions array and create an option for each country */}
@@ -28,6 +29,32 @@ export function SelectCountry({ handleChange, formData }) {
         ))}
       </select>
     </div>
+  );
+}
+
+export function CountrySelect({ handleChange, formData, name }) {
+  // Convert the object of countries into an array of objects
+  const countryOptions = Object.keys(countries).map((countryCode) => ({
+    code: countryCode,
+    name: countries[countryCode].name,
+  }));
+
+  return (
+    <select
+      name={name}
+      value={formData[name]}
+      onChange={handleChange}
+      required
+      className="input-field"
+    >
+      <option value="">Select Country</option>
+      {/* Map over the countryOptions array and create an option for each country */}
+      {countryOptions.map((country) => (
+        <option key={country.code} value={country.code}>
+          {country.name}
+        </option>
+      ))}
+    </select>
   );
 }
 

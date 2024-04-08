@@ -33,7 +33,7 @@ export default function FormPage() {
             <div
               className={`collapse-title text-lg font-medium ${
                 i === currentComponent ? "bg-[#960101] text-white p-4" : ""
-              }`}
+              } ${i < currentComponent ? "bg-[#6BB459] text-white p-4" : ""}`}
             >
               {section.title}
             </div>
