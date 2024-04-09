@@ -67,7 +67,7 @@ export default function FirstForm() {
       setPhoneMatch("required");
     }
 
-    console.log(formData.dob);
+    // console.log(formData.dob);
   }, [formData]);
 
   return (
