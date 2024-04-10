@@ -4,6 +4,7 @@ import {
   PhoneNumberCodeSelect,
   CountrySelect,
 } from "../../utils/components/form/SelectCountry";
+import DatePicker, { TimePicker } from "../../utils/components/form/DatePicker";
 import { useStore } from "../../context/stores/form/main";
 
 // Options for radio button questions
@@ -58,19 +59,42 @@ const questions = [
 
 function knowTravelDate({ formData, handleChange, matchData, setMatchData }) {
   return (
-    <section className="form-section-sub">
-      <div className="form-container">
-        <label>
-          <span className="text-red-500 italic">*</span> Indicate which
-          countries/territories you are a citizen of.
-        </label>
-        <CountrySelect
-          formData={formData}
-          handleChange={handleChange}
-          name={"citizenship"}
-        />
-      </div>
-    </section>
+    <>
+      <section className="form-section-sub">
+        <div className="form-container">
+          <label>
+            <span className="text-red-500 italic">*</span> Indicate which When
+            do you plan to travel to Canada?{" "}
+            <span className="text-red-500 italic">(required)</span>
+          </label>
+          <h1 className="font-semibold">
+            If you don't know, you may enter an approximate date.
+          </h1>
+          <div className="form-section">
+            <DatePicker
+              formData={formData}
+              handleChange={handleChange}
+              name={"travelDate"}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="form-section-sub">
+        <div className="form-container">
+          <h1 className="font-semibold">
+            If you don't know, you may enter an approximate time.
+          </h1>
+          <div className="form-section">
+            <TimePicker
+              formData={formData}
+              handleChange={handleChange}
+              name={"travelTime"}
+            />
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
 
@@ -182,6 +206,8 @@ export default function TravelInformation() {
     uciPreviousVisaNumberReenter: "",
 
     knowTravelDate: "",
+    travelDate: { year: "", month: "", day: "" },
+    travelTime: { hour: "", minute: "", timezone: "" },
 
     travelingAlone: "",
     travelingMembers: "",

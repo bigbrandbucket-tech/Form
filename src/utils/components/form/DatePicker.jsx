@@ -1,5 +1,92 @@
 //
 
+export function TimePicker({ handleChange, formData, name = "time" }) {
+  // Function to generate an array of numbers from start to end
+  const range = (start, end) => {
+    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+  };
+
+  // Hour options
+  const hourOptions = range(0, 23);
+
+  // Minute options
+  const minuteOptions = range(0, 59);
+
+  const timezones = Intl.supportedValuesOf("timeZone");
+
+  return (
+    <>
+      <select
+        className="input-field w-1/3"
+        name="hour"
+        value={formData[name].hour}
+        onChange={(e) =>
+          handleChange({
+            target: {
+              name: name,
+              value: { ...formData[name], hour: e.target.value },
+            },
+          })
+        }
+        required
+      >
+        <option value="">Hour</option>
+        {/* Generate options for hours */}
+        {hourOptions.map((hour) => (
+          <option key={hour} value={hour}>
+            {hour < 10 ? `0${hour}` : hour}
+          </option>
+        ))}
+      </select>
+
+      <select
+        className="input-field w-1/3"
+        name="minute"
+        value={formData[name].minute}
+        onChange={(e) =>
+          handleChange({
+            target: {
+              name: name,
+              value: { ...formData[name], minute: e.target.value },
+            },
+          })
+        }
+        required
+      >
+        <option value="">Minute</option>
+        {/* Generate options for minutes */}
+        {minuteOptions.map((minute) => (
+          <option key={minute} value={minute}>
+            {minute < 10 ? `0${minute}` : minute}
+          </option>
+        ))}
+      </select>
+
+      <select
+        name="timezone"
+        value={formData[name].timezone}
+        onChange={(e) =>
+          handleChange({
+            target: {
+              name: name,
+              value: { ...formData[name], timezone: e.target.value },
+            },
+          })
+        }
+        required
+        className="input-field w-1/3"
+      >
+        <option value="">Select Timezone</option>
+        {timezones.map((timezone) => (
+          <option key={timezone} value={timezone}>
+            {timezone}
+          </option>
+        ))}
+      </select>
+    </>
+  );
+}
+
 export default function DatePicker({
   handleChange,
   formData,
