@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/Forms.scss";
 import { useStore } from "../../context/stores/form/main";
 
@@ -9,12 +9,20 @@ const questions = [
     label:
       "Have you ever been refused a visa or permit, denied entry to, or ordered to leave Canada or any other country/territory? ",
     options: ["Yes", "No"],
+    textAreaCondition: "Yes",
+    textAreaLabel:
+      "For each refusal, please indicate the country that refused you a visa or permit, or denied you entry, as well as the reasons provided to you by the country.",
+    textAreaName: "refusedVisaTextArea",
   },
   {
     name: "criminalOffence",
     label:
       "Have you ever committed, been arrested for, been charged with or convicted of any criminal offence in any country/territory? ",
     options: ["Yes", "No"],
+    textAreaCondition: "Yes",
+    textAreaLabel:
+      "For each arrest, charge, or conviction, please indicate where (city, country), when (month/year), the nature of the offence, and the sentence.",
+    textAreaName: "criminalOffenceTextArea",
   },
   {
     name: "tuberculosisDiagnosis",
@@ -53,12 +61,13 @@ export default function Eligibility() {
   const { currentComponent, setCurrentComponent } = useStore();
   const [formData, setFormData] = useState({
     refusedVisa: "",
+    refusedVisaTextArea: "",
     criminalOffence: "",
+    criminalOffenceTextArea: "",
     tuberculosisDiagnosis: "",
     healthcareWorkerContact: "",
     healthCondition: "",
     tuberculosisDiagnosed: "", // New field for subquestion
-    explanation: "", // New field for text input
   });
 
   const handleChange = (e) => {
@@ -70,6 +79,8 @@ export default function Eligibility() {
     e.preventDefault();
     setCurrentComponent(currentComponent + 1);
   };
+
+  useEffect(() => {}, [formData]);
 
   // Function to recursively render subquestions
   const renderSubquestions = (subquestions) => {
@@ -133,29 +144,19 @@ export default function Eligibility() {
               {question.subquestions &&
                 formData[question.name] === "Yes" &&
                 renderSubquestions(question.subquestions)}
+
+              {question.textAreaLabel &&
+                question.textAreaCondition === formData[question.name] && (
+                  <TextAreaInput
+                    text={question.textAreaLabel}
+                    formData={formData}
+                    handleChange={handleChange}
+                    name={question.textAreaName}
+                  />
+                )}
             </div>
           </section>
         ))}
-
-        {/* Conditional rendering for the text input based on the answer to the refusedVisa question */}
-        {formData.refusedVisa === "Yes" && (
-          <section className="form-section">
-            <div className="form-container">
-              <label htmlFor="explanation">
-                <span className="text-red-500 italic">*</span> Please provide an
-                explanation:
-                <span className="text-red-500 italic">(required)</span>
-              </label>
-              <textarea
-                name="explanation"
-                id="explanation"
-                value={formData.explanation}
-                onChange={handleChange}
-                required
-              ></textarea>
-            </div>
-          </section>
-        )}
 
         <div className="form-container items-end">
           <button type="submit" className="submit-button">
@@ -164,5 +165,31 @@ export default function Eligibility() {
         </div>
       </form>
     </div>
+  );
+}
+
+function TextAreaInput({
+  text = "Provide Details",
+  formData,
+  handleChange,
+  name,
+}) {
+  return (
+    <section className="form-section-textarea">
+      <div className="form-container">
+        <label htmlFor={name}>
+          <span className="text-red-500 italic">*</span> {text}{" "}
+          <span className="text-red-500 italic">(required)</span>
+        </label>
+        <textarea
+          name={name}
+          id={name}
+          value={formData[name]}
+          onChange={handleChange}
+          className="input-field"
+          required
+        ></textarea>
+      </div>
+    </section>
   );
 }
