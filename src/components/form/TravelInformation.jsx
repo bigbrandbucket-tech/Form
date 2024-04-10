@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/Forms.scss";
+import {
+  PhoneNumberCodeSelect,
+  CountrySelect,
+} from "../../utils/components/form/SelectCountry";
 import { useStore } from "../../context/stores/form/main";
 
 // Options for radio button questions
@@ -11,9 +15,9 @@ const questions = [
     options: ["Yes", "No"],
 
     child: (formData, handleChange, matchData, setMatchData) =>
-      appliedForVisaChild({ formData, handleChange, matchData, setMatchData }),
+      appliedForVisa({ formData, handleChange, matchData, setMatchData }),
     childCondition: "Yes",
-    childName: "appliedForVisaChild",
+    // childName: "appliedForVisaChild",
   },
   {
     name: "knowTravelDate",
@@ -21,9 +25,9 @@ const questions = [
     options: ["Yes", "No"],
 
     child: (formData, handleChange, matchData, setMatchData) =>
-      appliedForVisaChild({ formData, handleChange, matchData, setMatchData }),
+      knowTravelDate({ formData, handleChange, matchData, setMatchData }),
     childCondition: "Yes",
-    childName: "knowTravelDateChild",
+    // childName: "knowTravelDateChild",
   },
   {
     name: "travelingAlone",
@@ -31,9 +35,9 @@ const questions = [
     options: ["Yes", "No"],
 
     child: (formData, handleChange, matchData, setMatchData) =>
-      appliedForVisaChild({ formData, handleChange, matchData, setMatchData }),
-    childCondition: "Yes",
-    childName: "travelingAloneChild",
+      travelingAlone({ formData, handleChange, matchData, setMatchData }),
+    childCondition: "No",
+    // childName: "travelingAloneChild",
   },
   {
     name: "additionalNationalities",
@@ -41,18 +45,89 @@ const questions = [
     options: ["Yes", "No"],
 
     child: (formData, handleChange, matchData, setMatchData) =>
-      appliedForVisaChild({ formData, handleChange, matchData, setMatchData }),
+      additionalNationalities({
+        formData,
+        handleChange,
+        matchData,
+        setMatchData,
+      }),
     childCondition: "Yes",
-    childName: "additionalNationalitiesChild",
+    // childName: "additionalNationalitiesChild",
   },
 ];
 
-function appliedForVisaChild({
+function knowTravelDate({ formData, handleChange, matchData, setMatchData }) {
+  return (
+    <section className="form-section-sub">
+      <div className="form-container">
+        <label>
+          <span className="text-red-500 italic">*</span> Indicate which
+          countries/territories you are a citizen of.
+        </label>
+        <CountrySelect
+          formData={formData}
+          handleChange={handleChange}
+          name={"citizenship"}
+        />
+      </div>
+    </section>
+  );
+}
+
+function additionalNationalities({
   formData,
   handleChange,
   matchData,
   setMatchData,
 }) {
+  return (
+    <section className="form-section-sub">
+      <div className="form-container">
+        <label>
+          <span className="text-red-500 italic">*</span> Indicate which
+          countries/territories you are a citizen of.{" "}
+          <span className="text-red-500 italic">(required)</span>
+        </label>
+        <CountrySelect
+          formData={formData}
+          handleChange={handleChange}
+          name={"citizenship"}
+        />
+      </div>
+    </section>
+  );
+}
+
+function travelingAlone({ formData, handleChange, matchData, setMatchData }) {
+  return (
+    <section className="form-section-sub">
+      <div className="form-container">
+        <label>
+          <span className="text-red-500 italic">*</span> How many members
+          traveling with you?{" "}
+          <span className="text-red-500 italic">(required)</span>
+        </label>
+        <select
+          name="travelingMembers"
+          value={formData.travelingMembers}
+          onChange={handleChange}
+          required
+          className="input-field"
+        >
+          <option value="">Select one</option>
+          {[...Array(10)].map((_, index) => (
+            <option key={index + 1} value={index + 1}>
+              {index + 1}
+            </option>
+          ))}
+          {/* Add more options if needed */}
+        </select>
+      </div>
+    </section>
+  );
+}
+
+function appliedForVisa({ formData, handleChange, matchData, setMatchData }) {
   return (
     <>
       <section className="form-section-sub">
@@ -103,13 +178,16 @@ export default function TravelInformation() {
   const { currentComponent, setCurrentComponent } = useStore();
   const [formData, setFormData] = useState({
     appliedForVisa: "",
-
     uciPreviousVisaNumber: "",
     uciPreviousVisaNumberReenter: "",
 
     knowTravelDate: "",
+
     travelingAlone: "",
+    travelingMembers: "",
+
     additionalNationalities: "",
+    citizenship: "",
   });
 
   const [matchData, setMatchData] = useState({
