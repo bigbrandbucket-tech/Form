@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/Forms.scss";
-import {
-  PhoneNumberCodeSelect,
-  CountrySelect,
-} from "../../utils/components/form/SelectCountry";
+import { CountrySelect } from "../../utils/components/form/SelectCountry";
 import DatePicker, { TimePicker } from "../../utils/components/form/DatePicker";
 import { useStore } from "../../context/stores/form/main";
 
@@ -277,37 +274,24 @@ export default function TravelInformation() {
         ))}
 
         <div className="form-container items-end">
-          <button type="submit" className="submit-button">
-            NEXT
-          </button>
+          <div className="flex gap-4">
+            <button
+              type="button"
+              className="submit-button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentComponent(currentComponent - 1);
+              }}
+            >
+              BACK
+            </button>
+
+            <button type="submit" className="submit-button">
+              NEXT
+            </button>
+          </div>
         </div>
       </form>
     </div>
-  );
-}
-
-function TextAreaInput({
-  text = "Provide Details",
-  formData,
-  handleChange,
-  name,
-}) {
-  return (
-    <section className="form-section-textarea">
-      <div className="form-container">
-        <label htmlFor={name}>
-          <span className="text-red-500 italic">*</span> {text}{" "}
-          <span className="text-red-500 italic">(required)</span>
-        </label>
-        <textarea
-          name={name}
-          id={name}
-          value={formData[name]}
-          onChange={handleChange}
-          className="input-field"
-          required
-        ></textarea>
-      </div>
-    </section>
   );
 }

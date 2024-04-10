@@ -6,6 +6,7 @@ import AddressForm from "../../../components/form/ResidentialAddress";
 import EmploymentInformation from "../../../components/form/EmploymentInformation";
 import Eligibility from "../../../components/form/Eligibility";
 import TravelInformation from "../../../components/form/TravelInformation";
+import Consent from "../../../components/form/Consent";
 
 export const sections = [
   { title: "Personal Information", component: <FirstForm /> },
@@ -15,5 +16,5 @@ export const sections = [
   { title: "Employment Information", component: <EmploymentInformation /> },
   { title: "Eligibility Questions", component: <Eligibility /> },
   { title: "Travel Information", component: <TravelInformation /> },
-  { title: "Consent and Declaration", component: <></> },
+  { title: "Consent and Declaration", component: <Consent /> },
 ];

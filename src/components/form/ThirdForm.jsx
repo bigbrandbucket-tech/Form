@@ -134,9 +134,22 @@ export default function ThirdForm() {
         </section>
 
         <div className="form-container items-end">
-          <button type="submit" className="submit-button">
-            NEXT
-          </button>
+          <div className="flex gap-4">
+            <button
+              type="button"
+              className="submit-button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentComponent(currentComponent - 1);
+              }}
+            >
+              BACK
+            </button>
+
+            <button type="submit" className="submit-button">
+              NEXT
+            </button>
+          </div>
         </div>
       </form>
     </div>
