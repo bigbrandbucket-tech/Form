@@ -21,7 +21,7 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 const layoutBgColor = "#212121";
@@ -91,6 +91,49 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
+function Buttons() {
+  const navigate = useNavigate();
+
+  return (
+    <>
+      <Box
+        sx={{
+          display: { xs: "none", md: "flex" },
+          margin: "0 0 0 1rem",
+        }}
+      >
+        <IconButton
+          size="large"
+          color="inherit"
+          aria-label="menu"
+          onClick={() => navigate("/")}
+        >
+          <InboxIcon />
+        </IconButton>
+
+        {/* <IconButton size="large" color="inherit" aria-label="menu">
+            <HelpIcon />
+          </IconButton> */}
+
+        {/* <IconButton size="large" color="inherit" aria-label="menu">
+          <Badge badgeContent={0} color="secondary">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton> */}
+
+        {/* <Button
+          variant="contained"
+          endIcon={<AccountCircle />}
+          disableElevation={true}
+          onClick={() => navigate("/admin/auth/signin")}
+        >
+          Login
+        </Button> */}
+      </Box>
+    </>
+  );
+}
+
 export default function AdminLayout() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -104,29 +147,44 @@ export default function AdminLayout() {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", maxWidth: "100vw" }}>
       <CssBaseline />
       <AppBar
         position="fixed"
         open={open}
         sx={{ backgroundColor: layoutBgColor }}
       >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: "none" }),
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
             }}
           >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Mini variant drawer
-          </Typography>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                marginRight: "1rem",
+                ...(open && { display: "none" }),
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+
+            <Typography variant="h6" noWrap component="div">
+              Dashboard
+            </Typography>
+          </div>
+
+          <Buttons />
         </Toolbar>
       </AppBar>
       <Drawer
@@ -205,7 +263,16 @@ export default function AdminLayout() {
           ))}
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box
+        component="main"
+        sx={{
+          flex: 1,
+          p: 3,
+          width: "100%",
+          maxWidth: open ? `calc(100vw - ${drawerWidth}px)` : "100vw",
+          transition: "margin-left 0.3s ease-in-out",
+        }}
+      >
         <DrawerHeader />
         <Outlet />
       </Box>
