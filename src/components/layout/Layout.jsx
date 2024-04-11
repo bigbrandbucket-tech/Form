@@ -1,12 +1,12 @@
 import Header from "./Header";
 import Footer from "./Footer";
-import FormPage from "../../pages/FormPage";
+import { Outlet } from "react-router-dom";
 
 export default function Layout() {
   return (
     <div>
       <Header />
-      <FormPage />
+      <Outlet />
       <Footer />
     </div>
   );
