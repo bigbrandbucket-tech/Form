@@ -19,6 +19,7 @@ import ListItemText from "@mui/material/ListItemText";
 
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import PersonIcon from "@mui/icons-material/Person";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 
 import { Outlet, useNavigate } from "react-router-dom";
@@ -108,7 +109,7 @@ function Buttons() {
           aria-label="menu"
           onClick={() => navigate("/")}
         >
-          <InboxIcon />
+          <PersonIcon />
         </IconButton>
 
         {/* <IconButton size="large" color="inherit" aria-label="menu">
@@ -135,6 +136,7 @@ function Buttons() {
 }
 
 export default function AdminLayout() {
+  const navigate = useNavigate();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -197,7 +199,15 @@ export default function AdminLayout() {
           },
         }}
       >
-        <DrawerHeader>
+        <DrawerHeader
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            paddingLeft: "2rem",
+            alignItems: "center",
+          }}
+        >
+          <div>Admin</div>
           <IconButton onClick={handleDrawerClose} sx={{ color: "white" }}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
@@ -210,6 +220,9 @@ export default function AdminLayout() {
         <List>
           {["Travels"].map((text, index) => (
             <ListItem
+              onClick={() => {
+                navigate("/admin/travels");
+              }}
               key={text}
               disablePadding
               sx={{ display: "block", backgroundColor: "" }}
@@ -268,9 +281,9 @@ export default function AdminLayout() {
         sx={{
           flex: 1,
           p: 3,
-          width: "100%",
-          maxWidth: open ? `calc(100vw - ${drawerWidth}px)` : "100vw",
-          transition: "margin-left 0.3s ease-in-out",
+          width: `calc(100vw - ${drawerWidth}px)`,
+          // maxWidth: open ? `calc(100vw - ${drawerWidth}px)` : "100vw",
+          transition: "0.2s smooth",
         }}
       >
         <DrawerHeader />

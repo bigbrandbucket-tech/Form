@@ -17,8 +17,8 @@ function App() {
           </Route>
 
           <Route path="/admin" element={<AdminLayout />}>
-            {/* <Route index element={<>DashBoard</>} /> */}
-            <Route index element={<Dashboard />} />
+            <Route index element={<>DashBoard</>} />
+            <Route path="/admin/travels" element={<Dashboard />} />
           </Route>
         </Routes>
       </BrowserRouter>

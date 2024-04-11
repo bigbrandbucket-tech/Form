@@ -3,7 +3,11 @@ import DataTable from "../components/admin/dashboard/DataTable";
 export default function Dashboard() {
   return (
     <div className="w-full">
-      <DataTable />
+      <div className="text-lg font-semibold">All Travel Requests</div>
+      <hr className="my-4" />
+      <div>
+        <DataTable />
+      </div>
     </div>
   );
 }
