@@ -28,7 +28,7 @@ export default function FormPage() {
               name="my-accordion-2"
               checked={i === currentComponent}
               onChange={() => {}}
-              disabled={i > currentComponent}
+              // disabled={i > currentComponent}
             />
             <div
               className={`collapse-title text-lg font-medium ${
