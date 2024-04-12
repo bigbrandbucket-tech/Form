@@ -13,7 +13,7 @@ export default function FormPage() {
 
       <Title />
 
-      <div className="px-16">
+      <div className="main-form-section">
         <hr className="my-4 border-t-2 border-gray-300" />
         {sections.map((section, i) => (
           <div
@@ -56,7 +56,7 @@ function Banner({}) {
 function Title({}) {
   return (
     <div className="flex flex-col items-center my-8">
-      <h1 className="text-2xl font-semibold">
+      <h1 className="text-2xl font-semibold text-center">
         Application for an Electronic Travel Authorization (eTA)
       </h1>
       <h2 className="text-xl font-semibold">eTA/8B1/A14</h2>

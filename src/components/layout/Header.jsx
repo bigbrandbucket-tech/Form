@@ -5,7 +5,7 @@ export default function Header() {
     <div>
       <div className="bg-red-500 h-[0.4rem]"></div>
 
-      <div className="app-bar flex justify-between items-center px-12 py-4">
+      <div className="app-bar flex justify-between items-center px-1 m470:px-12 py-4">
         <div className="">
           <img
             width={200}

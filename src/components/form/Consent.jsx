@@ -128,7 +128,7 @@ export default function Consents() {
         </section>
 
         <div className="form-container items-end">
-          <div className="flex justify-between w-full">
+          <div className="flex justify-between w-full l370:flex-col l370:flex-col-reverse l370:gap-4">
             <div className="">
               <button type="button" className="submit-button">
                 Add another applicant

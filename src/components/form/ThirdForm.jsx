@@ -158,48 +158,48 @@ export default function ThirdForm() {
 
 //
 
-function ThirdForms() {
-  const { currentComponent, setCurrentComponent } = useStore();
+// function ThirdForms() {
+//   const { currentComponent, setCurrentComponent } = useStore();
 
-  const [formData, setFormData] = useState({
-    someoneElse: "NO",
-    iam: "",
-    surnames: "",
-    givenNames: "",
-    mailingAddress: "",
-    countryCode: "+91",
-    phone: "",
-    declaration: "",
-    authorization: "",
-  });
+//   const [formData, setFormData] = useState({
+//     someoneElse: "NO",
+//     iam: "",
+//     surnames: "",
+//     givenNames: "",
+//     mailingAddress: "",
+//     countryCode: "+91",
+//     phone: "",
+//     declaration: "",
+//     authorization: "",
+//   });
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    const val = type === "checkbox" ? checked : value;
-    setFormData({ ...formData, [name]: val });
-  };
+//   const handleChange = (e) => {
+//     const { name, value, type, checked } = e.target;
+//     const val = type === "checkbox" ? checked : value;
+//     setFormData({ ...formData, [name]: val });
+//   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setCurrentComponent(currentComponent + 1);
-  };
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     setCurrentComponent(currentComponent + 1);
+//   };
 
-  return (
-    <div className="second-form">
-      <form onSubmit={handleSubmit}>
-        <SomeoneElseCheck handleChange={handleChange} formData={formData} />
-        {formData.someoneElse === "YES" ? (
-          <YesComponent handleChange={handleChange} formData={formData} />
-        ) : null}
-        <div className="form-container items-end">
-          <button type="submit" className="submit-button">
-            NEXT
-          </button>
-        </div>
-      </form>
-    </div>
-  );
-}
+//   return (
+//     <div className="second-form">
+//       <form onSubmit={handleSubmit}>
+//         <SomeoneElseCheck handleChange={handleChange} formData={formData} />
+//         {formData.someoneElse === "YES" ? (
+//           <YesComponent handleChange={handleChange} formData={formData} />
+//         ) : null}
+//         <div className="form-container items-end">
+//           <button type="submit" className="submit-button">
+//             NEXT
+//           </button>
+//         </div>
+//       </form>
+//     </div>
+//   );
+// }
 
 function SomeoneElseCheck({ handleChange, formData }) {
   const options = [

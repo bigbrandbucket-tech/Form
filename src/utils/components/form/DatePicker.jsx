@@ -17,7 +17,7 @@ export function TimePicker({ handleChange, formData, name = "time" }) {
   return (
     <>
       <select
-        className="input-field w-1/3"
+        className="input-field custom:w-1/3"
         name="hour"
         value={formData[name].hour}
         onChange={(e) =>
@@ -40,7 +40,7 @@ export function TimePicker({ handleChange, formData, name = "time" }) {
       </select>
 
       <select
-        className="input-field w-1/3"
+        className="input-field custom:w-1/3"
         name="minute"
         value={formData[name].minute}
         onChange={(e) =>
@@ -74,7 +74,7 @@ export function TimePicker({ handleChange, formData, name = "time" }) {
           })
         }
         required
-        className="input-field w-1/3"
+        className="input-field custom:w-1/3"
       >
         <option value="">Select Timezone</option>
         {timezones.map((timezone) => (

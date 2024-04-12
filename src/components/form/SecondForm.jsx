@@ -1,4 +1,5 @@
-import "./SecondForm.scss";
+// import "./SecondForm.scss";
+import "../../styles/Forms.scss";
 import React, { useState } from "react";
 import { PhoneNumberCodeSelect } from "../../utils/components/form/SelectCountry";
 import { useStore } from "../../context/stores/form/main";
@@ -30,7 +31,7 @@ export default function SecondForm() {
   };
 
   return (
-    <div className="second-form">
+    <div className="my-form">
       <form onSubmit={handleSubmit}>
         <SomeoneElseCheck handleChange={handleChange} formData={formData} />
         {formData.someoneElse === "YES" ? (

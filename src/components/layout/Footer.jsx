@@ -13,10 +13,10 @@ export default function Footer() {
   ];
 
   return (
-    <div className="bg-black text-white p-12 mt-8 flex justify-between">
-      <div className="">© canadaetaportal, All Rights Reserved.</div>
+    <div className="bg-black text-white p-12 mt-8 md:flex justify-between">
+      <div className="mb-4">© canadaetaportal, All Rights Reserved.</div>
       <div>
-        <div className="flex gap-4 justify-end">
+        <div className="md:flex gap-4 justify-end">
           {informationArray1.map((text, i) => {
             return (
               <div key={i} className="flex gap-4">
@@ -29,7 +29,7 @@ export default function Footer() {
 
         <br />
 
-        <div className="flex gap-4 justify-end">
+        <div className="md:flex gap-4 justify-end">
           {informationArray2.map((text, i) => {
             return (
               <div key={i} className="flex gap-4">

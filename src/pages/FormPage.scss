@@ -1,6 +1,14 @@
 //
+$main-form-section-padding-x: 4rem;
+$main-form-section-padding-x-sm: 1rem;
+$main-form-section-padding-x-xsm: 0.2rem;
 
 .form-page {
+  .main-form-section {
+    padding-left: $main-form-section-padding-x;
+    padding-right: $main-form-section-padding-x;
+  }
+
   .banner {
     .bg-img-div {
       height: 6rem;
@@ -16,5 +24,36 @@
       position: absolute;
       filter: brightness(70%);
     }
+  }
+}
+
+@media screen and (max-width: 999px) {
+  .form-page {
+    .main-form-section {
+      padding-left: $main-form-section-padding-x-sm;
+      padding-right: $main-form-section-padding-x-sm;
+    }
+  }
+}
+
+@media screen and (max-width: 799px) {
+  .form-page {
+    // font-size: small !important;
+    .main-form-section {
+      padding-left: $main-form-section-padding-x-xsm;
+      padding-right: $main-form-section-padding-x-xsm;
+    }
+  }
+}
+
+@media screen and (max-width: 459px) {
+  .form-page {
+    .main-form-section {
+      padding-left: $main-form-section-padding-x-xsm;
+      padding-right: $main-form-section-padding-x-xsm;
+    }
+  }
+  .collapse-content {
+    // padding: 0rem;
   }
 }

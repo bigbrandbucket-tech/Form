@@ -1,7 +1,8 @@
-import "./FirstForm.scss";
+// import "./FirstForm.scss";
+import "../../styles/Forms.scss";
 import React, { useEffect, useState } from "react";
 import {
-  SelectCountry,
+  CountrySelect,
   PhoneNumberCodeSelect,
 } from "../../utils/components/form/SelectCountry";
 import DatePicker from "../../utils/components/form/DatePicker";
@@ -71,16 +72,16 @@ export default function FirstForm() {
   }, [formData]);
 
   return (
-    <div className="first-form">
+    <div className="my-form">
       <form onSubmit={handleSubmit}>
-        <section>
-          <div className="">
+        <section className="form-section">
+          <div className="form-container">
             <label htmlFor="firstName">
               * First name{" "}
               <span className="text-red-500 italic">(required)</span>
             </label>
             <input
-              className=""
+              className="input-field"
               type="text"
               id="firstName"
               name="firstName"
@@ -90,10 +91,10 @@ export default function FirstForm() {
               required
             />
           </div>
-          <div className="">
+          <div className="form-container">
             <label htmlFor="middleName">Middle name (optional)</label>
             <input
-              className=""
+              className="input-field"
               type="text"
               id="middleName"
               name="middleName"
@@ -102,13 +103,12 @@ export default function FirstForm() {
               placeholder="Enter your middle name"
             />
           </div>
-          <div className="">
+          <div className="form-container">
             <label htmlFor="lastName">
-              Last name{" "}
-              <span className="text-red-500 italic"> (required) </span>
+              Last name <span className="text-red-500 italic">(required)</span>
             </label>
             <input
-              className=""
+              className="input-field"
               type="text"
               id="lastName"
               name="lastName"
@@ -120,14 +120,14 @@ export default function FirstForm() {
           </div>
         </section>
 
-        <section>
-          <div>
-            <label>
+        <section className="form-section">
+          <div className="form-container">
+            <label htmlFor="email">
               * Email address{" "}
               <span className="text-red-500 italic">(required)</span>
             </label>
             <input
-              className=""
+              className="input-field"
               type="email"
               id="email"
               name="email"
@@ -137,13 +137,13 @@ export default function FirstForm() {
               required
             />
           </div>
-          <div>
-            <label>
+          <div className="form-container">
+            <label htmlFor="emailConfirm">
               * Email address (re-enter){" "}
               <span className="text-red-500 italic">({emailMatch})</span>
             </label>
             <input
-              className=""
+              className="input-field"
               type="email"
               id="emailConfirm"
               name="emailConfirm"
@@ -156,9 +156,9 @@ export default function FirstForm() {
           </div>
         </section>
 
-        <section className="flex">
-          <div>
-            <label>
+        <section className="form-section">
+          <div className="form-container">
+            <label htmlFor="phone">
               * Phone <span className="text-red-500 italic">(required)</span>
             </label>
             <div className="phone-number-div">
@@ -166,9 +166,8 @@ export default function FirstForm() {
                 handleChange={handleChange}
                 formData={formData}
               />
-
               <input
-                className=""
+                className="input-field"
                 type="tel"
                 id="phone"
                 name="phone"
@@ -180,8 +179,8 @@ export default function FirstForm() {
             </div>
           </div>
 
-          <div>
-            <label>
+          <div className="form-container">
+            <label htmlFor="phoneConfirm">
               * Re-Phone{" "}
               <span className="text-red-500 italic">({phoneMatch})</span>
             </label>
@@ -191,7 +190,7 @@ export default function FirstForm() {
                 formData={formData}
               />
               <input
-                className=""
+                className="input-field"
                 type="tel"
                 id="phoneConfirm"
                 name="phoneConfirm"
@@ -204,25 +203,23 @@ export default function FirstForm() {
           </div>
         </section>
 
-        <section>
-          <div>
-            <label>
+        <section className="form-section">
+          <div className="form-container">
+            <label htmlFor="dob">
               * Date of Birth{" "}
               <span className="text-red-500 italic">(required)</span>
             </label>
-            <div>
-              <section className="date-of-birth">
-                <DatePicker handleChange={handleChange} formData={formData} />
-              </section>
+            <div className="date-picker">
+              <DatePicker handleChange={handleChange} formData={formData} />
             </div>
           </div>
 
-          <div>
-            <label>
+          <div className="form-container">
+            <label htmlFor="gender">
               * Gender <span className="text-red-500 italic">(required)</span>
             </label>
             <select
-              className=""
+              className="input-field"
               name="gender"
               value={formData.gender}
               onChange={handleChange}
@@ -236,15 +233,26 @@ export default function FirstForm() {
           </div>
         </section>
 
-        <section>
-          <SelectCountry handleChange={handleChange} formData={formData} />
-          <div>
-            <label>
+        <section className="form-section">
+          <div className="form-container">
+            <label htmlFor="countryOfBirth">
+              * City/town of birth{" "}
+              <span className="text-red-500 italic">(required)</span>
+            </label>
+            <CountrySelect
+              handleChange={handleChange}
+              formData={formData}
+              name="countryOfBirth"
+            />
+          </div>
+
+          <div className="form-container">
+            <label htmlFor="cityOfBirth">
               * City/town of birth{" "}
               <span className="text-red-500 italic">(required)</span>
             </label>
             <input
-              className=""
+              className="input-field"
               type="text"
               name="cityOfBirth"
               value={formData.cityOfBirth}
@@ -255,14 +263,14 @@ export default function FirstForm() {
           </div>
         </section>
 
-        <section>
-          <div>
-            <label>
+        <section className="form-section">
+          <div className="form-container">
+            <label htmlFor="maritalStatus">
               * Marital status{" "}
               <span className="text-red-500 italic">(required)</span>
             </label>
             <select
-              className=""
+              className="input-field"
               name="maritalStatus"
               value={formData.maritalStatus}
               onChange={handleChange}
@@ -275,13 +283,13 @@ export default function FirstForm() {
               <option value="widowed">Widowed</option>
             </select>
           </div>
-          <div>
-            <label>
+          <div className="form-container">
+            <label htmlFor="preferredLanguage">
               * Preferred language to contact you{" "}
               <span className="text-red-500 italic">(required)</span>
             </label>
             <select
-              className=""
+              className="input-field"
               name="preferredLanguage"
               value={formData.preferredLanguage}
               onChange={handleChange}
@@ -296,7 +304,7 @@ export default function FirstForm() {
           </div>
         </section>
 
-        <div className="items-end">
+        <div className="form-container items-end">
           <button type="submit" className="submit-button">
             NEXT
           </button>
@@ -305,175 +313,3 @@ export default function FirstForm() {
     </div>
   );
 }
-
-// function DatePicker({ handleChange, formData }) {
-//   const monthNames = [
-//     "January",
-//     "February",
-//     "March",
-//     "April",
-//     "May",
-//     "June",
-//     "July",
-//     "August",
-//     "September",
-//     "October",
-//     "November",
-//     "December",
-//   ];
-
-//   const getDaysInMonth = (year, month) => {
-//     return new Date(year, month, 0).getDate();
-//   };
-
-//   // Function to generate an array of numbers from 1 to n
-//   const range = (start, end) => {
-//     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-//   };
-
-//   // Year options (adjust the range as needed)
-//   const yearOptions = range(
-//     new Date().getFullYear() - 100,
-//     new Date().getFullYear()
-//   ).reverse();
-
-//   return (
-//     <>
-//       <select
-//         name="year"
-//         value={formData.dob.year}
-//         onChange={(e) =>
-//           handleChange({
-//             target: {
-//               name: "dob",
-//               value: { ...formData.dob, year: e.target.value },
-//             },
-//           })
-//         }
-//         required
-//       >
-//         <option value="">Year</option>
-//         {/* Generate options for years */}
-//         {yearOptions.map((year) => (
-//           <option key={year} value={year}>
-//             {year}
-//           </option>
-//         ))}
-//       </select>
-
-//       <select
-//         name="month"
-//         value={formData.dob.month}
-//         onChange={(e) => {
-//           const monthValue = e.target.value;
-//           const yearValue = formData.dob.year;
-//           const daysInMonth =
-//             monthValue && yearValue
-//               ? getDaysInMonth(yearValue, monthValue)
-//               : 31; // Default to 31 days if month or year is not selected
-
-//           handleChange({
-//             target: {
-//               name: "dob",
-//               value: {
-//                 ...formData.dob,
-//                 month: monthValue,
-//                 day: formData.dob.day > daysInMonth ? "" : formData.dob.day,
-//               }, // Reset day if it exceeds the number of days in the selected month
-//             },
-//           });
-//         }}
-//         required
-//       >
-//         <option value="">Month</option>
-//         {/* Generate options for months */}
-//         {monthNames.map((month, index) => (
-//           <option key={index + 1} value={index + 1}>
-//             {month}
-//           </option>
-//         ))}
-//       </select>
-
-//       <select
-//         name="day"
-//         value={formData.dob.day}
-//         onChange={(e) =>
-//           handleChange({
-//             target: {
-//               name: "dob",
-//               value: { ...formData.dob, day: e.target.value },
-//             },
-//           })
-//         }
-//         required
-//       >
-//         <option value="">Day</option>
-//         {/* Generate options for days based on the selected month and year */}
-//         {range(1, getDaysInMonth(formData.dob.year, formData.dob.month)).map(
-//           (day) => (
-//             <option key={day} value={day}>
-//               {day}
-//             </option>
-//           )
-//         )}
-//       </select>
-//     </>
-//   );
-// }
-
-// import { countries } from "countries-list"; // Importing countries list from the package
-
-// function SelectCountry({ handleChange, formData }) {
-//   // Convert the object of countries into an array of objects
-//   const countryOptions = Object.keys(countries).map((countryCode) => ({
-//     code: countryCode,
-//     name: countries[countryCode].name,
-//   }));
-
-//   return (
-//     <div>
-//       <label>
-//         * Country of birth{" "}
-//         <span className="text-red-500 italic">(required)</span>
-//       </label>
-//       <select
-//         name="countryOfBirth"
-//         value={formData.countryOfBirth}
-//         onChange={handleChange}
-//         required
-//       >
-//         <option value="">Select Country</option>
-//         {/* Map over the countryOptions array and create an option for each country */}
-//         {countryOptions.map((country) => (
-//           <option key={country.code} value={country.code}>
-//             {country.name}
-//           </option>
-//         ))}
-//       </select>
-//     </div>
-//   );
-// }
-
-// function PhoneNumberCodeSelect({ handleChange, formData }) {
-//   // Convert the object of countries into an array of objects
-//   const countryOptions = Object.keys(countries).map((countryCode) => ({
-//     code: "+" + countries[countryCode].phone,
-//     name: countries[countryCode].name,
-//   }));
-
-//   return (
-//     <select
-//       name="countryCode"
-//       value={formData.countryCode}
-//       onChange={handleChange}
-//       required
-//     >
-//       <option value="">Please Select</option>
-//       {countryOptions.map((country, index) => (
-//         <option key={index} value={country.code}>
-//           {country.code} {country.name}
-//         </option>
-//       ))}
-//     </select>
-//   );
-// }

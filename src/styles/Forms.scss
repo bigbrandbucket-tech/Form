@@ -52,6 +52,11 @@ $input-border-color: rgb(220, 220, 220);
     gap: 1.5rem;
   }
 
+  .time-picker {
+    display: flex;
+    gap: 1.5rem;
+  }
+
   .form-container {
     display: flex;
     flex-direction: column;
@@ -96,6 +101,33 @@ $input-border-color: rgb(220, 220, 220);
     select {
       max-width: 100px;
       font-size: smaller;
+    }
+  }
+}
+
+@media screen and (max-width: 859px) {
+  .my-form {
+    .form-section {
+      flex-direction: column;
+    }
+
+    .radio-options {
+      flex-direction: column;
+    }
+  }
+}
+
+@media screen and (max-width: 459px) {
+  .my-form {
+    padding: 0rem;
+    padding-top: 1rem;
+
+    .date-picker {
+      flex-direction: column;
+    }
+    .input-field {
+      font-size: smaller;
+      max-width: 90vw;
     }
   }
 }
