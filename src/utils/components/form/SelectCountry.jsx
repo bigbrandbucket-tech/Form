@@ -1,4 +1,5 @@
 import { countries } from "countries-list"; // Importing countries list from the package
+import React, { useState } from "react";
 
 export function SelectCountry({ handleChange, formData }) {
   // Convert the object of countries into an array of objects
@@ -76,7 +77,7 @@ export function PhoneNumberCodeSelect({ handleChange, formData }) {
       <option value="">Please Select</option>
       {countryOptions.map((country, index) => (
         <option key={index} value={country.code}>
-          {country.code} {country.name}
+          {country.name} {country.code}
         </option>
       ))}
     </select>
