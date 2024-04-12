@@ -112,6 +112,7 @@ export default function ThirdForm() {
                   formData={passportData}
                   handleChange={handleChange}
                   name="endDate"
+                  reverse={true}
                 />
               </div>
             </div>

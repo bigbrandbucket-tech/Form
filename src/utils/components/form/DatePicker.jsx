@@ -92,6 +92,7 @@ export default function DatePicker({
   formData,
   name = "dob",
   yearOnly = false,
+  reverse = false,
 }) {
   const monthNames = [
     "January",
@@ -118,10 +119,18 @@ export default function DatePicker({
   };
 
   // Year options (adjust the range as needed)
-  const yearOptions = range(
-    new Date().getFullYear() - 100,
-    new Date().getFullYear()
-  ).reverse();
+  let yearOptions;
+  if (reverse) {
+    yearOptions = range(
+      new Date().getFullYear(),
+      new Date().getFullYear() + 50
+    );
+  } else {
+    yearOptions = range(
+      new Date().getFullYear() - 50,
+      new Date().getFullYear()
+    ).reverse();
+  }
 
   return (
     <>
