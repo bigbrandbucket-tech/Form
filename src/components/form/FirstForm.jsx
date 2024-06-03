@@ -276,7 +276,7 @@ export default function FirstForm() {
         <section className="form-section">
           <div className="form-container">
             <label htmlFor="countryOfBirth">
-              * City/town of birth{" "}
+              * Country/region of birth{" "}
               <span className="text-red-500 italic">(required)</span>
             </label>
             <CountrySelect
