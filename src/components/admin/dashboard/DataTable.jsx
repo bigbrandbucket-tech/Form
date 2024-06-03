@@ -34,7 +34,7 @@ export default function DataTable() {
   const [rows, setRows] = React.useState([]);
 
   const fetchApi = async () => {
-    const resposne = await axios.get("http://localhost:3000/api/get")
+    const resposne = await axios.get("https://form-backend-gamma.vercel.app/api/get")
     console.log(resposne)
     setRows(resposne.data)
   }
