@@ -7,9 +7,24 @@ import {
 } from "../../utils/components/form/SelectCountry";
 import DatePicker from "../../utils/components/form/DatePicker";
 import { useStore } from "../../context/stores/form/main";
+import axios from "axios";
 
 export default function FirstForm() {
   const { currentComponent, setCurrentComponent } = useStore();
+
+  // 1	ID Primary	varchar(255)	utf8mb4_unicode_ci		No	None			Change Change	Drop Drop
+  // 2	firstName	varchar(255)	utf8mb4_unicode_ci		Yes	NULL			Change Change	Drop Drop
+  // 3	middleName	varchar(255)	utf8mb4_unicode_ci		Yes	NULL			Change Change	Drop Drop
+  // 4	lastName	varchar(255)	utf8mb4_unicode_ci		Yes	NULL			Change Change	Drop Drop
+  // 5	email	varchar(255)	utf8mb4_unicode_ci		Yes	NULL			Change Change	Drop Drop
+  // 6	phoneNumberExt	varchar(255)	utf8mb4_unicode_ci		Yes	NULL			Change Change	Drop Drop
+  // 7	phoneNumber	varchar(255)	utf8mb4_unicode_ci		Yes	NULL			Change Change	Drop Drop
+  // 8	dob	date			Yes	NULL			Change Change	Drop Drop
+  // 9	gender	varchar(255)	utf8mb4_unicode_ci		Yes	NULL			Change Change	Drop Drop
+  // 10	countryOfBIrth	date			Yes	NULL			Change Change	Drop Drop
+  // 11	cityOfBirth	varchar(255)	utf8mb4_unicode_ci		Yes	NULL			Change Change	Drop Drop
+  // 12	martialStatus	varchar(255)	utf8mb4_unicode_ci		Yes	NULL			Change Change	Drop Drop
+  // 13	preferredLanguage
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -18,9 +33,9 @@ export default function FirstForm() {
     email: "",
     emailConfirm: "",
     phoneCode: "",
-    phone: "",
+    phoneNumber: "",
     phoneConfirm: "",
-    countryCode: "+91",
+    phoneNumberExt: "+91",
     countryOfBirth: "",
     cityOfBirth: "",
     maritalStatus: "",
@@ -46,12 +61,37 @@ export default function FirstForm() {
   };
 
   const handleSubmit = (e) => {
+    console.log("response");
     e.preventDefault();
     if (
       formData.email === formData.emailConfirm &&
-      formData.phone === formData.phoneConfirm
+      formData.phoneNumber === formData.phoneConfirm
     ) {
-      setCurrentComponent(currentComponent + 1);
+      // setCurrentComponent(currentComponent + 1);
+
+      const insertData = async () => {
+        const response = await axios.post("https://form-backend-gamma.vercel.app/api/user", {
+          firstName: formData.firstName,
+          middleName: formData.middleName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phoneNumber: formData.phoneNumber,
+          phoneNumberExt: formData.phoneNumberExt,
+          countryOfBirth: formData.countryOfBirth,
+          cityOfBirth: formData.cityOfBirth,
+          martialStatus: formData.maritalStatus,
+          preferredLanguage: formData.preferredLanguage,
+          gender: formData.gender,
+          dob: new Date(
+            formData.dob.year,
+            formData.dob.month,
+            formData.dob.day
+          ),
+        });
+
+        console.log(response);
+      };
+      insertData();
     }
   };
 
@@ -62,7 +102,7 @@ export default function FirstForm() {
       setEmailMatch("required");
     }
 
-    if (formData.phone !== formData.phoneConfirm) {
+    if (formData.phoneNumber !== formData.phoneConfirm) {
       setPhoneMatch("Phone no. Does not match");
     } else {
       setPhoneMatch("required");
@@ -158,10 +198,10 @@ export default function FirstForm() {
 
         <section className="form-section">
           <div className="form-container">
-            <label htmlFor="phone">
+            <label htmlFor="phoneNumber">
               * Phone <span className="text-red-500 italic">(required)</span>
             </label>
-            <div className="phone-number-div">
+            <div className="phoneNumber-number-div">
               <PhoneNumberCodeSelect
                 handleChange={handleChange}
                 formData={formData}
@@ -169,11 +209,11 @@ export default function FirstForm() {
               <input
                 className="input-field"
                 type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
+                id="phoneNumber"
+                name="phoneNumber"
+                value={formData.phoneNumber}
                 onChange={handleChange}
-                placeholder="Enter your phone number"
+                placeholder="Enter your phoneNumber number"
                 required
               />
             </div>
@@ -184,7 +224,7 @@ export default function FirstForm() {
               * Re-Phone{" "}
               <span className="text-red-500 italic">({phoneMatch})</span>
             </label>
-            <div className="phone-number-div">
+            <div className="phoneNumber-number-div">
               <PhoneNumberCodeSelect
                 handleChange={handleChange}
                 formData={formData}
@@ -196,7 +236,7 @@ export default function FirstForm() {
                 name="phoneConfirm"
                 value={formData.phoneConfirm}
                 onChange={handleChange}
-                placeholder="Enter your phone number"
+                placeholder="Enter your phoneNumber number"
                 required
               />
             </div>
