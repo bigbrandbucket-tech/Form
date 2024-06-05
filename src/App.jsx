@@ -16,6 +16,10 @@ function App() {
             <Route index element={<FormPage />} />
           </Route>
 
+          <Route path="/register/:id" element={<Layout />}>
+            <Route index element={<FormPage />} />
+          </Route>
+
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<>DashBoard</>} />
             <Route path="/admin/travels" element={<Dashboard />} />

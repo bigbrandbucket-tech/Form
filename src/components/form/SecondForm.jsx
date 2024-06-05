@@ -1,40 +1,88 @@
 // import "./SecondForm.scss";
 import "../../styles/Forms.scss";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PhoneNumberCodeSelect } from "../../utils/components/form/SelectCountry";
 import { useStore } from "../../context/stores/form/main";
+import axios from "axios";
 
 export default function SecondForm() {
   const { currentComponent, setCurrentComponent } = useStore();
+  const { currentState, setCurrentState } = useStore();
+
+  console.log(currentState);
 
   const [formData, setFormData] = useState({
-    someoneElse: "NO",
+    applyingOnBehalf: "0",
     iam: "",
-    surnames: "",
-    givenNames: "",
-    mailingAddress: "",
-    countryCode: "+91",
-    phone: "",
+    applicantSurname: "",
+    applicantGivenName: "",
+    applicantMailingAddress: "",
+    applicantPhoneExt: "+91",
+    applicantPhone: "",
     declaration: "",
     authorization: "",
   });
 
+  useEffect(() => {
+    if (formData.iam !== currentState.iam) {
+      setFormData({
+        applyingOnBehalf: currentState.applyingOnBehalf,
+        iam: currentState.iam,
+        applicantSurname: currentState.applicantSurname,
+        applicantGivenName: currentState.applicantGivenName,
+        applicantMailingAddress: currentState.applicantMailingAddress,
+        applicantPhoneExt: currentState.applicantPhoneExt,
+        applicantPhone: currentState.applicantPhone,
+      });
+    }
+  }, [currentState.iam]);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+    console.log(typeof value);
     const val = type === "checkbox" ? checked : value;
     setFormData({ ...formData, [name]: val });
+    setCurrentState({ ...currentState, formData });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setCurrentComponent(currentComponent + 1);
+    const filteredData = Object.keys(formData)
+      .filter((key) => key !== "declaration" && key !== "authorization")
+      .reduce((obj, key) => {
+        obj[key] = formData[key];
+        return obj;
+      }, {});
+    const response = await axios.put(
+      `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
+      {
+        ...filteredData,
+        firstName: currentState.firstName,
+        middleName: currentState.middleName,
+        lastName: currentState.lastName,
+        email: currentState.email,
+        phoneNumber: currentState.phoneNumber,
+        phoneNumberExt: currentState.phoneNumberExt,
+        countryOfBIrth: currentState.countryOfBIrth,
+        cityOfBirth: currentState.cityOfBirth,
+        martialStatus: currentState.martialStatus,
+        preferredLanguage: currentState.preferredLanguage,
+        gender: currentState.gender,
+        dob: new Date(
+          currentState.dob.year,
+          currentState.dob.month,
+          currentState.dob.day
+        ),
+      }
+    );
   };
 
   return (
     <div className="my-form">
       <form onSubmit={handleSubmit}>
         <SomeoneElseCheck handleChange={handleChange} formData={formData} />
-        {formData.someoneElse === "YES" ? (
+        {formData.applyingOnBehalf == "1" ? (
           <YesComponent handleChange={handleChange} formData={formData} />
         ) : null}
         <div className="form-container items-end">
@@ -60,10 +108,10 @@ export default function SecondForm() {
   );
 }
 
-function SomeoneElseCheck({ handleChange, formData }) {
+function SomeoneElseCheck({ handleChange, formData, setFormData }) {
   const options = [
-    { label: "YES", value: "YES" },
-    { label: "NO", value: "NO" },
+    { label: "YES", value: "1" },
+    { label: "NO", value: "0" },
   ];
 
   return (
@@ -81,9 +129,9 @@ function SomeoneElseCheck({ handleChange, formData }) {
             >
               <input
                 type="radio"
-                name="someoneElse"
+                name="applyingOnBehalf"
                 value={option.value}
-                checked={formData.someoneElse === option.value}
+                checked={formData.applyingOnBehalf == option.value}
                 onChange={handleChange}
               />
               <span>{option.label}</span>
@@ -121,30 +169,30 @@ function YesComponent({ handleChange, formData }) {
 
       <section className="form-section">
         <div className="form-container">
-          <label htmlFor="surnames">
+          <label htmlFor="applicantSurname">
             * Surname(s) / last name(s){" "}
             <span className="text-red-500 italic">(required)</span>
           </label>
           <input
             type="text"
             className="input-field"
-            name="surnames"
-            value={formData.surnames}
+            name="applicantSurname"
+            value={formData.applicantSurname}
             onChange={handleChange}
             placeholder="Enter your surname(s) / last name(s)"
             required
           />
         </div>
         <div className="form-container">
-          <label htmlFor="givenNames">
+          <label htmlFor=" applicantGivenName">
             * Given name(s) / first name(s){" "}
             <span className="text-red-500 italic">(required)</span>
           </label>
           <input
             type="text"
             className="input-field"
-            name="givenNames"
-            value={formData.givenNames}
+            name="applicantGivenName"
+            value={formData.applicantGivenName}
             onChange={handleChange}
             placeholder="Enter your given name(s) / first name(s)"
             required
@@ -154,15 +202,15 @@ function YesComponent({ handleChange, formData }) {
 
       <section className="form-section">
         <div className="form-container">
-          <label htmlFor="mailingAddress">
+          <label htmlFor="applicantMailingAddress">
             * Mailing address{" "}
             <span className="text-red-500 italic">(required)</span>
           </label>
           <input
             type="text"
             className="input-field"
-            name="mailingAddress"
-            value={formData.mailingAddress}
+            name="applicantMailingAddress"
+            value={formData.applicantMailingAddress}
             onChange={handleChange}
             placeholder="Enter your mailing address"
             required
@@ -176,12 +224,13 @@ function YesComponent({ handleChange, formData }) {
             <PhoneNumberCodeSelect
               handleChange={handleChange}
               formData={formData}
+              name={"applicantPhoneExt"}
             />
             <input
               type="tel"
               className="input-field"
-              name="phone"
-              value={formData.phone}
+              name="applicantPhone"
+              value={formData.applicantPhone}
               onChange={handleChange}
               placeholder="Enter your phone number"
               required

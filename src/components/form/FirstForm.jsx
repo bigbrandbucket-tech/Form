@@ -8,9 +8,11 @@ import {
 import DatePicker from "../../utils/components/form/DatePicker";
 import { useStore } from "../../context/stores/form/main";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 export default function FirstForm() {
   const { currentComponent, setCurrentComponent } = useStore();
+  const { currentState, setCurrentState } = useStore();
 
   // 1	ID Primary	varchar(255)	utf8mb4_unicode_ci		No	None			Change Change	Drop Drop
   // 2	firstName	varchar(255)	utf8mb4_unicode_ci		Yes	NULL			Change Change	Drop Drop
@@ -36,9 +38,9 @@ export default function FirstForm() {
     phoneNumber: "",
     phoneConfirm: "",
     phoneNumberExt: "+91",
-    countryOfBirth: "",
+    countryOfBIrth: "",
     cityOfBirth: "",
-    maritalStatus: "",
+    martialStatus: "",
     preferredLanguage: "",
     gender: "",
     dob: {
@@ -55,9 +57,49 @@ export default function FirstForm() {
     event.preventDefault();
   };
 
+  let { id } = useParams();
+
+  const parseDate = (dateString) => {
+    const date = new Date(dateString);
+    console.log(date, dateString)
+    const day = date.getDate();
+    const monthName = date.getMonth()
+    const year = date.getFullYear();
+    return [`${day}`,`${monthName}`,`${year}`];
+  };
+  
+
+  const checkID = async () => {
+   
+    const response = await axios.get(`https://form-backend-gamma.vercel.app/api/user/${id}`);
+    console.log( parseDate(response.data.dob)[0])
+    setFormData({
+      ...response.data,
+      emailConfirm: response.data.email,
+      phoneConfirm:response.data.phoneNumber,
+      dob: {
+        day:parseDate(response.data.dob)[0],
+        month:parseDate(response.data.dob)[1],
+        year:parseDate(response.data.dob)[2],
+      },
+    });
+    
+  };
+
+  useEffect(() => {
+    console.log(id);
+    if (id) {
+      checkID();
+      setCurrentState(formData)
+    }
+    return () => setCurrentState(formData)
+  }, [formData.email]);
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    setCurrentState(formData)
   };
 
   const handleSubmit = (e) => {
@@ -70,26 +112,51 @@ export default function FirstForm() {
       // setCurrentComponent(currentComponent + 1);
 
       const insertData = async () => {
-        const response = await axios.post("https://form-backend-gamma.vercel.app/api/user", {
-          firstName: formData.firstName,
-          middleName: formData.middleName,
-          lastName: formData.lastName,
-          email: formData.email,
-          phoneNumber: formData.phoneNumber,
-          phoneNumberExt: formData.phoneNumberExt,
-          countryOfBirth: formData.countryOfBirth,
-          cityOfBirth: formData.cityOfBirth,
-          martialStatus: formData.maritalStatus,
-          preferredLanguage: formData.preferredLanguage,
-          gender: formData.gender,
-          dob: new Date(
-            formData.dob.year,
-            formData.dob.month,
-            formData.dob.day
-          ),
-        });
-
-        console.log(response);
+        if (id) {
+          const response = await axios.put(
+            `https://form-backend-gamma.vercel.app/api/user/${id}`,
+            {
+              firstName: formData.firstName,
+              middleName: formData.middleName,
+              lastName: formData.lastName,
+              email: formData.email,
+              phoneNumber: formData.phoneNumber,
+              phoneNumberExt: formData.phoneNumberExt,
+              countryOfBIrth: formData.countryOfBIrth,
+              cityOfBirth: formData.cityOfBirth,
+              martialStatus: formData.martialStatus,
+              preferredLanguage: formData.preferredLanguage,
+              gender: formData.gender,
+              dob: new Date(
+                formData.dob.year,
+                formData.dob.month,
+                formData.dob.day
+              ),
+            }
+          );
+        } else {
+          const response = await axios.post(
+            "https://form-backend-gamma.vercel.app/api/user",
+            {
+              firstName: formData.firstName,
+              middleName: formData.middleName,
+              lastName: formData.lastName,
+              email: formData.email,
+              phoneNumber: formData.phoneNumber,
+              phoneNumberExt: formData.phoneNumberExt,
+              countryOfBIrth: formData.countryOfBIrth,
+              cityOfBirth: formData.cityOfBirth,
+              martialStatus: formData.martialStatus,
+              preferredLanguage: formData.preferredLanguage,
+              gender: formData.gender,
+              dob: new Date(
+                formData.dob.year,
+                formData.dob.month,
+                formData.dob.day
+              ),
+            }
+          );
+        }
       };
       insertData();
     }
@@ -205,6 +272,7 @@ export default function FirstForm() {
               <PhoneNumberCodeSelect
                 handleChange={handleChange}
                 formData={formData}
+                name="phoneNumberExt"
               />
               <input
                 className="input-field"
@@ -228,6 +296,7 @@ export default function FirstForm() {
               <PhoneNumberCodeSelect
                 handleChange={handleChange}
                 formData={formData}
+                name="phoneNumberExt"
               />
               <input
                 className="input-field"
@@ -275,14 +344,14 @@ export default function FirstForm() {
 
         <section className="form-section">
           <div className="form-container">
-            <label htmlFor="countryOfBirth">
+            <label htmlFor="countryOfBIrth">
               * Country/region of birth{" "}
               <span className="text-red-500 italic">(required)</span>
             </label>
             <CountrySelect
               handleChange={handleChange}
               formData={formData}
-              name="countryOfBirth"
+              name="countryOfBIrth"
             />
           </div>
 
@@ -305,14 +374,14 @@ export default function FirstForm() {
 
         <section className="form-section">
           <div className="form-container">
-            <label htmlFor="maritalStatus">
+            <label htmlFor="martialStatus">
               * Marital status{" "}
               <span className="text-red-500 italic">(required)</span>
             </label>
             <select
               className="input-field"
-              name="maritalStatus"
-              value={formData.maritalStatus}
+              name="martialStatus"
+              value={formData.martialStatus}
               onChange={handleChange}
               required
             >

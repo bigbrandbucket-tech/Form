@@ -15,8 +15,8 @@ export function SelectCountry({ handleChange, formData }) {
         <span className="text-red-500 italic">(required)</span>
       </label>
       <select
-        name="countryOfBirth"
-        value={formData.countryOfBirth}
+        name="countryOfBIrth"
+        value={formData.countryOfBIrth}
         onChange={handleChange}
         required
         className="input-field"
@@ -24,7 +24,7 @@ export function SelectCountry({ handleChange, formData }) {
         <option value="">Select Country</option>
         {/* Map over the countryOptions array and create an option for each country */}
         {countryOptions.map((country) => (
-          <option key={country.code} value={country.code}>
+          <option key={country.name} value={country.name}>
             {country.name}
           </option>
         ))}
@@ -59,7 +59,7 @@ export function CountrySelect({ handleChange, formData, name }) {
   );
 }
 
-export function PhoneNumberCodeSelect({ handleChange, formData }) {
+export function PhoneNumberCodeSelect({ handleChange, formData, name }) {
   // Convert the object of countries into an array of objects
   const countryOptions = Object.keys(countries).map((countryCode) => ({
     code: "+" + countries[countryCode].phone,
@@ -69,8 +69,8 @@ export function PhoneNumberCodeSelect({ handleChange, formData }) {
   return (
     <select
       className="input-field"
-      name="phoneNumberExt"
-      value={formData.countryCode}
+      name={name}
+      value={formData[name]}
       onChange={handleChange}
       required
     >
