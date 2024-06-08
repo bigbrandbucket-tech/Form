@@ -19,7 +19,7 @@ export function TimePicker({ handleChange, formData, name = "time" }) {
       <select
         className="input-field custom:w-1/3"
         name="hour"
-        value={formData[name].hour}
+        value={formData[name]?.hour}
         onChange={(e) =>
           handleChange({
             target: {
@@ -42,7 +42,7 @@ export function TimePicker({ handleChange, formData, name = "time" }) {
       <select
         className="input-field custom:w-1/3"
         name="minute"
-        value={formData[name].minute}
+        value={formData[name]?.minute}
         onChange={(e) =>
           handleChange({
             target: {
@@ -64,7 +64,7 @@ export function TimePicker({ handleChange, formData, name = "time" }) {
 
       <select
         name="timezone"
-        value={formData[name].timezone}
+        value={formData[name]?.timezone}
         onChange={(e) =>
           handleChange({
             target: {
@@ -137,7 +137,7 @@ export default function DatePicker({
       <select
         className="input-field"
         name="year"
-        value={formData[name].year}
+        value={formData[name]?.year}
         onChange={(e) =>
           handleChange({
             target: {
@@ -162,10 +162,10 @@ export default function DatePicker({
           <select
             className="input-field"
             name="month"
-            value={formData[name].month}
+            value={formData[name]?.month}
             onChange={(e) => {
               const monthValue = e.target.value;
-              const yearValue = formData[name].year;
+              const yearValue = formData[name]?.year;
               const daysInMonth =
                 monthValue && yearValue
                   ? getDaysInMonth(yearValue, monthValue)
@@ -178,9 +178,9 @@ export default function DatePicker({
                     ...formData[name],
                     month: monthValue,
                     day:
-                      formData[name].day > daysInMonth
+                      formData[name]?.day > daysInMonth
                         ? ""
-                        : formData[name].day,
+                        : formData[name]?.day,
                   }, // Reset day if it exceeds the number of days in the selected month
                 },
               });
@@ -199,7 +199,7 @@ export default function DatePicker({
           <select
             className="input-field"
             name="day"
-            value={formData[name].day}
+            value={formData[name]?.day}
             onChange={(e) =>
               handleChange({
                 target: {
@@ -214,7 +214,7 @@ export default function DatePicker({
             {/* Generate options for days based on the selected month and year */}
             {range(
               1,
-              getDaysInMonth(formData[name].year, formData[name].month)
+              getDaysInMonth(formData[name]?.year, formData[name]?.month)
             ).map((day) => (
               <option key={day} value={day}>
                 {day}

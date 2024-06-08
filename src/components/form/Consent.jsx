@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/Forms.scss";
 import { useStore } from "../../context/stores/form/main";
+import axios from "axios";
 
 const information = `Information provided to IRCC is collected under the authority of the Immigration and Refugee Protection Act (IRPA) to determine admissibility to Canada.
 Information provided may be shared with other Canadian government institutions such as, but not limited to, the Canada Border Services Agency (CBSA), the Royal Canadian Mounted Police (RCMP), the Canadian Security Intelligence Service (CSIS), the Department of Foreign Affairs, Trade and Development (DFATD), Employment and Social Development Canada (ESDC), the Canada Revenue Agency (CRA), provincial and territorial governments and foreign governments in accordance with subsection 8(2) of the Privacy Act.
@@ -23,12 +24,14 @@ I agree that by typing my name and clicking sign, I am electronically signing my
 
 export default function Consents() {
   const { currentComponent, setCurrentComponent } = useStore();
+  const { currentState, setCurrentState } = useStore();
 
   const [formData, setFormData] = useState({
     additionalDetails: "",
     signature: "",
     consentDeclaration: false,
     agreePolicy: false,
+    ip:""
   });
 
   const handleChange = (e) => {
@@ -39,11 +42,50 @@ export default function Consents() {
     });
   };
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    if (formData.additionalDetails !== currentState.additionalDetails) {
+      setFormData({
+        ...formData,
+        additionalDetails: currentState.additionalDetails,
+        signature: currentState.signature
+      });
+    }
+  }, [currentState.additionalDetails]);
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setCurrentComponent(currentComponent + 1);
+    const filteredData = Object.keys(formData)
+      .filter(
+        (key) =>
+          key !== "consentDeclaration" &&
+          key !== "agreePolicy"
+      )
+      .reduce((obj, key) => {
+        obj[key] = formData[key];
+        return obj;
+      }, {});
+    const response = await axios.put(
+      `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
+      {
+        ...currentState,
+        ...filteredData,
+      }
+    );
   };
 
+
+  useEffect(() => {
+    const fetchIp = async () => {
+      try {
+        const response = await axios.get('https://api.ipify.org?format=json');
+        setFormData({...formData, ip:response.data.ip});
+      } catch (error) {
+        console.error('Error fetching the IP address:', error);
+      }
+    };
+
+    fetchIp();
+  }, []);
   return (
     <div className="my-form">
       <form onSubmit={handleSubmit}>

@@ -70,7 +70,6 @@ export default function FirstForm() {
   
 
   const checkID = async () => {
-   
     const response = await axios.get(`https://form-backend-gamma.vercel.app/api/user/${id}`);
     console.log( parseDate(response.data.dob)[0])
     setFormData({
@@ -90,9 +89,15 @@ export default function FirstForm() {
     console.log(id);
     if (id) {
       checkID();
-      setCurrentState(formData)
+      const filteredData = Object.keys(formData)
+      .filter((key) => key !== "emailConfirm" && key !== "phoneConfirm")
+      .reduce((obj, key) => {
+        obj[key] = formData[key];
+        return obj;
+      }, {});
+      setCurrentState(filteredData)
     }
-    return () => setCurrentState(formData)
+    // return () => setCurrentState(filteredData)
   }, [formData.email]);
 
 
@@ -156,6 +161,8 @@ export default function FirstForm() {
               ),
             }
           );
+          console.log(response)
+          setCurrentState({...currentState, ID:response.data.id})
         }
       };
       insertData();

@@ -3,6 +3,7 @@ import "../../styles/Forms.scss";
 import { CountrySelect } from "../../utils/components/form/SelectCountry";
 import DatePicker, { TimePicker } from "../../utils/components/form/DatePicker";
 import { useStore } from "../../context/stores/form/main";
+import axios from "axios";
 
 // Options for radio button questions
 const questions = [
@@ -197,6 +198,7 @@ function appliedForVisa({ formData, handleChange, matchData, setMatchData }) {
 
 export default function TravelInformation() {
   const { currentComponent, setCurrentComponent } = useStore();
+  const { currentState, setCurrentState } = useStore();
   const [formData, setFormData] = useState({
     appliedForVisa: "",
     uciPreviousVisaNumber: "",
@@ -220,11 +222,29 @@ export default function TravelInformation() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((formData) => ({ ...formData, [name]: value }));
+    setCurrentState({ ...currentState, ...formData });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setCurrentComponent(currentComponent + 1);
+
+    const response = await axios.put(
+      `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
+      {
+        ...currentState,
+        travelDate: new Date(
+          formData.travelDate.year,
+          formData.travelDate.month,
+          formData.travelDate.day
+        ),
+        travelTime: JSON.stringify([
+          formData.travelTime.hour,
+          formData.travelTime.minute,
+          formData.travelTime.timezone,
+        ]),
+      }
+    );
   };
 
   useEffect(() => {
@@ -238,6 +258,43 @@ export default function TravelInformation() {
 
     return () => {};
   }, [formData]);
+  const parseDate = (dateString) => {
+    const date = new Date(dateString);
+    console.log(date, dateString);
+    const day = date.getDate();
+    const monthName = date.getMonth();
+    const year = date.getFullYear();
+    return [`${day}`, `${monthName}`, `${year}`];
+  };
+
+  useEffect(() => {
+    if (formData.appliedForVisa !== currentState.appliedForVisa) {
+      console.log(currentState?.travelTime && JSON.parse(currentState?.travelTime)[0])
+      setFormData({
+        appliedForVisa: currentState.appliedForVisa,
+        uciPreviousVisaNumber: currentState.uciPreviousVisaNumber,
+        uciPreviousVisaNumberReenter: currentState.uciPreviousVisaNumberReenter,
+
+        knowTravelDate: currentState.knowTravelDate,
+        travelDate: {
+          day: parseDate(currentState.travelDate)[0],
+          month: parseDate(currentState.travelDate)[1],
+          year: parseDate(currentState.travelDate)[2],
+        },
+        travelTime: {
+          hour: currentState?.travelTime && JSON.parse(currentState?.travelTime)[0],
+          minute: currentState?.travelTime && JSON.parse(currentState?.travelTime)[1],
+          timezone: currentState?.travelTime && JSON.parse(currentState?.travelTime)[2]
+        },
+
+        travelingAlone: currentState.travelingAlone,
+        travelingMembers: currentState.travelingMembers,
+
+        additionalNationalities: currentState.additionalNationalities,
+        citizenship: currentState.citizenship,
+      });
+    }
+  }, [currentState.appliedForVisa]);
 
   return (
     <div className="my-form">

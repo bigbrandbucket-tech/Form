@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/Forms.scss";
 import { useStore } from "../../context/stores/form/main";
+import axios from "axios";
 
 // Options for radio button questions
 const questions = [
@@ -59,6 +60,8 @@ const questions = [
 
 export default function Eligibility() {
   const { currentComponent, setCurrentComponent } = useStore();
+  const { currentState, setCurrentState } = useStore();
+
   const [formData, setFormData] = useState({
     refusedVisa: "",
     refusedVisaTextArea: "",
@@ -73,14 +76,35 @@ export default function Eligibility() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    setCurrentState({...currentState, ...formData})
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setCurrentComponent(currentComponent + 1);
+    const response = await axios.put(
+      `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
+      {
+        ...currentState,
+      }
+    );
   };
 
-  useEffect(() => {}, [formData]);
+   useEffect(() => {
+    if (formData.refusedVisa !== currentState.refusedVisa) {
+      setFormData({
+        refusedVisa: currentState.refusedVisa,
+    refusedVisaTextArea: currentState.refusedVisaTextArea,
+    criminalOffence: currentState.criminalOffence,
+    criminalOffenceTextArea: currentState.criminalOffenceTextArea,
+    tuberculosisDiagnosis: currentState.tuberculosisDiagnosis,
+    healthcareWorkerContact: currentState.healthcareWorkerContact,
+    healthCondition: currentState.healthCondition,
+    tuberculosisDiagnosed: currentState.tuberculosisDiagnosed},
+      )
+    }
+  }, [currentState.refusedVisa]);
+
 
   // Function to recursively render subquestions
   const renderSubquestions = (subquestions) => {

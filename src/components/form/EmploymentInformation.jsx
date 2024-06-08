@@ -3,6 +3,7 @@ import "../../styles/Forms.scss";
 import { CountrySelect } from "../../utils/components/form/SelectCountry";
 import DatePicker from "../../utils/components/form/DatePicker";
 import { useStore } from "../../context/stores/form/main";
+import axios from "axios";
 
 const occupationOptions = [
   "Please Select",
@@ -213,28 +214,51 @@ const occupationJobTitle = {
 
 export default function OccupationForm() {
   const { currentComponent, setCurrentComponent } = useStore();
+  const { currentState, setCurrentState } = useStore();
 
   const [formData, setFormData] = useState({
     occupation: "",
-    jobTitle: "",
-    employerSchoolName: "",
-    country: "",
-    city: "",
-    districtRegion: "",
+    job: "",
+    employer: "",
+    countryOfJob: "",
+    cityOfJob: "",
+    districtOfJob: "",
     sinceYear: { year: "" },
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    setCurrentState({ ...currentState, ...formData });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     setCurrentComponent(currentComponent + 1);
+    console.log(currentState)
+    const response = await axios.put(
+      `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
+      {
+        ...currentState,
+        sinceYear:formData.sinceYear.year
+      }
+    );
   };
 
-  useEffect(() => {}, [formData]);
+  useEffect(() => {
+
+    if (formData.occupation !== currentState.occupation) {
+      setFormData({
+        occupation: currentState.occupation,
+        job: currentState.job,
+        employer: currentState.employer,
+        countryOfJob: currentState.countryOfJob,
+        cityOfJob: currentState.cityOfJob,
+        districtOfJob: currentState.districtOfJob,
+        sinceYear: {year:currentState.sinceYear},
+      });
+    }
+  }, [currentState.occupation]);
 
   return (
     <div className="my-form">
@@ -271,7 +295,7 @@ export default function OccupationForm() {
               <>
                 <section className="form-section">
                   <div className="form-container">
-                    <label htmlFor="jobTitle">
+                    <label htmlFor="job">
                       <span className="text-red-500 italic">*</span> Job Title
                       <span className="text-red-500 italic"> (required)</span>
                       <h1 className="my-2 font-semibold text-[1.08rem]">
@@ -279,17 +303,17 @@ export default function OccupationForm() {
                       </h1>
                     </label>
                     <select
-                      name="jobTitle"
-                      value={formData.jobTitle}
+                      name="job"
+                      value={formData.job}
                       onChange={handleChange}
                       required
                       className="input-field"
                     >
                       <option value="">Select job title</option>
-                      {occupationJobTitle[formData.occupation].map(
-                        (jobTitle) => (
+                      {occupationJobTitle[formData?.occupation]?.map(
+                        (job) => (
                           <>
-                            <option value={jobTitle}>{jobTitle}</option>
+                            <option value={job}>{job}</option>
                           </>
                         )
                       )}
@@ -302,58 +326,58 @@ export default function OccupationForm() {
 
             <section className="form-section">
               <div className="form-container">
-                <label htmlFor="employerSchoolName">
+                <label htmlFor="employer">
                   <span className="text-red-500 italic">*</span> Name of
                   Employer/School
                   <span className="text-red-500 italic"> (required)</span>
                 </label>
                 <input
                   type="text"
-                  name="employerSchoolName"
+                  name="employer"
                   placeholder="Enter the name of your employer or school"
-                  value={formData.employerSchoolName}
+                  value={formData.employer}
                   onChange={handleChange}
                   required
                   className="input-field"
                 />
               </div>
               <div className="form-container">
-                <label htmlFor="country">
-                  <span className="text-red-500 italic">*</span> Country
+                <label htmlFor="countryOfJob">
+                  <span className="text-red-500 italic">*</span> countryOfJob
                   <span className="text-red-500 italic"> (required)</span>
                   <span className="text-red-500 italic"> Please select</span>
                 </label>
                 <CountrySelect
                   formData={formData}
                   handleChange={handleChange}
-                  name="country"
+                  name="countryOfJob"
                 />
               </div>
             </section>
 
             <section className="form-section">
               <div className="form-container">
-                <label htmlFor="city">
-                  <span className="text-red-500 italic">*</span> City
+                <label htmlFor="cityOfJob">
+                  <span className="text-red-500 italic">*</span> cityOfJob
                   <span className="text-red-500 italic"> (required)</span>
                 </label>
                 <input
                   type="text"
-                  name="city"
-                  placeholder="Enter city"
-                  value={formData.city}
+                  name="cityOfJob"
+                  placeholder="Enter cityOfJob"
+                  value={formData.cityOfJob}
                   onChange={handleChange}
                   required
                   className="input-field"
                 />
               </div>
               <div className="form-container">
-                <label htmlFor="districtRegion">District/region</label>
+                <label htmlFor="districtOfJob">District/region</label>
                 <input
                   type="text"
-                  name="districtRegion"
+                  name="districtOfJob"
                   placeholder="Enter district/region"
-                  value={formData.districtRegion}
+                  value={formData.districtOfJob}
                   onChange={handleChange}
                   className="input-field"
                 />

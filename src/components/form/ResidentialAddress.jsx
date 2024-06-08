@@ -1,28 +1,54 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/Forms.scss";
 import { CountrySelect } from "../../utils/components/form/SelectCountry";
 import { useStore } from "../../context/stores/form/main";
+import axios from "axios";
 
 export default function AddressForm() {
   const { currentComponent, setCurrentComponent } = useStore();
+  const { currentState, setCurrentState } = useStore();
 
   const [formData, setFormData] = useState({
-    streetAddress: "",
-    streetCivicNo: "",
-    apartmentUnitNo: "",
-    cityTown: "",
-    districtRegion: "",
+    streetName: "",
+    houseNumber: "",
+    apartment: "",
+    city: "",
+    district: "",
     country: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    setCurrentState({ ...currentState, formData });
   };
 
-  const handleSubmit = (e) => {
+ 
+
+  useEffect(() => {
+    if (formData.streetName !== currentState.streetName) {
+      console.log('current', currentState)
+      setFormData({
+        streetName: currentState.streetName,
+        houseNumber: currentState.houseNumber,
+        apartment: currentState.apartment,
+        city: currentState.city,
+        district: currentState.district,
+        country: currentState.country
+      });
+    }
+  }, [currentState.streetName]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setCurrentComponent(currentComponent + 1);
+    const response = await axios.put(
+      `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
+      {
+        ...currentState,
+        ...formData,
+      }
+    );
   };
 
   return (
@@ -30,31 +56,31 @@ export default function AddressForm() {
       <form onSubmit={handleSubmit}>
         <section className="form-section">
           <div className="form-container">
-            <label htmlFor="streetAddress">
+            <label htmlFor="streetName">
               <span className="text-red-500 italic">*</span> Street address/name
               <span className="text-red-500 italic"> (required)</span>
             </label>
             <input
               type="text"
-              name="streetAddress"
+              name="streetName"
               placeholder="Enter street address/name"
-              value={formData.streetAddress}
+              value={formData.streetName}
               onChange={handleChange}
               required
               className="input-field"
             />
           </div>
           <div className="form-container">
-            <label htmlFor="streetCivicNo">
+            <label htmlFor="houseNumber">
               <span className="text-red-500 italic">*</span> Street/civic no. or
               house name
               <span className="text-red-500 italic"> (required)</span>
             </label>
             <input
               type="text"
-              name="streetCivicNo"
+              name="houseNumber"
               placeholder="Enter street/civic no. or house name"
-              value={formData.streetCivicNo}
+              value={formData.houseNumber}
               onChange={handleChange}
               required
               className="input-field"
@@ -64,28 +90,26 @@ export default function AddressForm() {
 
         <section className="form-section">
           <div className="form-container">
-            <label htmlFor="apartmentUnitNo">
-              Apartment/unit number (optional)
-            </label>
+            <label htmlFor="apartment">Apartment/unit number (optional)</label>
             <input
               type="text"
-              name="apartmentUnitNo"
+              name="apartment"
               placeholder="Enter apartment/unit number"
-              value={formData.apartmentUnitNo}
+              value={formData.apartment}
               onChange={handleChange}
               className="input-field"
             />
           </div>
           <div className="form-container">
-            <label htmlFor="cityTown">
+            <label htmlFor="city">
               <span className="text-red-500 italic">*</span> City/town
               <span className="text-red-500 italic"> (required)</span>
             </label>
             <input
               type="text"
-              name="cityTown"
+              name="city"
               placeholder="Enter city/town"
-              value={formData.cityTown}
+              value={formData.city}
               onChange={handleChange}
               required
               className="input-field"
@@ -95,12 +119,12 @@ export default function AddressForm() {
 
         <section className="form-section">
           <div className="form-container">
-            <label htmlFor="districtRegion">District/region (optional)</label>
+            <label htmlFor="district">District/region (optional)</label>
             <input
               type="text"
-              name="districtRegion"
+              name="district"
               placeholder="Enter district/region"
-              value={formData.districtRegion}
+              value={formData.district}
               onChange={handleChange}
               className="input-field"
             />
