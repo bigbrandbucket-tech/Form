@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 
 import Layout from "./components/layout/Layout";
 import AdminLayout from "./components/admin/layout/AdminLayout";
+import PdfGen from "./components/admin/dashboard/pdfGen";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<>DashBoard</>} />
             <Route path="/admin/travels" element={<Dashboard />} />
+            <Route path="/admin/pdf" element={<PdfGen />} />
           </Route>
         </Routes>
       </BrowserRouter>
