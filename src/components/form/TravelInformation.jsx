@@ -228,11 +228,17 @@ export default function TravelInformation() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setCurrentComponent(currentComponent + 1);
+    const filteredData = Object.keys(currentState)
+    .filter((key) => key !== "declaration" && key !== "authorization" && key !== "passportNumberReenter" && key !== "emailConfirm")
+    .reduce((obj, key) => {
+      obj[key] = formData[key];
+      return obj;
+    }, {});
 
     const response = await axios.put(
       `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
       {
-        ...currentState,
+        ...filteredData,
         travelDate: new Date(
           formData.travelDate.year,
           formData.travelDate.month,

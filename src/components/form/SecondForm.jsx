@@ -42,14 +42,14 @@ export default function SecondForm() {
     console.log(typeof value);
     const val = type === "checkbox" ? checked : value;
     setFormData({ ...formData, [name]: val });
-    setCurrentState({ ...currentState, formData });
+    setCurrentState({ ...currentState, ...formData });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setCurrentComponent(currentComponent + 1);
     const filteredData = Object.keys(formData)
-      .filter((key) => key !== "declaration" && key !== "authorization")
+      .filter((key) => key !== "declaration" && key !== "authorization" && key !== "phoneCode")
       .reduce((obj, key) => {
         obj[key] = formData[key];
         return obj;

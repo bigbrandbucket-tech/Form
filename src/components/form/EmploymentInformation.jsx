@@ -234,12 +234,18 @@ export default function OccupationForm() {
 
   const handleSubmit = async(e) => {
     e.preventDefault();
+    const filteredData = Object.keys(currentState)
+    .filter((key) => key !== "declaration" && key !== "authorization" && key !== "passportNumberReenter" && key !== "emailConfirm")
+    .reduce((obj, key) => {
+      obj[key] = formData[key];
+      return obj;
+    }, {});
     setCurrentComponent(currentComponent + 1);
     console.log(currentState)
     const response = await axios.put(
       `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
       {
-        ...currentState,
+        ...filteredData,
         sinceYear:formData.sinceYear.year
       }
     );

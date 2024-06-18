@@ -29,7 +29,7 @@ export default function ThirdForm() {
     const { name, value } = e.target;
     console.log(name, value)
     setPassportData({ ...passportData, [name]: value });
-    setCurrentState({ ...currentState, passportData });
+    setCurrentState({ ...currentState, ...passportData });
   };
 
   const parseDate = (dateString) => {
@@ -78,13 +78,17 @@ export default function ThirdForm() {
         obj[key] = passportData[key];
         return obj;
       }, {});
-      console.log('third', currentState)
+      
+
+     
+
     const currentStateFilter = Object.keys(currentState)
-    .filter((key) => key !== "phoneConfirm" &&  key !== "emailConfirm")
+    .filter((key) => key !== "phoneConfirm" &&  key !== "emailConfirm" && key !=="phoneCode" && key !=="passportNumberReenter" && key !=="formData")
     .reduce((obj, key) => {
       obj[key] = currentState[key];
       return obj;
     }, {});
+    
     const response = await axios.put(
       `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
       {  

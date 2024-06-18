@@ -54,7 +54,13 @@ export default function Consents() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setCurrentComponent(currentComponent + 1);
-    const filteredData = Object.keys(formData)
+    const filteredData1 = Object.keys(currentState)
+    .filter((key) => key !== "declaration" && key !== "authorization" && key !== "passportNumberReenter" && key !== "emailConfirm")
+    .reduce((obj, key) => {
+      obj[key] = formData[key];
+      return obj;
+    }, {});
+    const filteredData2 = Object.keys(formData)
       .filter(
         (key) =>
           key !== "consentDeclaration" &&
@@ -67,8 +73,8 @@ export default function Consents() {
     const response = await axios.put(
       `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
       {
-        ...currentState,
-        ...filteredData,
+        ...filteredData1,
+        ...filteredData2,
       }
     );
   };
