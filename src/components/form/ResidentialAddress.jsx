@@ -40,7 +40,7 @@ export default function AddressForm() {
   }, [currentState.streetName]);
 
   const handleSubmit = async (e) => {
-    const filteredData = Object.keys(formData)
+    const filteredData = Object.keys(currentState)
     .filter((key) => key !== "declaration" && key !== "authorization" && key !== "passportNumberReenter" && key !== "emailConfirm")
     .reduce((obj, key) => {
       obj[key] = formData[key];
@@ -52,7 +52,6 @@ export default function AddressForm() {
     const response = await axios.put(
       `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
       {
-        ...currentState,
         ...filteredData,
       }
     );

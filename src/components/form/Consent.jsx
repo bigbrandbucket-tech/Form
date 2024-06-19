@@ -44,6 +44,7 @@ export default function Consents() {
 
   useEffect(() => {
     if (formData.additionalDetails !== currentState.additionalDetails) {
+      console.log(currentState)
       setFormData({
         ...formData,
         additionalDetails: currentState.additionalDetails,
