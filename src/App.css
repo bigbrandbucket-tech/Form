@@ -1,1 +1,6 @@
-
+.button-style {
+  min-width: 4rem;
+  max-width: 4rem;
+  min-height: 2.75rem;
+  max-height: 2.75rem;
+}

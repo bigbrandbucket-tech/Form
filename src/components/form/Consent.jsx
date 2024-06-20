@@ -203,7 +203,7 @@ export default function Consents() {
             <div className="flex gap-4">
               <button
                 type="button"
-                className="submit-button"
+                className="submit-button button-style"
                 onClick={(e) => {
                   e.stopPropagation();
                   setCurrentComponent(currentComponent - 1);
@@ -212,7 +212,7 @@ export default function Consents() {
                 BACK
               </button>
 
-              <button type="submit" className="submit-button">
+              <button type="submit" className="submit-button button-style">
                 NEXT
               </button>
             </div>

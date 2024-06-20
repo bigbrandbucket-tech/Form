@@ -150,6 +150,11 @@ export default function FirstForm() {
         await insertData();
         setCurrentComponent(currentComponent + 1);
       } catch {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
         console.log("ERROR in Submission");
       } finally {
         setLoading(false);
@@ -409,7 +414,11 @@ export default function FirstForm() {
         </section>
 
         <div className="form-container items-end">
-          <button type="submit" className="submit-button" disabled={loading}>
+          <button
+            type="submit"
+            className="submit-button min-w-16 max-w-16 min-h-11 max-h-11"
+            disabled={loading}
+          >
             {loading ? (
               <box-icon
                 name="loader-alt"

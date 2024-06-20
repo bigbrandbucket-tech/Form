@@ -181,7 +181,7 @@ export const travelInformationFormData = create(
       setFormData: (data) => set({ formData: data }),
     }),
     {
-      name: "ttttravelInformationFormData",
+      name: "travelInformationFormData",
       getStorage: () => localStorage,
     }
   )

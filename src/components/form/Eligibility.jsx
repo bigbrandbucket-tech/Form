@@ -196,7 +196,7 @@ export default function Eligibility() {
           <div className="flex gap-4">
             <button
               type="button"
-              className="submit-button"
+              className="submit-button button-style"
               onClick={(e) => {
                 e.stopPropagation();
                 setCurrentComponent(currentComponent - 1);
@@ -205,7 +205,11 @@ export default function Eligibility() {
               BACK
             </button>
 
-            <button type="submit" className="submit-button" disabled={loading}>
+            <button
+              type="submit"
+              className="submit-button button-style"
+              disabled={loading}
+            >
               {loading ? (
                 <box-icon
                   name="loader-alt"
