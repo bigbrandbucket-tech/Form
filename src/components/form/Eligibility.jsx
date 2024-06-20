@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/Forms.scss";
-import { useStore } from "../../context/stores/form/main";
+import { eligibityFormData, useStore } from "../../context/stores/form/main";
 import axios from "axios";
 
 // Options for radio button questions
@@ -62,16 +62,8 @@ export default function Eligibility() {
   const { currentComponent, setCurrentComponent } = useStore();
   const { currentState, setCurrentState } = useStore();
 
-  const [formData, setFormData] = useState({
-    refusedVisa: "",
-    refusedVisaTextArea: "",
-    criminalOffence: "",
-    criminalOffenceTextArea: "",
-    tuberculosisDiagnosis: "",
-    healthcareWorkerContact: "",
-    healthCondition: "",
-    tuberculosisDiagnosed: "", // New field for subquestion
-  });
+  const { formData, setFormData } = eligibityFormData();
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -93,13 +85,20 @@ export default function Eligibility() {
         obj[key] = formData[key];
         return obj;
       }, {});
-    setCurrentComponent(currentComponent + 1);
-    const response = await axios.put(
-      `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
-      {
-        ...filteredData,
-      }
-    );
+    setLoading(true);
+    const response = await axios
+      .put(
+        `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
+        {
+          ...filteredData,
+        }
+      )
+      .then(() => {
+        setCurrentComponent(currentComponent + 1);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -206,8 +205,16 @@ export default function Eligibility() {
               BACK
             </button>
 
-            <button type="submit" className="submit-button">
-              NEXT
+            <button type="submit" className="submit-button" disabled={loading}>
+              {loading ? (
+                <box-icon
+                  name="loader-alt"
+                  animation="spin"
+                  flip="horizontal"
+                ></box-icon>
+              ) : (
+                "NEXT"
+              )}
             </button>
           </div>
         </div>

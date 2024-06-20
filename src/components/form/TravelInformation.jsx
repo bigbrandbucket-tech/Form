@@ -199,21 +199,32 @@ function appliedForVisa({ formData, handleChange, matchData, setMatchData }) {
 export default function TravelInformation() {
   const { currentComponent, setCurrentComponent } = useStore();
   const { currentState, setCurrentState } = useStore();
-  const [formData, setFormData] = useState({
-    appliedForVisa: "",
-    uciPreviousVisaNumber: "",
-    uciPreviousVisaNumberReenter: "",
+  const [formData, setFormData] = useState(() => {
+    const storedData = localStorage.getItem("formData");
+    return storedData
+      ? JSON.parse(storedData)
+      : {
+          appliedForVisa: "",
+          uciPreviousVisaNumber: "",
+          uciPreviousVisaNumberReenter: "",
 
-    knowTravelDate: "",
-    travelDate: { year: "", month: "", day: "" },
-    travelTime: { hour: "", minute: "", timezone: "" },
+          knowTravelDate: "",
+          travelDate: { year: "", month: "", day: "" },
+          travelTime: { hour: "", minute: "", timezone: "" },
 
-    travelingAlone: "",
-    travelingMembers: "",
+          travelingAlone: "",
+          travelingMembers: "",
 
-    additionalNationalities: "",
-    citizenship: "",
+          additionalNationalities: "",
+          citizenship: "",
+        };
   });
+
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("travelFormData", JSON.stringify(formData));
+  }, [formData]);
 
   const [matchData, setMatchData] = useState({
     uciPreviousVisaNumber: true,
@@ -227,30 +238,43 @@ export default function TravelInformation() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setCurrentComponent(currentComponent + 1);
-    const filteredData = Object.keys(currentState)
-    .filter((key) => key !== "declaration" && key !== "authorization" && key !== "passportNumberReenter" && key !== "emailConfirm")
-    .reduce((obj, key) => {
-      obj[key] = formData[key];
-      return obj;
-    }, {});
 
-    const response = await axios.put(
-      `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
-      {
-        ...filteredData,
-        travelDate: new Date(
-          formData.travelDate.year,
-          formData.travelDate.month,
-          formData.travelDate.day
-        ),
-        travelTime: JSON.stringify([
-          formData.travelTime.hour,
-          formData.travelTime.minute,
-          formData.travelTime.timezone,
-        ]),
-      }
-    );
+    const filteredData = Object.keys(currentState)
+      .filter(
+        (key) =>
+          key !== "declaration" &&
+          key !== "authorization" &&
+          key !== "passportNumberReenter" &&
+          key !== "emailConfirm"
+      )
+      .reduce((obj, key) => {
+        obj[key] = formData[key];
+        return obj;
+      }, {});
+    setLoading(true);
+    const response = await axios
+      .put(
+        `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
+        {
+          ...filteredData,
+          travelDate: new Date(
+            formData.travelDate.year,
+            formData.travelDate.month,
+            formData.travelDate.day
+          ),
+          travelTime: JSON.stringify([
+            formData.travelTime.hour,
+            formData.travelTime.minute,
+            formData.travelTime.timezone,
+          ]),
+        }
+      )
+      .then(() => {
+        setCurrentComponent(currentComponent + 1);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -275,7 +299,9 @@ export default function TravelInformation() {
 
   useEffect(() => {
     if (formData.appliedForVisa !== currentState.appliedForVisa) {
-      console.log(currentState?.travelTime && JSON.parse(currentState?.travelTime)[0])
+      console.log(
+        currentState?.travelTime && parseDate(currentState?.travelTime)[0]
+      );
       setFormData({
         appliedForVisa: currentState.appliedForVisa,
         uciPreviousVisaNumber: currentState.uciPreviousVisaNumber,
@@ -288,9 +314,12 @@ export default function TravelInformation() {
           year: parseDate(currentState.travelDate)[2],
         },
         travelTime: {
-          hour: currentState?.travelTime && JSON.parse(currentState?.travelTime)[0],
-          minute: currentState?.travelTime && JSON.parse(currentState?.travelTime)[1],
-          timezone: currentState?.travelTime && JSON.parse(currentState?.travelTime)[2]
+          hour:
+            currentState?.travelTime && parseDate(currentState?.travelTime)[0],
+          minute:
+            currentState?.travelTime && parseDate(currentState?.travelTime)[1],
+          timezone:
+            currentState?.travelTime && parseDate(currentState?.travelTime)[2],
         },
 
         travelingAlone: currentState.travelingAlone,
@@ -349,8 +378,16 @@ export default function TravelInformation() {
               BACK
             </button>
 
-            <button type="submit" className="submit-button">
-              NEXT
+            <button type="submit" className="submit-button" disabled={loading}>
+              {loading ? (
+                <box-icon
+                  name="loader-alt"
+                  animation="spin"
+                  flip="horizontal"
+                ></box-icon>
+              ) : (
+                "NEXT"
+              )}
             </button>
           </div>
         </div>

@@ -1,26 +1,24 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/Forms.scss";
 import { CountrySelect } from "../../utils/components/form/SelectCountry";
-import { useStore } from "../../context/stores/form/main";
+import {
+  useStore,
+  residentialAddressFormData,
+} from "../../context/stores/form/main";
 import axios from "axios";
 
 export default function AddressForm() {
   const { currentComponent, setCurrentComponent } = useStore();
   const { currentState, setCurrentState } = useStore();
 
-  const [formData, setFormData] = useState({
-    streetName: "",
-    houseNumber: "",
-    apartment: "",
-    city: "",
-    district: "",
-    country: "",
-  });
+  const { formData, setFormData } = residentialAddressFormData();
 
-  const handleChange = (e) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = async (e) => {
     const { name, value } = e.target;
+    await setCurrentState({ ...currentState, ...formData });
     setFormData({ ...formData, [name]: value });
-    setCurrentState({ ...currentState, ...formData });
   };
 
   useEffect(() => {
@@ -51,14 +49,20 @@ export default function AddressForm() {
         return obj;
       }, {});
     e.preventDefault();
-    setCurrentComponent(currentComponent + 1);
-
-    const response = await axios.put(
-      `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
-      {
-        ...filteredData,
-      }
-    );
+    setLoading(true);
+    const response = await axios
+      .put(
+        `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
+        {
+          ...filteredData,
+        }
+      )
+      .then(() => {
+        setCurrentComponent(currentComponent + 1);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -166,8 +170,16 @@ export default function AddressForm() {
               BACK
             </button>
 
-            <button type="submit" className="submit-button">
-              NEXT
+            <button type="submit" className="submit-button" disabled={loading}>
+              {loading ? (
+                <box-icon
+                  name="loader-alt"
+                  animation="spin"
+                  flip="horizontal"
+                ></box-icon>
+              ) : (
+                "NEXT"
+              )}
             </button>
           </div>
         </div>

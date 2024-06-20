@@ -26,13 +26,24 @@ export default function Consents() {
   const { currentComponent, setCurrentComponent } = useStore();
   const { currentState, setCurrentState } = useStore();
 
-  const [formData, setFormData] = useState({
-    additionalDetails: "",
-    signature: "",
-    consentDeclaration: false,
-    agreePolicy: false,
-    ip:""
+  const [formData, setFormData] = useState(() => {
+    const storedFormData = localStorage.getItem("formData");
+    return storedFormData
+      ? JSON.parse(storedFormData)
+      : {
+          additionalDetails: "",
+          signature: "",
+          consentDeclaration: false,
+          agreePolicy: false,
+          ip: "",
+        };
   });
+
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("formData", JSON.stringify(formData));
+  }, [formData]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -44,11 +55,11 @@ export default function Consents() {
 
   useEffect(() => {
     if (formData.additionalDetails !== currentState.additionalDetails) {
-      console.log(currentState)
+      console.log(currentState);
       setFormData({
         ...formData,
         additionalDetails: currentState.additionalDetails,
-        signature: currentState.signature
+        signature: currentState.signature,
       });
     }
   }, [currentState.additionalDetails]);
@@ -56,17 +67,19 @@ export default function Consents() {
     e.preventDefault();
     setCurrentComponent(currentComponent + 1);
     const filteredData1 = Object.keys(currentState)
-    .filter((key) => key !== "declaration" && key !== "authorization" && key !== "passportNumberReenter" && key !== "emailConfirm")
-    .reduce((obj, key) => {
-      obj[key] = formData[key];
-      return obj;
-    }, {});
-    const filteredData2 = Object.keys(formData)
       .filter(
         (key) =>
-          key !== "consentDeclaration" &&
-          key !== "agreePolicy"
+          key !== "declaration" &&
+          key !== "authorization" &&
+          key !== "passportNumberReenter" &&
+          key !== "emailConfirm"
       )
+      .reduce((obj, key) => {
+        obj[key] = formData[key];
+        return obj;
+      }, {});
+    const filteredData2 = Object.keys(formData)
+      .filter((key) => key !== "consentDeclaration" && key !== "agreePolicy")
       .reduce((obj, key) => {
         obj[key] = formData[key];
         return obj;
@@ -80,14 +93,17 @@ export default function Consents() {
     );
   };
 
-
   useEffect(() => {
     const fetchIp = async () => {
       try {
-        const response = await axios.get('https://api.ipify.org?format=json');
-        setFormData({...formData, ip:response.data.ip});
+        setLoading(true);
+        const response = await axios.get("https://api.ipify.org?format=json");
+        setFormData({ ...formData, ip: response.data.ip });
       } catch (error) {
-        console.error('Error fetching the IP address:', error);
+        console.error("Error fetching the IP address:", error);
+      }
+      {
+        setLoading(false);
       }
     };
 

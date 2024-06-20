@@ -2,26 +2,20 @@
 import "../../styles/Forms.scss";
 import React, { useEffect, useState } from "react";
 import { PhoneNumberCodeSelect } from "../../utils/components/form/SelectCountry";
-import { useStore } from "../../context/stores/form/main";
+import {
+  useStore,
+  applicationStatusFormData,
+} from "../../context/stores/form/main";
 import axios from "axios";
 
 export default function SecondForm() {
   const { currentComponent, setCurrentComponent } = useStore();
   const { currentState, setCurrentState } = useStore();
+  const [loading, setLoading] = useState(false);
 
   console.log(currentState);
 
-  const [formData, setFormData] = useState({
-    applyingOnBehalf: "0",
-    iam: "",
-    applicantSurname: "",
-    applicantGivenName: "",
-    applicantMailingAddress: "",
-    applicantPhoneExt: "+91",
-    applicantPhone: "",
-    declaration: "",
-    authorization: "",
-  });
+  const { formData, setFormData } = applicationStatusFormData();
 
   useEffect(() => {
     if (formData.iam !== currentState.iam) {
@@ -58,6 +52,7 @@ export default function SecondForm() {
         obj[key] = formData[key];
         return obj;
       }, {});
+    setLoading(true);
     const response = await axios
       .put(
         `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
@@ -75,14 +70,17 @@ export default function SecondForm() {
           preferredLanguage: currentState.preferredLanguage,
           gender: currentState.gender,
           dob: new Date(
-            currentState.dob.year,
-            currentState.dob.month,
-            currentState.dob.day
+            currentState.dob?.year,
+            currentState.dob?.month,
+            currentState.dob?.day
           ),
         }
       )
       .then(() => {
         setCurrentComponent(currentComponent + 1);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -106,8 +104,16 @@ export default function SecondForm() {
               BACK
             </button>
 
-            <button type="submit" className="submit-button">
-              NEXT
+            <button type="submit" className="submit-button" disabled={loading}>
+              {loading ? (
+                <box-icon
+                  name="loader-alt"
+                  animation="spin"
+                  flip="horizontal"
+                ></box-icon>
+              ) : (
+                "NEXT"
+              )}
             </button>
           </div>
         </div>
@@ -141,6 +147,7 @@ function SomeoneElseCheck({ handleChange, formData, setFormData }) {
                 value={option.value}
                 checked={formData.applyingOnBehalf == option.value}
                 onChange={handleChange}
+                required={true}
               />
               <span>{option.label}</span>
             </div>

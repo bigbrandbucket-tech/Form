@@ -29,6 +29,7 @@
     "sass": "^1.74.1",
     "styled-components": "^6.1.8",
     "tzdata": "^1.0.40",
+    "uuid": "^10.0.0",
     "zustand": "^4.5.2"
   },
   "devDependencies": {

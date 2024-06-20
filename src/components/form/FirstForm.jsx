@@ -6,13 +6,14 @@ import {
   PhoneNumberCodeSelect,
 } from "../../utils/components/form/SelectCountry";
 import DatePicker from "../../utils/components/form/DatePicker";
-import { useStore } from "../../context/stores/form/main";
+import { useStore, firstFormData } from "../../context/stores/form/main";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
 export default function FirstForm() {
   const { currentComponent, setCurrentComponent } = useStore();
   const { currentState, setCurrentState } = useStore();
+  const [loading, setLoading] = useState(false);
 
   // 1	ID Primary	varchar(255)	utf8mb4_unicode_ci		No	None			Change Change	Drop Drop
   // 2	firstName	varchar(255)	utf8mb4_unicode_ci		Yes	NULL			Change Change	Drop Drop
@@ -28,27 +29,7 @@ export default function FirstForm() {
   // 12	martialStatus	varchar(255)	utf8mb4_unicode_ci		Yes	NULL			Change Change	Drop Drop
   // 13	preferredLanguage
 
-  const [formData, setFormData] = useState({
-    firstName: "",
-    middleName: "",
-    lastName: "",
-    email: "",
-    emailConfirm: "",
-    phoneCode: "",
-    phoneNumber: "",
-    phoneConfirm: "",
-    phoneNumberExt: "+91",
-    countryOfBIrth: "",
-    cityOfBirth: "",
-    martialStatus: "",
-    preferredLanguage: "",
-    gender: "",
-    dob: {
-      year: "",
-      month: "",
-      day: "",
-    },
-  });
+  const { formData, setFormData } = firstFormData();
 
   const [emailMatch, setEmailMatch] = useState("");
   const [phoneMatch, setPhoneMatch] = useState("");
@@ -165,10 +146,13 @@ export default function FirstForm() {
         }
       };
       try {
+        setLoading(true);
         await insertData();
         setCurrentComponent(currentComponent + 1);
       } catch {
         console.log("ERROR in Submission");
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -425,8 +409,16 @@ export default function FirstForm() {
         </section>
 
         <div className="form-container items-end">
-          <button type="submit" className="submit-button">
-            NEXT
+          <button type="submit" className="submit-button" disabled={loading}>
+            {loading ? (
+              <box-icon
+                name="loader-alt"
+                animation="spin"
+                flip="horizontal"
+              ></box-icon>
+            ) : (
+              "NEXT"
+            )}
           </button>
         </div>
       </form>
