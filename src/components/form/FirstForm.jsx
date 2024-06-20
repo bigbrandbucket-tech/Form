@@ -61,28 +61,28 @@ export default function FirstForm() {
 
   const parseDate = (dateString) => {
     const date = new Date(dateString);
-    console.log(date, dateString)
+    console.log(date, dateString);
     const day = date.getDate();
-    const monthName = date.getMonth()
+    const monthName = date.getMonth();
     const year = date.getFullYear();
-    return [`${day}`,`${monthName}`,`${year}`];
+    return [`${day}`, `${monthName}`, `${year}`];
   };
-  
 
   const checkID = async () => {
-    const response = await axios.get(`https://form-backend-gamma.vercel.app/api/user/${id}`);
-    console.log( parseDate(response.data.dob)[0])
+    const response = await axios.get(
+      `https://form-backend-gamma.vercel.app/api/user/${id}`
+    );
+    console.log(parseDate(response.data.dob)[0]);
     setFormData({
       ...response.data,
       emailConfirm: response.data.email,
-      phoneConfirm:response.data.phoneNumber,
+      phoneConfirm: response.data.phoneNumber,
       dob: {
-        day:parseDate(response.data.dob)[0],
-        month:parseDate(response.data.dob)[1],
-        year:parseDate(response.data.dob)[2],
+        day: parseDate(response.data.dob)[0],
+        month: parseDate(response.data.dob)[1],
+        year: parseDate(response.data.dob)[2],
       },
     });
-    
   };
 
   useEffect(() => {
@@ -90,24 +90,23 @@ export default function FirstForm() {
     if (id) {
       checkID();
       const filteredData = Object.keys(formData)
-      .filter((key) => key !== "emailConfirm" && key !== "phoneConfirm")
-      .reduce((obj, key) => {
-        obj[key] = formData[key];
-        return obj;
-      }, {});
-      setCurrentState(filteredData)
+        .filter((key) => key !== "emailConfirm" && key !== "phoneConfirm")
+        .reduce((obj, key) => {
+          obj[key] = formData[key];
+          return obj;
+        }, {});
+      setCurrentState(filteredData);
     }
     // return () => setCurrentState(filteredData)
   }, [formData.email]);
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    setCurrentState(formData)
+    setCurrentState(formData);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     console.log("response");
     e.preventDefault();
     if (
@@ -161,11 +160,16 @@ export default function FirstForm() {
               ),
             }
           );
-          console.log(response)
-          setCurrentState({...currentState, ID:response.data.id})
+          console.log(response);
+          setCurrentState({ ...currentState, ID: response.data.id });
         }
       };
-      insertData();
+      try {
+        await insertData();
+        setCurrentComponent(currentComponent + 1);
+      } catch {
+        console.log("ERROR in Submission");
+      }
     }
   };
 

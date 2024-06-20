@@ -47,35 +47,43 @@ export default function SecondForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setCurrentComponent(currentComponent + 1);
     const filteredData = Object.keys(formData)
-      .filter((key) => key !== "declaration" && key !== "authorization" && key !== "phoneCode")
+      .filter(
+        (key) =>
+          key !== "declaration" &&
+          key !== "authorization" &&
+          key !== "phoneCode"
+      )
       .reduce((obj, key) => {
         obj[key] = formData[key];
         return obj;
       }, {});
-    const response = await axios.put(
-      `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
-      {
-        ...filteredData,
-        firstName: currentState.firstName,
-        middleName: currentState.middleName,
-        lastName: currentState.lastName,
-        email: currentState.email,
-        phoneNumber: currentState.phoneNumber,
-        phoneNumberExt: currentState.phoneNumberExt,
-        countryOfBIrth: currentState.countryOfBIrth,
-        cityOfBirth: currentState.cityOfBirth,
-        martialStatus: currentState.martialStatus,
-        preferredLanguage: currentState.preferredLanguage,
-        gender: currentState.gender,
-        dob: new Date(
-          currentState.dob.year,
-          currentState.dob.month,
-          currentState.dob.day
-        ),
-      }
-    );
+    const response = await axios
+      .put(
+        `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
+        {
+          ...filteredData,
+          firstName: currentState.firstName,
+          middleName: currentState.middleName,
+          lastName: currentState.lastName,
+          email: currentState.email,
+          phoneNumber: currentState.phoneNumber,
+          phoneNumberExt: currentState.phoneNumberExt,
+          countryOfBIrth: currentState.countryOfBIrth,
+          cityOfBirth: currentState.cityOfBirth,
+          martialStatus: currentState.martialStatus,
+          preferredLanguage: currentState.preferredLanguage,
+          gender: currentState.gender,
+          dob: new Date(
+            currentState.dob.year,
+            currentState.dob.month,
+            currentState.dob.day
+          ),
+        }
+      )
+      .then(() => {
+        setCurrentComponent(currentComponent + 1);
+      });
   };
 
   return (

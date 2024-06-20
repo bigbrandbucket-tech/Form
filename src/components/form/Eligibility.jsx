@@ -76,17 +76,23 @@ export default function Eligibility() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    setCurrentState({...currentState, ...formData})
+    setCurrentState({ ...currentState, ...formData });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const filteredData = Object.keys(currentState)
-    .filter((key) => key !== "declaration" && key !== "authorization" && key !== "passportNumberReenter" && key !== "emailConfirm")
-    .reduce((obj, key) => {
-      obj[key] = formData[key];
-      return obj;
-    }, {});
+      .filter(
+        (key) =>
+          key !== "declaration" &&
+          key !== "authorization" &&
+          key !== "passportNumberReenter" &&
+          key !== "emailConfirm"
+      )
+      .reduce((obj, key) => {
+        obj[key] = formData[key];
+        return obj;
+      }, {});
     setCurrentComponent(currentComponent + 1);
     const response = await axios.put(
       `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
@@ -96,21 +102,20 @@ export default function Eligibility() {
     );
   };
 
-   useEffect(() => {
+  useEffect(() => {
     if (formData.refusedVisa !== currentState.refusedVisa) {
       setFormData({
         refusedVisa: currentState.refusedVisa,
-    refusedVisaTextArea: currentState.refusedVisaTextArea,
-    criminalOffence: currentState.criminalOffence,
-    criminalOffenceTextArea: currentState.criminalOffenceTextArea,
-    tuberculosisDiagnosis: currentState.tuberculosisDiagnosis,
-    healthcareWorkerContact: currentState.healthcareWorkerContact,
-    healthCondition: currentState.healthCondition,
-    tuberculosisDiagnosed: currentState.tuberculosisDiagnosed},
-      )
+        refusedVisaTextArea: currentState.refusedVisaTextArea,
+        criminalOffence: currentState.criminalOffence,
+        criminalOffenceTextArea: currentState.criminalOffenceTextArea,
+        tuberculosisDiagnosis: currentState.tuberculosisDiagnosis,
+        healthcareWorkerContact: currentState.healthcareWorkerContact,
+        healthCondition: currentState.healthCondition,
+        tuberculosisDiagnosed: currentState.tuberculosisDiagnosed,
+      });
     }
   }, [currentState.refusedVisa]);
-
 
   // Function to recursively render subquestions
   const renderSubquestions = (subquestions) => {

@@ -23,32 +23,36 @@ export default function AddressForm() {
     setCurrentState({ ...currentState, ...formData });
   };
 
- 
-
   useEffect(() => {
     if (formData.streetName !== currentState.streetName) {
-      console.log('current', currentState)
+      console.log("current", currentState);
       setFormData({
         streetName: currentState.streetName,
         houseNumber: currentState.houseNumber,
         apartment: currentState.apartment,
         city: currentState.city,
         district: currentState.district,
-        country: currentState.country
+        country: currentState.country,
       });
     }
   }, [currentState.streetName]);
 
   const handleSubmit = async (e) => {
     const filteredData = Object.keys(currentState)
-    .filter((key) => key !== "declaration" && key !== "authorization" && key !== "passportNumberReenter" && key !== "emailConfirm")
-    .reduce((obj, key) => {
-      obj[key] = formData[key];
-      return obj;
-    }, {});
+      .filter(
+        (key) =>
+          key !== "declaration" &&
+          key !== "authorization" &&
+          key !== "passportNumberReenter" &&
+          key !== "emailConfirm"
+      )
+      .reduce((obj, key) => {
+        obj[key] = formData[key];
+        return obj;
+      }, {});
     e.preventDefault();
     setCurrentComponent(currentComponent + 1);
-  
+
     const response = await axios.put(
       `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
       {
