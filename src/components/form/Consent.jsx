@@ -26,6 +26,8 @@ export default function Consents() {
   const { currentComponent, setCurrentComponent } = useStore();
   const { currentState, setCurrentState } = useStore();
 
+  const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState(() => {
     const storedFormData = localStorage.getItem("formData");
     return storedFormData
@@ -38,8 +40,6 @@ export default function Consents() {
           ip: "",
         };
   });
-
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("formData", JSON.stringify(formData));
@@ -65,7 +65,7 @@ export default function Consents() {
   }, [currentState.additionalDetails]);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setCurrentComponent(currentComponent + 1);
+
     const filteredData1 = Object.keys(currentState)
       .filter(
         (key) =>
@@ -84,13 +84,28 @@ export default function Consents() {
         obj[key] = formData[key];
         return obj;
       }, {});
-    const response = await axios.put(
-      `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
-      {
-        ...filteredData1,
-        ...filteredData2,
-      }
-    );
+    setLoading(true);
+    const response = await axios
+      .put(
+        `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
+        {
+          ...filteredData1,
+          ...filteredData2,
+        }
+      )
+      .then(() => {
+        setCurrentComponent(currentComponent + 1);
+      })
+      .catch(() => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -212,8 +227,20 @@ export default function Consents() {
                 BACK
               </button>
 
-              <button type="submit" className="submit-button button-style">
-                NEXT
+              <button
+                type="submit"
+                className="submit-button button-style"
+                disabled={loading}
+              >
+                {loading ? (
+                  <box-icon
+                    name="loader-alt"
+                    animation="spin"
+                    flip="horizontal"
+                  ></box-icon>
+                ) : (
+                  "NEXT"
+                )}
               </button>
             </div>
           </div>

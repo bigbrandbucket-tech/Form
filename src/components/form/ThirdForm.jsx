@@ -111,6 +111,13 @@ export default function ThirdForm() {
       .then(() => {
         setCurrentComponent(currentComponent + 1);
       })
+      .catch(() => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
+      })
       .finally(() => {
         setLoading(false);
       });
