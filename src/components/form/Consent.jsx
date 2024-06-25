@@ -26,13 +26,24 @@ export default function Consents() {
   const { currentComponent, setCurrentComponent } = useStore();
   const { currentState, setCurrentState } = useStore();
 
-  const [formData, setFormData] = useState({
-    additionalDetails: "",
-    signature: "",
-    consentDeclaration: false,
-    agreePolicy: false,
-    ip:""
+  const [loading, setLoading] = useState(false);
+
+  const [formData, setFormData] = useState(() => {
+    const storedFormData = localStorage.getItem("formData");
+    return storedFormData
+      ? JSON.parse(storedFormData)
+      : {
+          additionalDetails: "",
+          signature: "",
+          consentDeclaration: false,
+          agreePolicy: false,
+          ip: "",
+        };
   });
+
+  useEffect(() => {
+    localStorage.setItem("formData", JSON.stringify(formData));
+  }, [formData]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -44,50 +55,70 @@ export default function Consents() {
 
   useEffect(() => {
     if (formData.additionalDetails !== currentState.additionalDetails) {
-      console.log(currentState)
+      console.log(currentState);
       setFormData({
         ...formData,
         additionalDetails: currentState.additionalDetails,
-        signature: currentState.signature
+        signature: currentState.signature,
       });
     }
   }, [currentState.additionalDetails]);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setCurrentComponent(currentComponent + 1);
+
     const filteredData1 = Object.keys(currentState)
-    .filter((key) => key !== "declaration" && key !== "authorization" && key !== "passportNumberReenter" && key !== "emailConfirm")
-    .reduce((obj, key) => {
-      obj[key] = formData[key];
-      return obj;
-    }, {});
-    const filteredData2 = Object.keys(formData)
       .filter(
         (key) =>
-          key !== "consentDeclaration" &&
-          key !== "agreePolicy"
+          key !== "declaration" &&
+          key !== "authorization" &&
+          key !== "passportNumberReenter" &&
+          key !== "emailConfirm"
       )
       .reduce((obj, key) => {
         obj[key] = formData[key];
         return obj;
       }, {});
-    const response = await axios.put(
-      `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
-      {
-        ...filteredData1,
-        ...filteredData2,
-      }
-    );
+    const filteredData2 = Object.keys(formData)
+      .filter((key) => key !== "consentDeclaration" && key !== "agreePolicy")
+      .reduce((obj, key) => {
+        obj[key] = formData[key];
+        return obj;
+      }, {});
+    setLoading(true);
+    const response = await axios
+      .put(
+        `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
+        {
+          ...filteredData1,
+          ...filteredData2,
+        }
+      )
+      .then(() => {
+        setCurrentComponent(currentComponent + 1);
+      })
+      .catch(() => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
-
 
   useEffect(() => {
     const fetchIp = async () => {
       try {
-        const response = await axios.get('https://api.ipify.org?format=json');
-        setFormData({...formData, ip:response.data.ip});
+        setLoading(true);
+        const response = await axios.get("https://api.ipify.org?format=json");
+        setFormData({ ...formData, ip: response.data.ip });
       } catch (error) {
-        console.error('Error fetching the IP address:', error);
+        console.error("Error fetching the IP address:", error);
+      }
+      {
+        setLoading(false);
       }
     };
 
@@ -187,7 +218,7 @@ export default function Consents() {
             <div className="flex gap-4">
               <button
                 type="button"
-                className="submit-button"
+                className="submit-button button-style"
                 onClick={(e) => {
                   e.stopPropagation();
                   setCurrentComponent(currentComponent - 1);
@@ -196,8 +227,20 @@ export default function Consents() {
                 BACK
               </button>
 
-              <button type="submit" className="submit-button">
-                NEXT
+              <button
+                type="submit"
+                className="submit-button button-style"
+                disabled={loading}
+              >
+                {loading ? (
+                  <box-icon
+                    name="loader-alt"
+                    animation="spin"
+                    flip="horizontal"
+                  ></box-icon>
+                ) : (
+                  "NEXT"
+                )}
               </button>
             </div>
           </div>

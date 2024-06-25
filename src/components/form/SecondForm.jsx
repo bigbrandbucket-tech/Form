@@ -2,26 +2,20 @@
 import "../../styles/Forms.scss";
 import React, { useEffect, useState } from "react";
 import { PhoneNumberCodeSelect } from "../../utils/components/form/SelectCountry";
-import { useStore } from "../../context/stores/form/main";
+import {
+  useStore,
+  applicationStatusFormData,
+} from "../../context/stores/form/main";
 import axios from "axios";
 
 export default function SecondForm() {
   const { currentComponent, setCurrentComponent } = useStore();
   const { currentState, setCurrentState } = useStore();
+  const [loading, setLoading] = useState(false);
 
   console.log(currentState);
 
-  const [formData, setFormData] = useState({
-    applyingOnBehalf: "0",
-    iam: "",
-    applicantSurname: "",
-    applicantGivenName: "",
-    applicantMailingAddress: "",
-    applicantPhoneExt: "+91",
-    applicantPhone: "",
-    declaration: "",
-    authorization: "",
-  });
+  const { formData, setFormData } = applicationStatusFormData();
 
   useEffect(() => {
     if (formData.iam !== currentState.iam) {
@@ -47,35 +41,54 @@ export default function SecondForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setCurrentComponent(currentComponent + 1);
     const filteredData = Object.keys(formData)
-      .filter((key) => key !== "declaration" && key !== "authorization" && key !== "phoneCode")
+      .filter(
+        (key) =>
+          key !== "declaration" &&
+          key !== "authorization" &&
+          key !== "phoneCode"
+      )
       .reduce((obj, key) => {
         obj[key] = formData[key];
         return obj;
       }, {});
-    const response = await axios.put(
-      `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
-      {
-        ...filteredData,
-        firstName: currentState.firstName,
-        middleName: currentState.middleName,
-        lastName: currentState.lastName,
-        email: currentState.email,
-        phoneNumber: currentState.phoneNumber,
-        phoneNumberExt: currentState.phoneNumberExt,
-        countryOfBIrth: currentState.countryOfBIrth,
-        cityOfBirth: currentState.cityOfBirth,
-        martialStatus: currentState.martialStatus,
-        preferredLanguage: currentState.preferredLanguage,
-        gender: currentState.gender,
-        dob: new Date(
-          currentState.dob.year,
-          currentState.dob.month,
-          currentState.dob.day
-        ),
-      }
-    );
+    setLoading(true);
+    const response = await axios
+      .put(
+        `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
+        {
+          ...filteredData,
+          firstName: currentState.firstName,
+          middleName: currentState.middleName,
+          lastName: currentState.lastName,
+          email: currentState.email,
+          phoneNumber: currentState.phoneNumber,
+          phoneNumberExt: currentState.phoneNumberExt,
+          countryOfBIrth: currentState.countryOfBIrth,
+          cityOfBirth: currentState.cityOfBirth,
+          martialStatus: currentState.martialStatus,
+          preferredLanguage: currentState.preferredLanguage,
+          gender: currentState.gender,
+          dob: new Date(
+            currentState.dob?.year,
+            currentState.dob?.month,
+            currentState.dob?.day
+          ),
+        }
+      )
+      .then(() => {
+        setCurrentComponent(currentComponent + 1);
+      })
+      .catch(() => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -89,7 +102,7 @@ export default function SecondForm() {
           <div className="flex gap-4">
             <button
               type="button"
-              className="submit-button"
+              className="submit-button button-style"
               onClick={(e) => {
                 e.stopPropagation();
                 setCurrentComponent(currentComponent - 1);
@@ -98,8 +111,20 @@ export default function SecondForm() {
               BACK
             </button>
 
-            <button type="submit" className="submit-button">
-              NEXT
+            <button
+              type="submit"
+              className="submit-button button-style"
+              disabled={loading}
+            >
+              {loading ? (
+                <box-icon
+                  name="loader-alt"
+                  animation="spin"
+                  flip="horizontal"
+                ></box-icon>
+              ) : (
+                "NEXT"
+              )}
             </button>
           </div>
         </div>
@@ -133,6 +158,7 @@ function SomeoneElseCheck({ handleChange, formData, setFormData }) {
                 value={option.value}
                 checked={formData.applyingOnBehalf == option.value}
                 onChange={handleChange}
+                required={true}
               />
               <span>{option.label}</span>
             </div>

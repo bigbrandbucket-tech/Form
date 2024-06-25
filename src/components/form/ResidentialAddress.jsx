@@ -1,60 +1,75 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/Forms.scss";
 import { CountrySelect } from "../../utils/components/form/SelectCountry";
-import { useStore } from "../../context/stores/form/main";
+import {
+  useStore,
+  residentialAddressFormData,
+} from "../../context/stores/form/main";
 import axios from "axios";
 
 export default function AddressForm() {
   const { currentComponent, setCurrentComponent } = useStore();
   const { currentState, setCurrentState } = useStore();
 
-  const [formData, setFormData] = useState({
-    streetName: "",
-    houseNumber: "",
-    apartment: "",
-    city: "",
-    district: "",
-    country: "",
-  });
+  const { formData, setFormData } = residentialAddressFormData();
 
-  const handleChange = (e) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = async (e) => {
     const { name, value } = e.target;
+    await setCurrentState({ ...currentState, ...formData });
     setFormData({ ...formData, [name]: value });
-    setCurrentState({ ...currentState, ...formData });
   };
-
- 
 
   useEffect(() => {
     if (formData.streetName !== currentState.streetName) {
-      console.log('current', currentState)
+      console.log("current", currentState);
       setFormData({
         streetName: currentState.streetName,
         houseNumber: currentState.houseNumber,
         apartment: currentState.apartment,
         city: currentState.city,
         district: currentState.district,
-        country: currentState.country
+        country: currentState.country,
       });
     }
   }, [currentState.streetName]);
 
   const handleSubmit = async (e) => {
     const filteredData = Object.keys(currentState)
-    .filter((key) => key !== "declaration" && key !== "authorization" && key !== "passportNumberReenter" && key !== "emailConfirm")
-    .reduce((obj, key) => {
-      obj[key] = formData[key];
-      return obj;
-    }, {});
+      .filter(
+        (key) =>
+          key !== "declaration" &&
+          key !== "authorization" &&
+          key !== "passportNumberReenter" &&
+          key !== "emailConfirm"
+      )
+      .reduce((obj, key) => {
+        obj[key] = formData[key];
+        return obj;
+      }, {});
     e.preventDefault();
-    setCurrentComponent(currentComponent + 1);
-  
-    const response = await axios.put(
-      `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
-      {
-        ...filteredData,
-      }
-    );
+    setLoading(true);
+    const response = await axios
+      .put(
+        `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
+        {
+          ...filteredData,
+        }
+      )
+      .then(() => {
+        setCurrentComponent(currentComponent + 1);
+      })
+      .catch(() => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -153,7 +168,7 @@ export default function AddressForm() {
           <div className="flex gap-4">
             <button
               type="button"
-              className="submit-button"
+              className="submit-button button-style"
               onClick={(e) => {
                 e.stopPropagation();
                 setCurrentComponent(currentComponent - 1);
@@ -162,8 +177,20 @@ export default function AddressForm() {
               BACK
             </button>
 
-            <button type="submit" className="submit-button">
-              NEXT
+            <button
+              type="submit"
+              className="submit-button button-style"
+              disabled={loading}
+            >
+              {loading ? (
+                <box-icon
+                  name="loader-alt"
+                  animation="spin"
+                  flip="horizontal"
+                ></box-icon>
+              ) : (
+                "NEXT"
+              )}
             </button>
           </div>
         </div>

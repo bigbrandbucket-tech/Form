@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import "../../styles/Forms.scss";
 import { CountrySelect } from "../../utils/components/form/SelectCountry";
 import DatePicker from "../../utils/components/form/DatePicker";
-import { useStore } from "../../context/stores/form/main";
+import {
+  employementInformationFormData,
+  useStore,
+} from "../../context/stores/form/main";
 import axios from "axios";
 
 const occupationOptions = [
@@ -216,43 +219,57 @@ export default function OccupationForm() {
   const { currentComponent, setCurrentComponent } = useStore();
   const { currentState, setCurrentState } = useStore();
 
-  const [formData, setFormData] = useState({
-    occupation: "",
-    job: "",
-    employer: "",
-    countryOfJob: "",
-    cityOfJob: "",
-    districtOfJob: "",
-    sinceYear: { year: "" },
-  });
+  const { formData, setFormData } = employementInformationFormData();
 
-  const handleChange = (e) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = async (e) => {
     const { name, value } = e.target;
+    await setCurrentState({ ...currentState, ...formData });
     setFormData({ ...formData, [name]: value });
-    setCurrentState({ ...currentState, ...formData });
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const filteredData = Object.keys(currentState)
-    .filter((key) => key !== "declaration" && key !== "authorization" && key !== "passportNumberReenter" && key !== "emailConfirm")
-    .reduce((obj, key) => {
-      obj[key] = formData[key];
-      return obj;
-    }, {});
-    setCurrentComponent(currentComponent + 1);
-    console.log(currentState)
-    const response = await axios.put(
-      `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
-      {
-        ...filteredData,
-        sinceYear:formData.sinceYear.year
-      }
-    );
+      .filter(
+        (key) =>
+          key !== "declaration" &&
+          key !== "authorization" &&
+          key !== "passportNumberReenter" &&
+          key !== "emailConfirm"
+      )
+      .reduce((obj, key) => {
+        obj[key] = formData[key];
+        return obj;
+      }, {});
+
+    console.log(currentState);
+    setLoading(true);
+    const response = await axios
+      .put(
+        `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
+        {
+          ...filteredData,
+          sinceYear: formData.sinceYear.year,
+        }
+      )
+      .then(() => {
+        setCurrentComponent(currentComponent + 1);
+      })
+      .catch(() => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
+      })
+      .finally(() => {
+        setLoading(true);
+      });
   };
 
   useEffect(() => {
-
     if (formData.occupation !== currentState.occupation) {
       setFormData({
         occupation: currentState.occupation,
@@ -261,7 +278,7 @@ export default function OccupationForm() {
         countryOfJob: currentState.countryOfJob,
         cityOfJob: currentState.cityOfJob,
         districtOfJob: currentState.districtOfJob,
-        sinceYear: {year:currentState.sinceYear},
+        sinceYear: { year: currentState.sinceYear },
       });
     }
   }, [currentState.occupation]);
@@ -316,13 +333,11 @@ export default function OccupationForm() {
                       className="input-field"
                     >
                       <option value="">Select job title</option>
-                      {occupationJobTitle[formData?.occupation]?.map(
-                        (job) => (
-                          <>
-                            <option value={job}>{job}</option>
-                          </>
-                        )
-                      )}
+                      {occupationJobTitle[formData?.occupation]?.map((job) => (
+                        <>
+                          <option value={job}>{job}</option>
+                        </>
+                      ))}
                       {/* Add other job title options here */}
                     </select>
                   </div>
@@ -364,7 +379,7 @@ export default function OccupationForm() {
             <section className="form-section">
               <div className="form-container">
                 <label htmlFor="cityOfJob">
-                  <span className="text-red-500 italic">*</span> cityOfJob
+                  <span className="text-red-500 italic">*</span> City of Job
                   <span className="text-red-500 italic"> (required)</span>
                 </label>
                 <input
@@ -409,7 +424,7 @@ export default function OccupationForm() {
           <div className="flex gap-4">
             <button
               type="button"
-              className="submit-button"
+              className="submit-button button-style"
               onClick={(e) => {
                 e.stopPropagation();
                 setCurrentComponent(currentComponent - 1);
@@ -418,8 +433,20 @@ export default function OccupationForm() {
               BACK
             </button>
 
-            <button type="submit" className="submit-button">
-              NEXT
+            <button
+              type="submit"
+              className="submit-button button-style"
+              disabled={loading}
+            >
+              {loading ? (
+                <box-icon
+                  name="loader-alt"
+                  animation="spin"
+                  flip="horizontal"
+                ></box-icon>
+              ) : (
+                "NEXT"
+              )}
             </button>
           </div>
         </div>

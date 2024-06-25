@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/Forms.scss";
-import { useStore } from "../../context/stores/form/main";
+import { eligibityFormData, useStore } from "../../context/stores/form/main";
 import axios from "axios";
 
 // Options for radio button questions
@@ -62,55 +62,66 @@ export default function Eligibility() {
   const { currentComponent, setCurrentComponent } = useStore();
   const { currentState, setCurrentState } = useStore();
 
-  const [formData, setFormData] = useState({
-    refusedVisa: "",
-    refusedVisaTextArea: "",
-    criminalOffence: "",
-    criminalOffenceTextArea: "",
-    tuberculosisDiagnosis: "",
-    healthcareWorkerContact: "",
-    healthCondition: "",
-    tuberculosisDiagnosed: "", // New field for subquestion
-  });
+  const { formData, setFormData } = eligibityFormData();
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    setCurrentState({...currentState, ...formData})
+    setCurrentState({ ...currentState, ...formData });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const filteredData = Object.keys(currentState)
-    .filter((key) => key !== "declaration" && key !== "authorization" && key !== "passportNumberReenter" && key !== "emailConfirm")
-    .reduce((obj, key) => {
-      obj[key] = formData[key];
-      return obj;
-    }, {});
-    setCurrentComponent(currentComponent + 1);
-    const response = await axios.put(
-      `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
-      {
-        ...filteredData,
-      }
-    );
+      .filter(
+        (key) =>
+          key !== "declaration" &&
+          key !== "authorization" &&
+          key !== "passportNumberReenter" &&
+          key !== "emailConfirm"
+      )
+      .reduce((obj, key) => {
+        obj[key] = formData[key];
+        return obj;
+      }, {});
+    setLoading(true);
+    const response = await axios
+      .put(
+        `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
+        {
+          ...filteredData,
+        }
+      )
+      .then(() => {
+        setCurrentComponent(currentComponent + 1);
+      })
+      .catch(() => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
-   useEffect(() => {
+  useEffect(() => {
     if (formData.refusedVisa !== currentState.refusedVisa) {
       setFormData({
         refusedVisa: currentState.refusedVisa,
-    refusedVisaTextArea: currentState.refusedVisaTextArea,
-    criminalOffence: currentState.criminalOffence,
-    criminalOffenceTextArea: currentState.criminalOffenceTextArea,
-    tuberculosisDiagnosis: currentState.tuberculosisDiagnosis,
-    healthcareWorkerContact: currentState.healthcareWorkerContact,
-    healthCondition: currentState.healthCondition,
-    tuberculosisDiagnosed: currentState.tuberculosisDiagnosed},
-      )
+        refusedVisaTextArea: currentState.refusedVisaTextArea,
+        criminalOffence: currentState.criminalOffence,
+        criminalOffenceTextArea: currentState.criminalOffenceTextArea,
+        tuberculosisDiagnosis: currentState.tuberculosisDiagnosis,
+        healthcareWorkerContact: currentState.healthcareWorkerContact,
+        healthCondition: currentState.healthCondition,
+        tuberculosisDiagnosed: currentState.tuberculosisDiagnosed,
+      });
     }
   }, [currentState.refusedVisa]);
-
 
   // Function to recursively render subquestions
   const renderSubquestions = (subquestions) => {
@@ -192,7 +203,7 @@ export default function Eligibility() {
           <div className="flex gap-4">
             <button
               type="button"
-              className="submit-button"
+              className="submit-button button-style"
               onClick={(e) => {
                 e.stopPropagation();
                 setCurrentComponent(currentComponent - 1);
@@ -201,8 +212,20 @@ export default function Eligibility() {
               BACK
             </button>
 
-            <button type="submit" className="submit-button">
-              NEXT
+            <button
+              type="submit"
+              className="submit-button button-style"
+              disabled={loading}
+            >
+              {loading ? (
+                <box-icon
+                  name="loader-alt"
+                  animation="spin"
+                  flip="horizontal"
+                ></box-icon>
+              ) : (
+                "NEXT"
+              )}
             </button>
           </div>
         </div>
