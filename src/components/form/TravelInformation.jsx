@@ -251,7 +251,7 @@ export default function TravelInformation() {
         obj[key] = formData[key];
         return obj;
       }, {});
-    setLoading(true);
+    setLoading(false);
     const response = await axios
       .put(
         `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
