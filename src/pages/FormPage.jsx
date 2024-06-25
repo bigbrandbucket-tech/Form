@@ -1,9 +1,11 @@
 import "./FormPage.scss";
 import { sections } from "../utils/data/form/FormPageData";
 import { useStore } from "../context/stores/form/main";
+import { useParams } from "react-router-dom";
 
 export default function FormPage() {
   const { currentComponent, setCurrentComponent } = useStore();
+
 
   return (
     <div className="form-page">
@@ -46,6 +48,7 @@ export default function FormPage() {
 }
 
 function Banner({}) {
+  
   return (
     <div className="bg-img-div">
       <img src="https://canadaetaportal.com/eta_app//img/about.jpg" alt="" />
@@ -54,12 +57,13 @@ function Banner({}) {
 }
 
 function Title({}) {
+  let { id } = useParams();
   return (
     <div className="flex flex-col items-center my-8">
       <h1 className="text-2xl font-semibold text-center">
         Application for an Electronic Travel Authorization (eTA)
       </h1>
-      <h2 className="text-xl font-semibold">eTA/8B1/A14</h2>
+      <h2 className="text-xl font-semibold">{id}</h2>
     </div>
   );
 }
