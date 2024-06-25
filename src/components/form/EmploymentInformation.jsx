@@ -265,7 +265,7 @@ export default function OccupationForm() {
         });
       })
       .finally(() => {
-        setLoading(true);
+        setLoading(false);
       });
   };
 

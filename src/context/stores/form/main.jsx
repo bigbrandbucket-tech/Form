@@ -87,6 +87,7 @@ export const passportDetailsFormData = create(
         passportIssueDate: { year: "", month: "", day: "" },
         passportExpiryDate: { year: "", month: "", day: "" },
         passportCountry: "",
+        TIN:""
       },
       setPassportData: (data) => set({ passportData: data }),
     }),

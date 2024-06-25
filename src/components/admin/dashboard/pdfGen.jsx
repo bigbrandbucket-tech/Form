@@ -62,6 +62,7 @@ const generatePDF = async (data) => {
   y1 = addText(page1, 'Passport Issue Date', data.passportIssueDate, y1);
   y1 = addText(page1, 'Passport Expiry Date', data.passportExpiryDate, y1);
   y1 = addText(page1, 'Passport Country/Nationality', data.passportCountryNationality, y1);
+  y1 = addText(page1, 'Taiwan Identification Number', data?.TIN || "Not Valid", y1);
 
   y1 -= 10;
 //   let { page: page3, y: y3 } = createPage('Residential Address');

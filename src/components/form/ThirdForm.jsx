@@ -25,7 +25,6 @@ export default function ThirdForm() {
 
   const handleChange = async (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
     await setCurrentState({ ...currentState, ...passportData });
     await setPassportData({ ...passportData, [name]: value });
   };
@@ -212,6 +211,25 @@ export default function ThirdForm() {
               handleChange={handleChange}
               name="passportCountry"
             />
+
+            {passportData.passportCountry === "TW" && (
+              <>
+                <label htmlFor="passportCountry">
+                  <span className="text-red-500 italic">*</span> Taiwan
+                  Identification Number
+                  <span className="text-red-500 italic">(required)</span>
+                </label>
+                <input
+              type="text"
+              name="TIN"
+              value={passportData.TIN}
+              onChange={handleChange}
+              required
+              onPaste={(e) => e.preventDefault()}
+              className="input-field"
+            />
+              </>
+            )}
           </div>
         </section>
 
