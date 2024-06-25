@@ -1,4 +1,4 @@
-export const countries = {
+export const customCountries = {
     AD: { name: "Andorra" },
     AU: { name: "Australia" },
     AT: { name: "Austria" },

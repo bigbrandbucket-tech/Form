@@ -1,6 +1,6 @@
-// import { countries } from "countries-list"; // Importing countries list from the package
+import { countries } from "countries-list"; // Importing countries list from the package
 import React, { useState } from "react";
-import { countries } from "../../countries";
+import { customCountries } from "../../countries";
 
 export function SelectCountry({ handleChange, formData }) {
   // Convert the object of countries into an array of objects
@@ -9,7 +9,7 @@ export function SelectCountry({ handleChange, formData }) {
   
   console.log(countryOptions);
   
-  const countryOptions = Object.keys(countries).map((countryCode) => ({
+  const countryOptions = Object.keys(customCountries).map((countryCode) => ({
     code: countryCode,
     name: countries[countryCode].name,
   }));
