@@ -1,5 +1,6 @@
 export const customCountries = {
     AD: { name: "Andorra" },
+    AN: { name: "Anguilla" },
     AU: { name: "Australia" },
     AT: { name: "Austria" },
     BS: { name: "Bahamas" },

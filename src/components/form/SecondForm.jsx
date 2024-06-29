@@ -67,13 +67,8 @@ export default function SecondForm() {
           countryOfBIrth: currentState.countryOfBIrth,
           cityOfBirth: currentState.cityOfBirth,
           martialStatus: currentState.martialStatus,
-          preferredLanguage: currentState.preferredLanguage,
           gender: currentState.gender,
-          dob: new Date(
-            currentState.dob?.year,
-            currentState.dob?.month,
-            currentState.dob?.day
-          ),
+         
         }
       )
       .then(() => {

@@ -6,6 +6,7 @@ import axios from "axios";
 import { customCountries } from "../../../utils/countries";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import Box from "@mui/material/Box";
+import { countries } from "countries-list";
 
 export default function DataTable() {
   const columns = [
@@ -102,7 +103,7 @@ export default function DataTable() {
     //   y1 = addText(page1, 'Phone (re-enter)', data.phoneReEnter, y1);
     y1 = addText(page1, "Date Of Birth", data.dateOfBirth, y1);
     y1 = addText(page1, "Gender", data.gender, y1);
-    y1 = addText(page1, "Country Of Birth", data.countryOfBirth, y1);
+    y1 = addText(page1, "Country Of Birth", data.countryOfBIrth, y1);
     y1 = addText(page1, "City Of Birth", data.cityOfBirth, y1);
     y1 = addText(page1, "Marital Status", data.maritalStatus, y1);
     y1 = addText(
@@ -198,10 +199,11 @@ export default function DataTable() {
     y2 -= 10;
     y2 = addText(
       page2,
-      "Have you ever applied for or obtained a visa, an eTA or a permit to visit, live, work or study in Canada?",
+      "Have you ever applied for or obtained a visa, an eTA or a permit to visit, live, work or study \n in Canada?",
       data.appliedForVisa,
       y2
     );
+    y2 -= 20;
     y2 = addText(
       page2,
       "Do you know when you will travel to Canada?",
@@ -245,10 +247,11 @@ export default function DataTable() {
     y2 -= 10;
     y2 = addText(
       page2,
-      "* Please briefly indicate if there are additional details pertinent to your application. For example, an urgent need to travel to Canada. Provide relevant details to avoid delays in the processing of your application.",
+      "* Please briefly indicate if there are additional details pertinent to your application.\n For example, an urgent need to travel to Canada. \n Provide relevant details to avoid delays in the processing of your application.",
       data.additionalDetails,
       y2
     );
+    y2 -= 45;
     y2 = addText(page2, "Signature of Applicant \n", data.signature, y2);
     y2 -= 20;
     y2 = addText(
@@ -285,17 +288,17 @@ export default function DataTable() {
       lastName: pdfRows.lastName,
       emailAddress: pdfRows.email,
       phone: pdfRows.phoneNumber,
-      dateOfBirth: pdfRows.dob,
+      dateOfBirth: pdfRows.dob?.split('T')[0],
       gender: pdfRows.gender,
-      countryOfBirth: pdfRows.countryOfBirth,
+      countryOfBIrth: customCountries[pdfRows.countryOfBIrth]?.name,
       cityOfBirth: pdfRows.cityOfBirth,
       maritalStatus: pdfRows.martialStatus,
       preferredLanguage: pdfRows.preferredLanguage,
       applyingForYourselfOrSomeoneElse: pdfRows.applyingOnBehalf,
       passportNo: pdfRows.passportNumber,
       passportNumberReEnter: pdfRows.passportNumber,
-      passportIssueDate: pdfRows.passportIssueDate,
-      passportExpiryDate: pdfRows.passportExpiryDate,
+      passportIssueDate: pdfRows.passportIssueDate?.split('T')[0],
+      passportExpiryDate: pdfRows.passportExpiryDate?.split('T')[0],
       passportCountryNationality: customCountries[pdfRows.passportCountry]?.name,
       streetAddressName: pdfRows.streetName,
       streetCivicNoHouseName: pdfRows.houseNumber,
@@ -312,11 +315,11 @@ export default function DataTable() {
       sinceWhatYear: pdfRows.sinceYear,
       refusedVisa: pdfRows.refusedVisa,
       criminalOffence: pdfRows.criminalOffence,
-      tuberculosisDiagnosed: pdfRows.tuberculosisDiagnosed,
+      tuberculosisDiagnosed: pdfRows.tuberculosisDiagnosed || "No",
       healthCondition: pdfRows.healthCondition,
       appliedForVisa: pdfRows.appliedForVisa,
       knowTravelDate: pdfRows.knowTravelDate,
-      travelDate: pdfRows.travelDate,
+      travelDate: pdfRows.travelDate?.split('T')[0],
       travelTime: pdfRows.travelTime,
       travelingAlone: pdfRows.travelingAlone,
       travelingMembers: pdfRows.travelingMembers,

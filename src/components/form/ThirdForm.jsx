@@ -93,7 +93,6 @@ export default function ThirdForm() {
       .put(
         `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
         {
-          ...currentStateFilter,
           ...filteredData,
           passportIssueDate: new Date(
             filteredData.passportIssueDate.year,

@@ -49,7 +49,7 @@ const generatePDF = async (data) => {
 //   y1 = addText(page1, 'Phone (re-enter)', data.phoneReEnter, y1);
   y1 = addText(page1, 'Date Of Birth', data.dateOfBirth, y1);
   y1 = addText(page1, 'Gender', data.gender, y1);
-  y1 = addText(page1, 'Country Of Birth', data.countryOfBirth, y1);
+  y1 = addText(page1, 'Country Of Birth', countries[data.countryOfBIrth], y1);
   y1 = addText(page1, 'City Of Birth', data.cityOfBirth, y1);
   y1 = addText(page1, 'Marital Status', data.maritalStatus, y1);
   y1 = addText(page1, 'Preferred language to contact you', data.preferredLanguage, y1);
@@ -151,7 +151,7 @@ const PdfGen = () => {
         phone: rows.phoneNumber,
         dateOfBirth: rows.dob,
         gender: rows.gender,
-        countryOfBirth: rows.countryOfBirth,
+        countryOfBIrth: countries[rows.countryOfBIrth],
         cityOfBirth: rows.cityOfBirth,
         maritalStatus: rows.martialStatus,
         preferredLanguage: rows.preferredLanguage,

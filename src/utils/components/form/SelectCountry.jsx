@@ -7,13 +7,13 @@ export function SelectCountry({ handleChange, formData }) {
 
    
   
-  console.log(countryOptions);
+ 
   
   const countryOptions = Object.keys(customCountries).map((countryCode) => ({
     code: countryCode,
     name: countries[countryCode].name,
   }));
-
+  console.log('countryOptions',countryOptions);
   return (
     <div>
       <label>
@@ -41,9 +41,9 @@ export function SelectCountry({ handleChange, formData }) {
 
 export function CountrySelect({ handleChange, formData, name }) {
   // Convert the object of countries into an array of objects
-  const countryOptions = Object.keys(countries).map((countryCode) => ({
+  const countryOptions = Object.keys(customCountries).map((countryCode) => ({
     code: countryCode,
-    name: countries[countryCode].name,
+    name: customCountries[countryCode].name,
   }));
 
   return (
