@@ -405,9 +405,8 @@ export default function FirstForm() {
               required
             >
               <option value="">Please select</option>
-              <option value="english">English</option>
-              <option value="spanish">Spanish</option>
-              <option value="french">French</option>
+              <option value="English">English</option>
+              <option value="French">French</option>
               {/* Add more languages as needed */}
             </select>
           </div>

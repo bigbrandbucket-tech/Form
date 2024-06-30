@@ -45,7 +45,7 @@ export function CountrySelect({ handleChange, formData, name }) {
     code: countryCode,
     name: customCountries[countryCode].name,
   }));
-
+  console.log(formData, name)
   return (
     <select
       name={name}

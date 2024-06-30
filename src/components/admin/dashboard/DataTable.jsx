@@ -132,6 +132,13 @@ export default function DataTable() {
       y1
     );
 
+    y1 = addText(
+      page1,
+      "Passport Country/Nationality",
+      data?.TIN || "",
+      y1
+    );
+
     y1 -= 10;
     //   let { page: page3, y: y3 } = createPage('Residential Address');
     y1 = addText(page1, "Residential Address", "", y1);
@@ -143,24 +150,24 @@ export default function DataTable() {
       data.streetCivicNoHouseName,
       y1
     );
-    y1 = addText(page1, "Apartment/unit number", data.apartmentUnitNumber, y1);
-    y1 = addText(page1, "City/town", data.cityTown, y1);
-    y1 = addText(page1, "District/region", data.districtRegion, y1);
-    y1 = addText(page1, "Country", data.country, y1);
+    y1 = addText(page1, "Apartment/unit number", data.apartmentUnitNumber || "", y1);
+    y1 = addText(page1, "City/town", data.cityTown || "", y1);
+    y1 = addText(page1, "District/region", data.districtRegion || "", y1);
+    y1 = addText(page1, "Country", data.country || "", y1);
 
     let { page: page2, y: y2 } = createPage("Employment Information");
-    y2 = addText(page2, "Occupation", data.occupation, y2);
-    y2 = addText(page2, "Job Title", data.jobTitle, y2);
-    y2 = addText(page2, "Name Of Employer", data.nameOfEmployer, y2);
-    y2 = addText(page2, "Employer Country", data.employerCountry, y2);
-    y2 = addText(page2, "Employer City", data.employerCity, y2);
+    y2 = addText(page2, "Occupation", data.occupation || "", y2);
+    y2 = addText(page2, "Job Title", data.jobTitle || "", y2);
+    y2 = addText(page2, "Name Of Employer", data.nameOfEmployer || "" , y2);
+    y2 = addText(page2, "Employer Country", data.employerCountry || "", y2);
+    y2 = addText(page2, "Employer City", data.employerCity || "", y2);
     y2 = addText(
       page2,
       "Employer District/region",
-      data.employerDistrictRegion,
+      data.employerDistrictRegion || "",
       y2
     );
-    y2 = addText(page2, "Since What Year", data.sinceWhatYear, y2);
+    y2 = addText(page2, "Since What Year", data.sinceWhatYear || "", y2);
     y2 -= 10;
     //   let { page: page5, y: y5 } = createPage('Eligibility Questions');
     y2 = addText(page2, "Eligibility Questions", "", y2);
