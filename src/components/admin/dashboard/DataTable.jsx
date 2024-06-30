@@ -134,7 +134,7 @@ export default function DataTable() {
 
     y1 = addText(
       page1,
-      "Passport Country/Nationality",
+      "Taiwan Identificatiojn Number",
       data?.TIN || "",
       y1
     );
@@ -334,6 +334,7 @@ export default function DataTable() {
       additionalDetails: pdfRows.additionalDetails,
       signature: pdfRows.signature,
       agreePrivacyPolicy: "Accepted",
+      TIN:pdfRows.TIN,
       ipAddress: pdfRows.ip,
     };
 
