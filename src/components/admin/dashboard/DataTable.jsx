@@ -134,7 +134,7 @@ export default function DataTable() {
 
     y1 = addText(
       page1,
-      "Taiwan Identificatiojn Number",
+      "Taiwan Identification Number",
       data?.TIN || "",
       y1
     );
