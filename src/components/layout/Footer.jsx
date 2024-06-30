@@ -39,6 +39,14 @@ export default function Footer() {
             );
           })}
         </div>
+        <br />
+        <div style={{textAlign:"center", width:"90%"}}>
+          Legal Disclaimer: https://canada-eta-portal.com is an independently
+          owned commercial website who offer assistance and advice to visitors
+          in their upcoming journey. By using our website, you agree with our
+          terms & conditions and our Privacy Policy.
+        </div>
+        
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar  } from "@mui/x-data-grid";
 import * as React from "react";
 
 import axios from "axios";
@@ -113,6 +113,17 @@ export default function DataTable() {
       y1
     );
     y1 -= 10;
+    y1 = addText(page1, 'Applicant Status', '', y1);
+y1 -= 10;
+  y1 = addText(page1, 'Are you applying on behalf of someone?', data.passportNo, y1);
+  y1 = addText(page1, 'I am? ', data.iam, y1);
+  y1 = addText(page1, 'Surname(s) / last name(s) ', data.applicantSurname, y1);
+  y1 = addText(page1, 'Given name(s) / first name(s)', data.applicantGivenName, y1);
+  y1 = addText(page1, ' Mailing address', data.applicantMailingAddress, y1);
+  y1 = addText(page1, 'Phone Extension', data.applicantPhoneExt, y1);
+  y1 = addText(page1, 'Phone Number', data.applicantPhone, y1);
+
+    y1 -= 10;
     //   let { page: page2, y: y2 } = createPage('Passport Details');
     y1 = addText(page1, "Passport Details", "", y1);
     y1 -= 10;
@@ -170,35 +181,24 @@ export default function DataTable() {
     y2 = addText(page2, "Since What Year", data.sinceWhatYear || "", y2);
     y2 -= 10;
     //   let { page: page5, y: y5 } = createPage('Eligibility Questions');
-    y2 = addText(page2, "Eligibility Questions", "", y2);
-    y2 -= 10;
-    y2 = addText(
-      page2,
-      "* Have you ever been refused a visa or permit, denied entry to, or ordered to leave Canada \n or any other country/territory?",
-      data.refusedVisa,
-      y2
-    );
-    y2 -= 30;
-    y2 = addText(
-      page2,
-      "* Have you ever committed, been arrested for, been charged with or convicted of any criminal \n offence in any country/territory?",
-      data.criminalOffence,
-      y2
-    );
-    y2 -= 30;
-    y2 = addText(
-      page2,
-      "* In the past two years, were you diagnosed with tuberculosis or have you been in close \n contact with a person with tuberculosis?",
-      data.tuberculosisDiagnosed,
-      y2
-    );
-    y2 -= 30;
-    y2 = addText(
-      page2,
-      "* Do you have one of these conditions?",
-      data.healthCondition,
-      y2
-    );
+   y2 = addText(page2, 'Eligibility Questions', '', y2);
+y2 -= 10;
+  y2 = addText(page2, '* Have you ever been refused a visa or permit, denied entry to, or ordered to leave Canada \n or any other country/territory?', data.refusedVisa, y2);
+  y2 -= 30
+
+  y2 = addText(page2, 'For each refusal, please indicate the country that refused you a visa or permit, or denied \n you entry, as well as the reasons provided to you by the country', data.refusedVisaTextArea, y2);
+  y2 -= 30
+  y2 = addText(page2, '* Have you ever committed, been arrested for, been charged with or convicted of any criminal \n offence in any country/territory?', data.criminalOffence, y2);
+  y2 -= 30
+  y2 = addText(page2, 'For each arrest, charge, or conviction, please indicate \n where (city, country), when (month/year), the nature of the offence, and the sentence.?', data.criminalOffenceTextArea, y2);
+  y2 -= 30
+  y2 = addText(page2, '* In the past two years, were you diagnosed with tuberculosis or have you been in close \n contact with a person with tuberculosis?', data.tuberculosisDiagnosis, y2);
+  y2 -= 30
+  y2 = addText(page2, 'Is your contact with tuberculosis the result of being a health care worker?', data.healthcareWorkerContact, y2);
+  y2 -= 30
+  y2 = addText(page2, 'Have you ever been diagnosed with tuberculosis?', data.tuberculosisDiagnosed, y2);
+  y2 -= 30
+  y2 = addText(page2, '* Do you have one of these conditions?', data.healthCondition, y2);
 
     y2 -= 10;
     //   let { page: page6, y: y6 } = createPage('Travel Information');
@@ -302,6 +302,12 @@ export default function DataTable() {
       maritalStatus: pdfRows.martialStatus,
       preferredLanguage: pdfRows.preferredLanguage,
       applyingForYourselfOrSomeoneElse: pdfRows.applyingOnBehalf,
+      iam: pdfRows.iam,
+      applicantSurname: pdfRows.applicantSurname,
+      applicantGivenName: pdfRows.applicantGivenName,
+      applicantMailingAddress: pdfRows.applicantMailingAddress,
+      applicantPhoneExt: pdfRows.applicantPhoneExt,
+      applicantPhone: pdfRows.applicantPhone,
       passportNo: pdfRows.passportNumber,
       passportNumberReEnter: pdfRows.passportNumber,
       passportIssueDate: pdfRows.passportIssueDate?.split('T')[0],
@@ -321,9 +327,12 @@ export default function DataTable() {
       employerDistrictRegion: pdfRows.districtOfJob,
       sinceWhatYear: pdfRows.sinceYear,
       refusedVisa: pdfRows.refusedVisa,
+      refusedVisaTextArea:pdfRows.refusedVisaTextArea,
       criminalOffence: pdfRows.criminalOffence,
-      tuberculosisDiagnosed: pdfRows.tuberculosisDiagnosed || "No",
-      healthCondition: pdfRows.healthCondition,
+      criminalOffenceTextArea: pdfRows.criminalOffenceTextArea,
+      healthcareWorkerContact:pdfRows.healthcareWorkerContact, 
+      tuberculosisDiagnosis:pdfRows.tuberculosisDiagnosis,
+      tuberculosisDiagnosed: pdfRows.tuberculosisDiagnosed,
       appliedForVisa: pdfRows.appliedForVisa,
       knowTravelDate: pdfRows.knowTravelDate,
       travelDate: pdfRows.travelDate?.split('T')[0],
@@ -358,6 +367,16 @@ export default function DataTable() {
             rows={rows}
             columns={columns}
             getRowId={(rows) => rows.ID}
+            disableColumnFilter
+            disableColumnSelector
+            disableDensitySelector
+          
+            slots={{ toolbar: GridToolbar }}
+            slotProps={{
+              toolbar: {
+                showQuickFilter: true,
+              },
+            }}
             //   initialState={{
             //     pagination: {
             //       paginationModel: {

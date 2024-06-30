@@ -3,6 +3,7 @@ import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import axios from 'axios';
 import { countries } from 'countries-list';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { customCountries } from '../../../utils/countries';
 
 const generatePDF = async (data) => {
 
@@ -55,13 +56,23 @@ const generatePDF = async (data) => {
   y1 = addText(page1, 'Preferred language to contact you', data.preferredLanguage, y1);
   y1 -= 10;
 //   let { page: page2, y: y2 } = createPage('Passport Details');
+y1 = addText(page1, 'Applicant Status', '', y1);
+y1 -= 10;
+  y1 = addText(page1, 'Are you applying on behalf of someone?', data.passportNo, y1);
+  y1 = addText(page1, 'I am? ', data.iam, y1);
+  y1 = addText(page1, 'Surname(s) / last name(s) ', data.applicantSurname, y1);
+  y1 = addText(page1, 'Given name(s) / first name(s)', data.applicantGivenName, y1);
+  y1 = addText(page1, ' Mailing address', data.applicantMailingAddress, y1);
+  y1 = addText(page1, 'Phone Extension', data.applicantPhoneExt, y1);
+  y1 = addText(page1, 'Phone Number', data.applicantPhone, y1);
+
   y1 = addText(page1, 'Passport Details', '', y1);
   y1 -= 10;
   y1 = addText(page1, 'Passport No', data.passportNo, y1);
   y1 = addText(page1, 'Passport number (re-enter)', data.passportNumberReEnter, y1);
   y1 = addText(page1, 'Passport Issue Date', data.passportIssueDate, y1);
   y1 = addText(page1, 'Passport Expiry Date', data.passportExpiryDate, y1);
-  y1 = addText(page1, 'Passport Country/Nationality', data.passportCountryNationality, y1);
+  y1 = addText(page1, 'Passport Country/Nationality', customCountries[data.passportCountryNationality], y1);
   y1 = addText(page1, 'Taiwan Identification Number', data?.TIN || "Not Valid", y1);
 
   y1 -= 10;
@@ -89,9 +100,18 @@ y2 = addText(page2, 'Eligibility Questions', '', y2);
 y2 -= 10;
   y2 = addText(page2, '* Have you ever been refused a visa or permit, denied entry to, or ordered to leave Canada \n or any other country/territory?', data.refusedVisa, y2);
   y2 -= 30
+
+  y2 = addText(page2, 'For each refusal, please indicate the country that refused you a visa or permit, or denied \n you entry, as well as the reasons provided to you by the country', data.refusedVisaTextArea, y2);
+  y2 -= 30
   y2 = addText(page2, '* Have you ever committed, been arrested for, been charged with or convicted of any criminal \n offence in any country/territory?', data.criminalOffence, y2);
   y2 -= 30
-  y2 = addText(page2, '* In the past two years, were you diagnosed with tuberculosis or have you been in close \n contact with a person with tuberculosis?', data.tuberculosisDiagnosed, y2);
+  y2 = addText(page2, 'For each arrest, charge, or conviction, please indicate \n where (city, country), when (month/year), the nature of the offence, and the sentence.?', data.criminalOffenceTextArea, y2);
+  y2 -= 30
+  y2 = addText(page2, '* In the past two years, were you diagnosed with tuberculosis or have you been in close \n contact with a person with tuberculosis?', data.tuberculosisDiagnosis, y2);
+  y2 -= 30
+  y2 = addText(page2, 'Is your contact with tuberculosis the result of being a health care worker?', data.healthcareWorkerContact, y2);
+  y2 -= 30
+  y2 = addText(page2, 'Have you ever been diagnosed with tuberculosis?', data.tuberculosisDiagnosed, y2);
   y2 -= 30
   y2 = addText(page2, '* Do you have one of these conditions?', data.healthCondition, y2);
 
@@ -100,6 +120,7 @@ y2 -= 10;
 y2 = addText(page2, 'Travel Information', '', y2);
 y2 -= 10;
   y2 = addText(page2, 'Have you ever applied for or obtained a visa, an eTA or a permit to visit, live, work or study in Canada?', data.appliedForVisa, y2);
+  y2 = addText(page2, 'Unique client identifier (UCI) / Previous Canadian visa, eTA or permit number', data.uciPreviousVisaNumber, y2);
   y2 = addText(page2, 'Do you know when you will travel to Canada?', data.knowTravelDate, y2);
   y2 = addText(page2, 'When do you plan to travel to Canada?', data.travelDate, y2);
   y2 = addText(page2, 'Time your flight to Canada will depart', data.travelTime, y2);
@@ -113,7 +134,7 @@ y2 -= 10;
   y2 = addText(page2, '* Please briefly indicate if there are additional details pertinent to your application. For example, an urgent need to travel to Canada. Provide relevant details to avoid delays in the processing of your application.', data.additionalDetails, y2);
   y2 = addText(page2, 'Signature of Applicant \n', data.signature, y2);
   y2 -= 20;
-  y2 = addText(page2, 'Agree Privacy Policy, Terms and Conditions & Refund Policy', data.agreePrivacyPolicy, y2);
+  y2 = addText(page2, 'I Agree Privacy Policy, Terms and Conditions & Refund Policy', data.agreePrivacyPolicy, y2);
   y2 = addText(page2, 'IP Address', data.ipAddress, y2);
 
   // Save the PDF to a blob
@@ -156,6 +177,12 @@ const PdfGen = () => {
         maritalStatus: rows.martialStatus,
         preferredLanguage: rows.preferredLanguage,
         applyingForYourselfOrSomeoneElse: rows.applyingOnBehalf,
+        iam: rows.iam,
+        applicantSurname: rows.applicantSurname,
+        applicantGivenName: rows.applicantGivenName,
+        applicantMailingAddress: rows.applicantMailingAddress,
+        applicantPhoneExt: rows.applicantPhoneExt,
+        applicantPhone: rows.applicantPhone,
         passportNo: rows.passportNumber,
         passportNumberReEnter: rows.passportNumber,
         passportIssueDate: rows.passportIssueDate,
@@ -175,10 +202,15 @@ const PdfGen = () => {
         employerDistrictRegion: rows.districtOfJob,
         sinceWhatYear: rows.sinceYear,
         refusedVisa: rows.refusedVisa,
+        refusedVisaTextArea:rows.refusedVisaTextArea,
         criminalOffence: rows.criminalOffence,
+        criminalOffenceTextArea: rows.criminalOffenceTextArea,
+        healthcareWorkerContact:data.healthcareWorkerContact, 
+        tuberculosisDiagnosis:data.tuberculosisDiagnosis,
         tuberculosisDiagnosed: rows.tuberculosisDiagnosed,
         healthCondition: rows.healthCondition,
         appliedForVisa: rows.appliedForVisa,
+        uciPreviousVisaNumber:rows.uciPreviousVisaNumber,
         knowTravelDate: rows.knowTravelDate,
         travelDate: rows.travelDate,
         travelTime: rows.travelTime,

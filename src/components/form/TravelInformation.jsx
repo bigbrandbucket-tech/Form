@@ -73,6 +73,7 @@ function knowTravelDate({ formData, handleChange, matchData, setMatchData }) {
               formData={formData}
               handleChange={handleChange}
               name={"travelDate"}
+              reverse
             />
           </div>
         </div>

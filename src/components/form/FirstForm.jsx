@@ -3,6 +3,7 @@ import "../../styles/Forms.scss";
 import React, { useEffect, useState } from "react";
 import {
   CountrySelect,
+  CountrySelect2,
   PhoneNumberCodeSelect,
 } from "../../utils/components/form/SelectCountry";
 import DatePicker from "../../utils/components/form/DatePicker";
@@ -348,7 +349,7 @@ export default function FirstForm() {
               * Country/region of birth{" "}
               <span className="text-red-500 italic">(required)</span>
             </label>
-            <CountrySelect
+            <CountrySelect2
               handleChange={handleChange}
               formData={formData}
               name="countryOfBIrth"

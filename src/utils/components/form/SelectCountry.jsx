@@ -39,6 +39,7 @@ export function SelectCountry({ handleChange, formData }) {
   );
 }
 
+
 export function CountrySelect({ handleChange, formData, name }) {
   // Convert the object of countries into an array of objects
   const countryOptions = Object.keys(customCountries).map((countryCode) => ({
@@ -64,6 +65,33 @@ export function CountrySelect({ handleChange, formData, name }) {
     </select>
   );
 }
+
+export function CountrySelect2({ handleChange, formData, name }) {
+  // Convert the object of countries into an array of objects
+  const countryOptions = Object.keys(countries).map((countryCode) => ({
+    code: countryCode,
+    name: countries[countryCode].name,
+  }));
+  console.log(formData, name)
+  return (
+    <select
+      name={name}
+      value={formData[name]}
+      onChange={handleChange}
+      required
+      className="input-field"
+    >
+      <option value="">Select Country</option>
+      {/* Map over the countryOptions array and create an option for each country */}
+      {countryOptions.map((country) => (
+        <option key={country.code} value={country.code}>
+          {country.name}
+        </option>
+      ))}
+    </select>
+  );
+}
+
 
 export function PhoneNumberCodeSelect({ handleChange, formData, name }) {
   // Convert the object of countries into an array of objects
