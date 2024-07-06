@@ -7,6 +7,8 @@ import Dashboard from "./pages/Dashboard";
 import Layout from "./components/layout/Layout";
 import AdminLayout from "./components/admin/layout/AdminLayout";
 import PdfGen from "./components/admin/dashboard/pdfGen";
+import Payment from "./components/form/payment";
+import StripeContainer from "./components/form/stripeContainer";
 
 function App() {
   return (
@@ -19,6 +21,10 @@ function App() {
 
           <Route path="/register/:id" element={<Layout />}>
             <Route index element={<FormPage />} />
+          </Route>
+
+          <Route path="/payment" element={<Layout />}>
+            <Route index element={<StripeContainer />}></Route>
           </Route>
 
           <Route path="/admin" element={<AdminLayout />}>
