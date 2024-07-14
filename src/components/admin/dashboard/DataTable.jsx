@@ -131,7 +131,7 @@ export default function DataTable() {
     y1 = addText(
       page1,
       "Are you applying on behalf of someone?",
-      data.passportNo,
+      data.applyingForYourselfOrSomeoneElse == 1 ? "Yes" : "No",
       y1
     );
     y1 = addText(page1, "I am? ", data.iam, y1);
@@ -198,7 +198,7 @@ export default function DataTable() {
     y2 = addText(page2, "Occupation", data.occupation || "", y2);
     y2 = addText(page2, "Job Title", data.jobTitle || "", y2);
     y2 = addText(page2, "Name Of Employer", data.nameOfEmployer || "", y2);
-    y2 = addText(page2, "Employer Country", data.employerCountry || "", y2);
+    y2 = addText(page2, "Employer Country", customCountries[data.employerCountry]?.name || "", y2);
     y2 = addText(page2, "Employer City", data.employerCity || "", y2);
     y2 = addText(
       page2,

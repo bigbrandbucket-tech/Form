@@ -58,7 +58,7 @@ const generatePDF = async (data) => {
 //   let { page: page2, y: y2 } = createPage('Passport Details');
 y1 = addText(page1, 'Applicant Status', '', y1);
 y1 -= 10;
-  y1 = addText(page1, 'Are you applying on behalf of someone?', data.passportNo, y1);
+  y1 = addText(page1, 'Are you applying on behalf of someone?', data.applyingForYourselfOrSomeoneElse, y1);
   y1 = addText(page1, 'I am? ', data.iam, y1);
   y1 = addText(page1, 'Surname(s) / last name(s) ', data.applicantSurname, y1);
   y1 = addText(page1, 'Given name(s) / first name(s)', data.applicantGivenName, y1);

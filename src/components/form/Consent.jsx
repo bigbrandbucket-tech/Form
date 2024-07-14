@@ -91,7 +91,6 @@ export default function Consents() {
       .put(
         `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,
         {
-          ...filteredData1,
           ...filteredData2,
         }
       )

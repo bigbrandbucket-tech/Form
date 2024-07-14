@@ -246,7 +246,8 @@ export default function TravelInformation() {
           key !== "declaration" &&
           key !== "authorization" &&
           key !== "passportNumberReenter" &&
-          key !== "emailConfirm"
+          key !== "emailConfirm" &&
+          key !== "consentDeclaration" && key !== "agreePolicy"
       )
       .reduce((obj, key) => {
         obj[key] = formData[key];
