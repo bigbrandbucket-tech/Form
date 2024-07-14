@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../styles/Forms.scss";
 import { useStore } from "../../context/stores/form/main";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const information = `Information provided to IRCC is collected under the authority of the Immigration and Refugee Protection Act (IRPA) to determine admissibility to Canada.
 Information provided may be shared with other Canadian government institutions such as, but not limited to, the Canada Border Services Agency (CBSA), the Royal Canadian Mounted Police (RCMP), the Canadian Security Intelligence Service (CSIS), the Department of Foreign Affairs, Trade and Development (DFATD), Employment and Social Development Canada (ESDC), the Canada Revenue Agency (CRA), provincial and territorial governments and foreign governments in accordance with subsection 8(2) of the Privacy Act.
@@ -27,6 +28,7 @@ export default function Consents() {
   const { currentState, setCurrentState } = useStore();
 
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
 
   const [formData, setFormData] = useState(() => {
     const storedFormData = localStorage.getItem("formData");
@@ -95,6 +97,7 @@ export default function Consents() {
       )
       .then(() => {
         setCurrentComponent(currentComponent + 1);
+        navigate(`payment/${currentState.ID}`)
       })
       .catch(() => {
         Swal.fire({

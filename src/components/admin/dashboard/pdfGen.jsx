@@ -129,13 +129,12 @@ y2 -= 10;
   y2 = addText(page2, 'Do you have Additional nationalities?', data.additionalNationalities, y2);
   y2 -= 10;
 //   let { page: page7, y: y7 } = createPage('Consent and Declaration');
-y2 = addText(page2, 'Consent and Declaration', '', y2);
-y2 -= 10;
-  y2 = addText(page2, '* Please briefly indicate if there are additional details pertinent to your application. For example, an urgent need to travel to Canada. Provide relevant details to avoid delays in the processing of your application.', data.additionalDetails, y2);
-  y2 = addText(page2, 'Signature of Applicant \n', data.signature, y2);
-  y2 -= 20;
-  y2 = addText(page2, 'I Agree Privacy Policy, Terms and Conditions & Refund Policy', data.agreePrivacyPolicy, y2);
-  y2 = addText(page2, 'IP Address', data.ipAddress, y2);
+let { page: page3, y: y3 } = createPage('Consent and Declaration');
+  y3 = addText(page3, '* Please briefly indicate if there are additional details pertinent to your application. For example, an urgent need to travel to Canada. Provide relevant details to avoid delays in the processing of your application.', data.additionalDetails, y3);
+  y3 = addText(page3, 'Signature of Applicant \n', data.signature, y3);
+  y3 -= 20;
+  y3 = addText(page3, 'I Agree Privacy Policy, Terms and Conditions & Refund Policy', data.agreePrivacyPolicy, y3);
+  y3 = addText(page3, 'IP Address', data.ipAddress, y3);
 
   // Save the PDF to a blob
   const pdfBytes = await pdfDoc.save();

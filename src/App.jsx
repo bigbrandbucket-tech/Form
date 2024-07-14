@@ -9,6 +9,7 @@ import AdminLayout from "./components/admin/layout/AdminLayout";
 import PdfGen from "./components/admin/dashboard/pdfGen";
 import Payment from "./components/form/payment";
 import StripeContainer from "./components/form/stripeContainer";
+import PaymentSuccess from "./components/PaymentSuccess";
 
 function App() {
   return (
@@ -23,8 +24,11 @@ function App() {
             <Route index element={<FormPage />} />
           </Route>
 
-          <Route path="/payment" element={<Layout />}>
+          <Route path="/payment/:id" element={<Layout />}>
             <Route index element={<StripeContainer />}></Route>
+          </Route>
+          <Route path="/payment-success" element={<Layout />}>
+            <Route index element={<PaymentSuccess />}></Route>
           </Route>
 
           <Route path="/admin" element={<AdminLayout />}>

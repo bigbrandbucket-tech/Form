@@ -1,4 +1,4 @@
-import { DataGrid, GridToolbar  } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import * as React from "react";
 
 import axios from "axios";
@@ -16,10 +16,23 @@ export default function DataTable() {
     { field: "lastName", headerName: "Last Name", width: 150 },
     { field: "email", headerName: "Email", width: 200 },
     {
+      field: "payment",
+      headerName: "Payment",
+      width: 200,
+      renderCell: (params) =>
+        params.value ? (
+          <p style={{ color: "green" }}>Success</p>
+        ) : (
+          <p style={{ color: "red" }}>Pending</p>
+        ),
+    },
+    {
       field: "passportCountry",
       headerName: "Country Of Passport",
       width: 200,
-      renderCell: (params) => <strong>{customCountries[params?.value]?.name}</strong>,
+      renderCell: (params) => (
+        <strong>{customCountries[params?.value]?.name}</strong>
+      ),
     },
     { field: "ip", headerName: "IP Address", width: 200 },
     { field: "INSERTDATE", headerName: "Date & Time", width: 200 },
@@ -113,15 +126,30 @@ export default function DataTable() {
       y1
     );
     y1 -= 10;
-    y1 = addText(page1, 'Applicant Status', '', y1);
-y1 -= 10;
-  y1 = addText(page1, 'Are you applying on behalf of someone?', data.passportNo, y1);
-  y1 = addText(page1, 'I am? ', data.iam, y1);
-  y1 = addText(page1, 'Surname(s) / last name(s) ', data.applicantSurname, y1);
-  y1 = addText(page1, 'Given name(s) / first name(s)', data.applicantGivenName, y1);
-  y1 = addText(page1, ' Mailing address', data.applicantMailingAddress, y1);
-  y1 = addText(page1, 'Phone Extension', data.applicantPhoneExt, y1);
-  y1 = addText(page1, 'Phone Number', data.applicantPhone, y1);
+    y1 = addText(page1, "Applicant Status", "", y1);
+    y1 -= 10;
+    y1 = addText(
+      page1,
+      "Are you applying on behalf of someone?",
+      data.passportNo,
+      y1
+    );
+    y1 = addText(page1, "I am? ", data.iam, y1);
+    y1 = addText(
+      page1,
+      "Surname(s) / last name(s) ",
+      data.applicantSurname,
+      y1
+    );
+    y1 = addText(
+      page1,
+      "Given name(s) / first name(s)",
+      data.applicantGivenName,
+      y1
+    );
+    y1 = addText(page1, " Mailing address", data.applicantMailingAddress, y1);
+    y1 = addText(page1, "Phone Extension", data.applicantPhoneExt, y1);
+    y1 = addText(page1, "Phone Number", data.applicantPhone, y1);
 
     y1 -= 10;
     //   let { page: page2, y: y2 } = createPage('Passport Details');
@@ -143,12 +171,7 @@ y1 -= 10;
       y1
     );
 
-    y1 = addText(
-      page1,
-      "Taiwan Identification Number",
-      data?.TIN || "",
-      y1
-    );
+    y1 = addText(page1, "Taiwan Identification Number", data?.TIN || "", y1);
 
     y1 -= 10;
     //   let { page: page3, y: y3 } = createPage('Residential Address');
@@ -161,7 +184,12 @@ y1 -= 10;
       data.streetCivicNoHouseName,
       y1
     );
-    y1 = addText(page1, "Apartment/unit number", data.apartmentUnitNumber || "", y1);
+    y1 = addText(
+      page1,
+      "Apartment/unit number",
+      data.apartmentUnitNumber || "",
+      y1
+    );
     y1 = addText(page1, "City/town", data.cityTown || "", y1);
     y1 = addText(page1, "District/region", data.districtRegion || "", y1);
     y1 = addText(page1, "Country", data.country || "", y1);
@@ -169,7 +197,7 @@ y1 -= 10;
     let { page: page2, y: y2 } = createPage("Employment Information");
     y2 = addText(page2, "Occupation", data.occupation || "", y2);
     y2 = addText(page2, "Job Title", data.jobTitle || "", y2);
-    y2 = addText(page2, "Name Of Employer", data.nameOfEmployer || "" , y2);
+    y2 = addText(page2, "Name Of Employer", data.nameOfEmployer || "", y2);
     y2 = addText(page2, "Employer Country", data.employerCountry || "", y2);
     y2 = addText(page2, "Employer City", data.employerCity || "", y2);
     y2 = addText(
@@ -181,24 +209,64 @@ y1 -= 10;
     y2 = addText(page2, "Since What Year", data.sinceWhatYear || "", y2);
     y2 -= 10;
     //   let { page: page5, y: y5 } = createPage('Eligibility Questions');
-   y2 = addText(page2, 'Eligibility Questions', '', y2);
-y2 -= 10;
-  y2 = addText(page2, '* Have you ever been refused a visa or permit, denied entry to, or ordered to leave Canada \n or any other country/territory?', data.refusedVisa, y2);
-  y2 -= 30
+    y2 = addText(page2, "Eligibility Questions", "", y2);
+    y2 -= 10;
+    y2 = addText(
+      page2,
+      "* Have you ever been refused a visa or permit, denied entry to, or ordered to leave Canada \n or any other country/territory?",
+      data.refusedVisa,
+      y2
+    );
+    y2 -= 30;
 
-  y2 = addText(page2, 'For each refusal, please indicate the country that refused you a visa or permit, or denied \n you entry, as well as the reasons provided to you by the country', data.refusedVisaTextArea, y2);
-  y2 -= 30
-  y2 = addText(page2, '* Have you ever committed, been arrested for, been charged with or convicted of any criminal \n offence in any country/territory?', data.criminalOffence, y2);
-  y2 -= 30
-  y2 = addText(page2, 'For each arrest, charge, or conviction, please indicate \n where (city, country), when (month/year), the nature of the offence, and the sentence.?', data.criminalOffenceTextArea, y2);
-  y2 -= 30
-  y2 = addText(page2, '* In the past two years, were you diagnosed with tuberculosis or have you been in close \n contact with a person with tuberculosis?', data.tuberculosisDiagnosis, y2);
-  y2 -= 30
-  y2 = addText(page2, 'Is your contact with tuberculosis the result of being a health care worker?', data.healthcareWorkerContact, y2);
-  y2 -= 30
-  y2 = addText(page2, 'Have you ever been diagnosed with tuberculosis?', data.tuberculosisDiagnosed, y2);
-  y2 -= 30
-  y2 = addText(page2, '* Do you have one of these conditions?', data.healthCondition, y2);
+    y2 = addText(
+      page2,
+      "For each refusal, please indicate the country that refused you a visa or permit, or denied \n you entry, as well as the reasons provided to you by the country",
+      data.refusedVisaTextArea,
+      y2
+    );
+    y2 -= 30;
+    y2 = addText(
+      page2,
+      "* Have you ever committed, been arrested for, been charged with or convicted of any criminal \n offence in any country/territory?",
+      data.criminalOffence,
+      y2
+    );
+    y2 -= 30;
+    y2 = addText(
+      page2,
+      "For each arrest, charge, or conviction, please indicate \n where (city, country), when (month/year), the nature of the offence, and the sentence.?",
+      data.criminalOffenceTextArea,
+      y2
+    );
+    y2 -= 30;
+    y2 = addText(
+      page2,
+      "* In the past two years, were you diagnosed with tuberculosis or have you been in close \n contact with a person with tuberculosis?",
+      data.tuberculosisDiagnosis,
+      y2
+    );
+    y2 -= 30;
+    y2 = addText(
+      page2,
+      "Is your contact with tuberculosis the result of being a health care worker?",
+      data.healthcareWorkerContact,
+      y2
+    );
+    y2 -= 30;
+    y2 = addText(
+      page2,
+      "Have you ever been diagnosed with tuberculosis?",
+      data.tuberculosisDiagnosed,
+      y2
+    );
+    y2 -= 30;
+    y2 = addText(
+      page2,
+      "* Do you have one of these conditions?",
+      data.healthCondition,
+      y2
+    );
 
     y2 -= 10;
     //   let { page: page6, y: y6 } = createPage('Travel Information');
@@ -249,25 +317,25 @@ y2 -= 10;
       y2
     );
     y2 -= 10;
-    //   let { page: page7, y: y7 } = createPage('Consent and Declaration');
-    y2 = addText(page2, "Consent and Declaration", "", y2);
-    y2 -= 10;
-    y2 = addText(
-      page2,
+    let { page: page3, y: y3 } = createPage("Consent and Declaration");
+    // y2 = addText(page2, "Consent and Declaration", "", y2);
+    y3 -= 10;
+    y3 = addText(
+      page3,
       "* Please briefly indicate if there are additional details pertinent to your application.\n For example, an urgent need to travel to Canada. \n Provide relevant details to avoid delays in the processing of your application.",
       data.additionalDetails,
-      y2
+      y3
     );
-    y2 -= 45;
-    y2 = addText(page2, "Signature of Applicant \n", data.signature, y2);
-    y2 -= 20;
-    y2 = addText(
-      page2,
+    y3 -= 45;
+    y3 = addText(page3, "Signature of Applicant \n", data.signature, y3);
+    y3 -= 20;
+    y3 = addText(
+      page3,
       "Agree Privacy Policy, Terms and Conditions & Refund Policy",
       data.agreePrivacyPolicy,
-      y2
+      y3
     );
-    y2 = addText(page2, "IP Address", data.ipAddress, y2);
+    y3 = addText(page3, "IP Address", data.ipAddress, y3);
 
     // Save the PDF to a blob
     const pdfBytes = await pdfDoc.save();
@@ -295,7 +363,7 @@ y2 -= 10;
       lastName: pdfRows.lastName,
       emailAddress: pdfRows.email,
       phone: pdfRows.phoneNumber,
-      dateOfBirth: pdfRows.dob?.split('T')[0],
+      dateOfBirth: pdfRows.dob?.split("T")[0],
       gender: pdfRows.gender,
       countryOfBIrth: customCountries[pdfRows.countryOfBIrth]?.name,
       cityOfBirth: pdfRows.cityOfBirth,
@@ -310,9 +378,10 @@ y2 -= 10;
       applicantPhone: pdfRows.applicantPhone,
       passportNo: pdfRows.passportNumber,
       passportNumberReEnter: pdfRows.passportNumber,
-      passportIssueDate: pdfRows.passportIssueDate?.split('T')[0],
-      passportExpiryDate: pdfRows.passportExpiryDate?.split('T')[0],
-      passportCountryNationality: customCountries[pdfRows.passportCountry]?.name,
+      passportIssueDate: pdfRows.passportIssueDate?.split("T")[0],
+      passportExpiryDate: pdfRows.passportExpiryDate?.split("T")[0],
+      passportCountryNationality:
+        customCountries[pdfRows.passportCountry]?.name,
       streetAddressName: pdfRows.streetName,
       streetCivicNoHouseName: pdfRows.houseNumber,
       apartmentUnitNumber: pdfRows.apartment,
@@ -327,15 +396,15 @@ y2 -= 10;
       employerDistrictRegion: pdfRows.districtOfJob,
       sinceWhatYear: pdfRows.sinceYear,
       refusedVisa: pdfRows.refusedVisa,
-      refusedVisaTextArea:pdfRows.refusedVisaTextArea,
+      refusedVisaTextArea: pdfRows.refusedVisaTextArea,
       criminalOffence: pdfRows.criminalOffence,
       criminalOffenceTextArea: pdfRows.criminalOffenceTextArea,
-      healthcareWorkerContact:pdfRows.healthcareWorkerContact, 
-      tuberculosisDiagnosis:pdfRows.tuberculosisDiagnosis,
+      healthcareWorkerContact: pdfRows.healthcareWorkerContact,
+      tuberculosisDiagnosis: pdfRows.tuberculosisDiagnosis,
       tuberculosisDiagnosed: pdfRows.tuberculosisDiagnosed,
       appliedForVisa: pdfRows.appliedForVisa,
       knowTravelDate: pdfRows.knowTravelDate,
-      travelDate: pdfRows.travelDate?.split('T')[0],
+      travelDate: pdfRows.travelDate?.split("T")[0],
       travelTime: pdfRows.travelTime,
       travelingAlone: pdfRows.travelingAlone,
       travelingMembers: pdfRows.travelingMembers,
@@ -343,7 +412,7 @@ y2 -= 10;
       additionalDetails: pdfRows.additionalDetails,
       signature: pdfRows.signature,
       agreePrivacyPolicy: "Accepted",
-      TIN:pdfRows.TIN,
+      TIN: pdfRows.TIN,
       ipAddress: pdfRows.ip,
     };
 
@@ -370,7 +439,6 @@ y2 -= 10;
             disableColumnFilter
             disableColumnSelector
             disableDensitySelector
-          
             slots={{ toolbar: GridToolbar }}
             slotProps={{
               toolbar: {
