@@ -67,6 +67,8 @@ export default function Consents() {
   }, [currentState.additionalDetails]);
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    fetchIp();
 
     const filteredData1 = Object.keys(currentState)
       .filter(
@@ -109,20 +111,20 @@ export default function Consents() {
         setLoading(false);
       });
   };
-
+  const fetchIp = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("https://api.ipify.org?format=json");
+      setFormData({ ...formData, ip: response.data.ip });
+    } catch (error) {
+      console.error("Error fetching the IP address:", error);
+    }
+    {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchIp = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get("https://api.ipify.org?format=json");
-        setFormData({ ...formData, ip: response.data.ip });
-      } catch (error) {
-        console.error("Error fetching the IP address:", error);
-      }
-      {
-        setLoading(false);
-      }
-    };
+    
 
     fetchIp();
   }, []);

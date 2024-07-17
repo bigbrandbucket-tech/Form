@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/Forms.scss";
-import { CountrySelect } from "../../utils/components/form/SelectCountry";
+import { CountrySelect, CountrySelect2 } from "../../utils/components/form/SelectCountry";
 import DatePicker from "../../utils/components/form/DatePicker";
 import {
   employementInformationFormData,
@@ -364,11 +364,11 @@ export default function OccupationForm() {
               </div>
               <div className="form-container">
                 <label htmlFor="countryOfJob">
-                  <span className="text-red-500 italic">*</span> countryOfJob
+                  <span className="text-red-500 italic">*</span> Country Of Job
                   <span className="text-red-500 italic"> (required)</span>
                   <span className="text-red-500 italic"> Please select</span>
                 </label>
-                <CountrySelect
+                <CountrySelect2
                   formData={formData}
                   handleChange={handleChange}
                   name="countryOfJob"

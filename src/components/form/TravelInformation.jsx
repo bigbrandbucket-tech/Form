@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/Forms.scss";
-import { CountrySelect } from "../../utils/components/form/SelectCountry";
+import { CountrySelect, CountrySelect2 } from "../../utils/components/form/SelectCountry";
 import DatePicker, { TimePicker } from "../../utils/components/form/DatePicker";
 import { useStore } from "../../context/stores/form/main";
 import axios from "axios";
@@ -111,7 +111,7 @@ function additionalNationalities({
           countries/territories you are a citizen of.{" "}
           <span className="text-red-500 italic">(required)</span>
         </label>
-        <CountrySelect
+        <CountrySelect2
           formData={formData}
           handleChange={handleChange}
           name={"citizenship"}
@@ -260,14 +260,14 @@ export default function TravelInformation() {
         {
           ...filteredData,
           travelDate: new Date(
-            formData.travelDate.year,
-            formData.travelDate.month,
-            formData.travelDate.day
+            formData.travelDate?.year,
+            formData.travelDate?.month,
+            formData.travelDate?.day
           ),
           travelTime: JSON.stringify([
-            formData.travelTime.hour,
-            formData.travelTime.minute,
-            formData.travelTime.timezone,
+            formData.travelTime?.hour,
+            formData.travelTime?.minute,
+            formData.travelTime?.timezone,
           ]),
         }
       )

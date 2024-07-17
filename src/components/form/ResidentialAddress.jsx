@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/Forms.scss";
-import { CountrySelect } from "../../utils/components/form/SelectCountry";
+import { CountrySelect2 } from "../../utils/components/form/SelectCountry";
 import {
   useStore,
   residentialAddressFormData,
@@ -156,7 +156,7 @@ export default function AddressForm() {
               <span className="text-red-500 italic"> (required)</span>
               Please select
             </label>
-            <CountrySelect
+            <CountrySelect2
               formData={formData}
               handleChange={handleChange}
               name="country"

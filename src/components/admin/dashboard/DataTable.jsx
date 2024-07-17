@@ -198,7 +198,7 @@ export default function DataTable() {
     y2 = addText(page2, "Occupation", data.occupation || "", y2);
     y2 = addText(page2, "Job Title", data.jobTitle || "", y2);
     y2 = addText(page2, "Name Of Employer", data.nameOfEmployer || "", y2);
-    y2 = addText(page2, "Employer Country", customCountries[data.employerCountry]?.name || "", y2);
+    y2 = addText(page2, "Employer Country", data.employerCountry || "", y2);
     y2 = addText(page2, "Employer City", data.employerCity || "", y2);
     y2 = addText(
       page2,
@@ -365,7 +365,7 @@ export default function DataTable() {
       phone: pdfRows.phoneNumber,
       dateOfBirth: pdfRows.dob?.split("T")[0],
       gender: pdfRows.gender,
-      countryOfBIrth: customCountries[pdfRows.countryOfBIrth]?.name,
+      countryOfBIrth: countries[pdfRows.countryOfBIrth]?.name,
       cityOfBirth: pdfRows.cityOfBirth,
       maritalStatus: pdfRows.martialStatus,
       preferredLanguage: pdfRows.preferredLanguage,
@@ -387,11 +387,11 @@ export default function DataTable() {
       apartmentUnitNumber: pdfRows.apartment,
       cityTown: pdfRows.city,
       districtRegion: pdfRows.district,
-      country: pdfRows.country,
+      country: countries[pdfRows.country]?.name,
       occupation: pdfRows.occupation,
       jobTitle: pdfRows.job,
       nameOfEmployer: pdfRows.employer,
-      employerCountry: pdfRows.countryOfJob,
+      employerCountry: countries[pdfRows.countryOfJob]?.name,
       employerCity: pdfRows.cityOfJob,
       employerDistrictRegion: pdfRows.districtOfJob,
       sinceWhatYear: pdfRows.sinceYear,
