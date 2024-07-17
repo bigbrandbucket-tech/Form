@@ -86,6 +86,19 @@ export default function DataTable() {
       return y - fontSize - 5; // Adjust y position for the next line
     };
 
+    const addText2 = (page, title, value, y) => {
+      const fontSize = 16;
+      const font = page.font;
+      page.drawText(`${title}: ${value}`, {
+        x: 50,
+        y,
+        size: fontSize,
+        font,
+        color: rgb(0, 0, 0),
+      });
+      return y - fontSize - 5; // Adjust y position for the next line
+    };
+
     // Function to create a new page and add title
     const createPage = (title) => {
       const page = pdfDoc.addPage();
@@ -104,8 +117,8 @@ export default function DataTable() {
     };
 
     // Create and populate pages
-    let { page: page1, y: y1 } = createPage("Personal Information");
-    y1 = addText(page1, "Personal Details", "", y1);
+    let { page: page1, y: y1} = createPage("Personal Information");
+    y1 = addText2(page1, "Personal Details", "", y1);
     y1 -= 10;
     y1 = addText(page1, "First Name", data.firstName, y1);
     y1 = addText(page1, "Middle Name", data.middleName, y1);
@@ -126,7 +139,7 @@ export default function DataTable() {
       y1
     );
     y1 -= 10;
-    y1 = addText(page1, "Applicant Status", "", y1);
+    y1 = addText2(page1, "Applicant Status", "", y1);
     y1 -= 10;
     y1 = addText(
       page1,
@@ -153,7 +166,7 @@ export default function DataTable() {
 
     y1 -= 10;
     //   let { page: page2, y: y2 } = createPage('Passport Details');
-    y1 = addText(page1, "Passport Details", "", y1);
+    y1 = addText2(page1, "Passport Details", "", y1);
     y1 -= 10;
     y1 = addText(page1, "Passport No", data.passportNo, y1);
     y1 = addText(
@@ -175,7 +188,7 @@ export default function DataTable() {
 
     y1 -= 10;
     //   let { page: page3, y: y3 } = createPage('Residential Address');
-    y1 = addText(page1, "Residential Address", "", y1);
+    y1 = addText2(page1, "Residential Address", "", y1);
     y1 -= 10;
     y1 = addText(page1, "Street Address/name", data.streetAddressName, y1);
     y1 = addText(
@@ -209,7 +222,7 @@ export default function DataTable() {
     y2 = addText(page2, "Since What Year", data.sinceWhatYear || "", y2);
     y2 -= 10;
     //   let { page: page5, y: y5 } = createPage('Eligibility Questions');
-    y2 = addText(page2, "Eligibility Questions", "", y2);
+    y2 = addText2(page2, "Eligibility Questions", "", y2);
     y2 -= 10;
     y2 = addText(
       page2,
@@ -270,7 +283,7 @@ export default function DataTable() {
 
     y2 -= 10;
     //   let { page: page6, y: y6 } = createPage('Travel Information');
-    y2 = addText(page2, "Travel Information", "", y2);
+    y2 = addText2(page2, "Travel Information", "", y2);
     y2 -= 10;
     y2 = addText(
       page2,

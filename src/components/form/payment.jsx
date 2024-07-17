@@ -96,7 +96,7 @@ const Payment = () => {
         style={{ border: "2px solid black", padding: "10px" }}
       >
         <div htmlFor="card-element" style={{ fontFamily: "sans-serif" }}>
-          Enter Your Card Details Below
+          Enter Your Card Details Below (Application Number : <b>{id}</b>)
         </div>
         &nbsp;&nbsp;
         <div className="form-container">
