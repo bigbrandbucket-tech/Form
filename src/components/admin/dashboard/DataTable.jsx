@@ -8,9 +8,9 @@ import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import Box from "@mui/material/Box";
 import { countries } from "countries-list";
 import { useNavigate } from "react-router-dom";
+import { FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 
 export default function DataTable() {
-
   const navigate = useNavigate()
 
   if(!localStorage.getItem('login')){
@@ -22,7 +22,7 @@ export default function DataTable() {
     {
       field: 'transactionID',
       headerName: 'Transaction ID',
-      width: 200,
+      width: 300,
     },
     {
       field: 'fullName',
@@ -99,6 +99,26 @@ export default function DataTable() {
   ];
 
   const [rows, setRows] = React.useState([]);
+
+  const [selectedMonth, setSelectedMonth] = React.useState('');
+
+  const handleMonthChange = (event) => {
+    setSelectedMonth(event.target.value);
+  };
+
+  const filteredRows = rows.filter(row => {
+    if (!selectedMonth) return true; // No filter applied
+
+    const rowDate = new Date(row.INSERTDATE);
+    const rowMonth = rowDate.toLocaleString('en-US', { month: 'long' }).toLowerCase();
+
+    return rowMonth.includes(selectedMonth.toLowerCase());
+  });
+
+  const monthNames = Array.from({ length: 12 }, (_, i) => {
+    const date = new Date(2000, i, 1); // Arbitrary year and day
+    return date.toLocaleString('en-US', { month: 'long' });
+  });
 
   const fetchApi = async () => {
     const resposne = await axios.get(
@@ -484,9 +504,23 @@ export default function DataTable() {
   return (
     <>
       <Box sx={{ height: 600, width: "100%" }}>
+      <FormControl variant="outlined" style={{ marginBottom: '1rem', width: '200px' }}>
+        <InputLabel id="select-month-label">Filter by Month</InputLabel>
+        <Select
+          labelId="select-month-label"
+          value={selectedMonth}
+          onChange={handleMonthChange}
+          label="Filter by Month"
+        >
+          <MenuItem value="">All</MenuItem>
+          {monthNames.map((month, index) => (
+            <MenuItem key={index} value={month.toLowerCase()}>{month}</MenuItem>
+          ))}
+        </Select>
+      </FormControl>
         {rows?.length && (
           <DataGrid
-            rows={rows}
+            rows={filteredRows}
             columns={columns}
             getRowId={(rows) => rows.ID}
             disableColumnFilter
