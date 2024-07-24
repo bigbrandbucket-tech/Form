@@ -47,7 +47,7 @@ const Payment = () => {
       });
       if (result.paymentIntent.status === "succeeded") {
         const response = await axios.put(
-          `https://form-backend-gamma.vercel.app/api/user/${details.ID}`,
+          `https://form-backend-gamma.vercel.app/api/user/${id}`,
           {
             payment: true,
           }
