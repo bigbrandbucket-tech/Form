@@ -7,13 +7,32 @@ import { customCountries } from "../../../utils/countries";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import Box from "@mui/material/Box";
 import { countries } from "countries-list";
+import { useNavigate } from "react-router-dom";
 
 export default function DataTable() {
+
+  const navigate = useNavigate()
+
+  if(!localStorage.getItem('login')){
+    console.log('under', localStorage.getItem('login'))
+    navigate('/login')
+  }
   const columns = [
     { field: "ID", headerName: "Application Number", width: 150 },
-    { field: "firstName", headerName: "First Name", width: 150 },
-    // { field: 'middleName', headerName: 'Middle Name', width: 150 },
-    { field: "lastName", headerName: "Last Name", width: 150 },
+    {
+      field: 'transactionID',
+      headerName: 'Transaction ID',
+      width: 200,
+    },
+    {
+      field: 'fullName',
+      headerName: 'Full Name',
+      width: 200,
+      renderCell: (params) =>
+         `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+     
+    },
+   
     { field: "email", headerName: "Email", width: 200 },
     {
       field: "payment",
@@ -35,7 +54,28 @@ export default function DataTable() {
       ),
     },
     { field: "ip", headerName: "IP Address", width: 200 },
-    { field: "INSERTDATE", headerName: "Date & Time", width: 200 },
+    { 
+      field: 'INSERTDATE', 
+      headerName: 'Date & Time', 
+      width: 200, 
+      renderCell: (params) => {
+        // Convert UTC string to Date object
+        const utcDate = new Date(params.value);
+        
+        // Format date for display (e.g., in Australian Melbourne/Sydney time)
+        const formattedDate = utcDate.toLocaleString('en-AU', {
+          timeZone: 'Australia/Sydney', // Adjust timezone as needed
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        });
+  
+        return formattedDate;
+      }
+    },
     {
       field: "",
       headerName: "Actiom",
@@ -458,6 +498,12 @@ export default function DataTable() {
                 showQuickFilter: true,
               },
             }}
+            sortModel={[
+              {
+                field: 'INSERTDATE',
+                sort: 'desc', // 'asc' for ascending, 'desc' for descending
+              },
+            ]}
             //   initialState={{
             //     pagination: {
             //       paginationModel: {

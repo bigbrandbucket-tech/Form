@@ -34,7 +34,7 @@ const Payment = () => {
     try {
       const { data } = await axios.post(
         "https://form-backend-gamma.vercel.app/api/create-payment",
-        { amount: 1000 }
+        { amount: 1000, id:id }
       );
 
       const result = await stripe.confirmCardPayment(`${data.client_secret}`, {

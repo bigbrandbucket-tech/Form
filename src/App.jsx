@@ -10,6 +10,7 @@ import PdfGen from "./components/admin/dashboard/pdfGen";
 import Payment from "./components/form/payment";
 import StripeContainer from "./components/form/stripeContainer";
 import PaymentSuccess from "./components/PaymentSuccess";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route index element={<PaymentSuccess />}></Route>
           </Route>
 
+          <Route path="/login" element={<Login/>}/>
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<>DashBoard</>} />
             <Route path="/admin/travels" element={<Dashboard />} />

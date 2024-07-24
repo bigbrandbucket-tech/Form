@@ -127,7 +127,7 @@ export default function DatePicker({
     );
   } else {
     yearOptions = range(
-      new Date().getFullYear() - 50,
+      new Date().getFullYear() - 124,
       new Date().getFullYear()
     ).reverse();
   }
