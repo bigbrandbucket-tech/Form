@@ -157,7 +157,7 @@ export default function DataTable() {
       const fontSize = 16;
       const font = page.font;
       page.drawText(`${title}: ${value}`, {
-        x: 50,
+        x: 220,
         y,
         size: fontSize,
         font,
@@ -173,7 +173,7 @@ export default function DataTable() {
       // page.font = pdfDoc.embedFont(StandardFonts.Helvetica);
       let y = height - 50;
       page.drawText(title, {
-        x: 50,
+        x: 220,
         y,
         size: 16,
         font: page.font,
@@ -185,8 +185,8 @@ export default function DataTable() {
 
     // Create and populate pages
     let { page: page1, y: y1} = createPage("Personal Information");
-    y1 = addText2(page1, "Personal Details", "", y1);
-    y1 -= 10;
+    // y1 = addText2(page1, "Personal Details", "", y1);
+    y1 -= 20;
     y1 = addTextIfExists(page1, "First Name", data.firstName, y1);
     y1 = addTextIfExists(page1, "Middle Name", data.middleName, y1);
     y1 = addTextIfExists(page1, "Last Name", data.lastName, y1);
@@ -205,9 +205,9 @@ export default function DataTable() {
       data.preferredLanguage,
       y1
     );
-    y1 -= 10;
+    y1 -= 20;
     y1 = addText2(page1, "Applicant Status", "", y1);
-    y1 -= 10;
+    y1 -= 20;
     y1 = addTextIfExists(
       page1,
       "Are you applying on behalf of someone?",
@@ -231,10 +231,10 @@ export default function DataTable() {
     y1 = addTextIfExists(page1, "Phone Extension", data.applicantPhoneExt, y1);
     y1 = addTextIfExists(page1, "Phone Number", data.applicantPhone, y1);
 
-    y1 -= 10;
+    y1 -= 20;
     //   let { page: page2, y: y2 } = createPage('Passport Details');
     y1 = addText2(page1, "Passport Details", "", y1);
-    y1 -= 10;
+    y1 -= 20;
     y1 = addTextIfExists(page1, "Passport No", data.passportNo, y1);
     y1 = addTextIfExists(
       page1,
@@ -253,10 +253,10 @@ export default function DataTable() {
 
     y1 = addTextIfExists(page1, "Taiwan Identification Number", data?.TIN || "", y1);
 
-    y1 -= 10;
+    y1 -= 20;
     //   let { page: page3, y: y3 } = createPage('Residential Address');
     y1 = addText2(page1, "Residential Address", "", y1);
-    y1 -= 10;
+    y1 -= 20;
     y1 = addTextIfExists(page1, "Street Address/name", data.streetAddressName, y1);
     y1 = addTextIfExists(
       page1,
@@ -406,15 +406,16 @@ export default function DataTable() {
       data.additionalDetails,
       y3
     );
-    y3 -= 45;
+    y3 -= 65;
     y3 = addTextIfExists(page3, "Signature of Applicant \n", data.signature, y3);
-    y3 -= 20;
+    y3 -= 40;
     y3 = addTextIfExists(
       page3,
       "Agree Privacy Policy, Terms and Conditions & Refund Policy",
       data.agreePrivacyPolicy,
       y3
     );
+    y3 -= 20;
     y3 = addTextIfExists(page3, "IP Address", data.ipAddress, y3);
 
     // Save the PDF to a blob
