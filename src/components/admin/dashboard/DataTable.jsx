@@ -136,7 +136,7 @@ export default function DataTable() {
     const addText = (page, title, value, y) => {
       const fontSize = 12;
       const font = page.font;
-      page.drawText(`${title}: ${value}`, {
+      page.drawText(`${title.toUpperCase()}: ${value}`, {
         x: 50,
         y,
         size: fontSize,
@@ -148,6 +148,22 @@ export default function DataTable() {
 
     const addTextIfExists = (page, label, value, y) => {
       if (value) {
+        // const labelColor = rgb(1, 0, 0); // Red color
+        // const fontSize = 12;
+        // page.drawText(label, {
+        //   x: 50,
+        //   y,
+        //   size:fontSize,
+        //   color: labelColor,
+        // });
+        // page.drawText(value, {
+        //   x: 190,
+        //   y,
+        //   size:fontSize,
+        //   color: labelColor,
+        // });
+        // return y - fontSize - 5; 
+      
         return addText(page, label, value, y);
       }
       return y; // Return the same y if value doesn't exist
@@ -293,7 +309,7 @@ export default function DataTable() {
     y2 -= 10;
     y2 = addTextIfExists(
       page2,
-      "* Have you ever been refused a visa or permit, denied entry to, or ordered to leave Canada \n or any other country/territory?",
+      "* Have you ever been refused a visa or permit, denied entry to, \n or ordered to leave Canada  or any other country/territory?",
       data.refusedVisa,
       y2
     );
@@ -301,28 +317,28 @@ export default function DataTable() {
 
     y2 = addTextIfExists(
       page2,
-      "For each refusal, please indicate the country that refused you a visa or permit, or denied \n you entry, as well as the reasons provided to you by the country",
+      "For each refusal, please indicate the country that \n refused you a visa or permit, or denied  you entry, as well as the reasons provided to you by the country",
       data.refusedVisaTextArea,
       y2
     );
     y2 -= 30;
     y2 = addTextIfExists(
       page2,
-      "* Have you ever committed, been arrested for, been charged with or convicted of any criminal \n offence in any country/territory?",
+      "* Have you ever committed, been arrested for, \n been charged with or convicted \n of any criminal  offence in any country/territory?",
       data.criminalOffence,
       y2
     );
     y2 -= 30;
     y2 = addTextIfExists(
       page2,
-      "For each arrest, charge, or conviction, please indicate \n where (city, country), when (month/year), the nature of the offence, and the sentence.?",
+      "For each arrest, charge, or conviction,\n please indicate  where (city, country), when (month/year), the nature of the offence, and the sentence.?",
       data.criminalOffenceTextArea,
       y2
     );
     y2 -= 30;
     y2 = addTextIfExists(
       page2,
-      "* In the past two years, were you diagnosed with tuberculosis or have you been in close \n contact with a person with tuberculosis?",
+      "* In the past two years, were you diagnosed with \n tuberculosis or have you been in close  contact with\n a person with tuberculosis?",
       data.tuberculosisDiagnosis,
       y2
     );
@@ -354,7 +370,7 @@ export default function DataTable() {
     y2 -= 10;
     y2 = addTextIfExists(
       page2,
-      "Have you ever applied for or obtained a visa, an eTA or a permit to visit, live, work or study \n in Canada?",
+      "Have you ever applied for or obtained a visa,  \n an eTA or a permit to visit, live, work or study in Canada?",
       data.appliedForVisa,
       y2
     );
@@ -365,12 +381,14 @@ export default function DataTable() {
       data.knowTravelDate,
       y2
     );
+    y2 -= 10;
     y2 = addTextIfExists(
       page2,
       "When do you plan to travel to Canada?",
       data.travelDate,
       y2
     );
+    y2 -= 10;
     y2 = addTextIfExists(
       page2,
       "Time your flight to Canada will depart",
@@ -383,13 +401,16 @@ export default function DataTable() {
         : "",
       y2
     );
+    y2 -= 10;
     y2 = addTextIfExists(page2, "Are you traveling alone?", data.travelingAlone, y2);
+    y2 -= 10;
     y2 = addTextIfExists(
       page2,
       "How many members traveling with you?",
       data.travelingMembers,
       y2
     );
+    y2 -= 10;
     y2 = addTextIfExists(
       page2,
       "Do you have Additional nationalities?",
@@ -402,11 +423,11 @@ export default function DataTable() {
     y3 -= 10;
     y3 = addTextIfExists(
       page3,
-      "* Please briefly indicate if there are additional details pertinent to your application.\n For example, an urgent need to travel to Canada. \n Provide relevant details to avoid delays in the processing of your application.",
+      "* Please briefly indicate if there are additional  details pertinent \n to your application. For example, an urgent need to \n travel to Canada. Provide relevant details to avoid \n  delays in the processing of your application.",
       data.additionalDetails,
       y3
     );
-    y3 -= 65;
+    y3 -= 85;
     y3 = addTextIfExists(page3, "Signature of Applicant \n", data.signature, y3);
     y3 -= 40;
     y3 = addTextIfExists(
