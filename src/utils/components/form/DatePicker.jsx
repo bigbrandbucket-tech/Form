@@ -190,7 +190,7 @@ export default function DatePicker({
             <option value="">Month</option>
             {/* Generate options for months */}
             {monthNames.map((month, index) => (
-              <option key={index + 1} value={index + 1}>
+              <option key={index + 1} value={index}>
                 {month}
               </option>
             ))}
@@ -216,7 +216,7 @@ export default function DatePicker({
               1,
               getDaysInMonth(formData[name]?.year, formData[name]?.month)
             ).map((day) => (
-              <option key={day} value={day}>
+              <option key={day} value={day+1}>
                 {day}
               </option>
             ))}

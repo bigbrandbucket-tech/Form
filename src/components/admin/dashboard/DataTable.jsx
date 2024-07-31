@@ -78,7 +78,7 @@ export default function DataTable() {
     },
     {
       field: "",
-      headerName: "Actiom",
+      headerName: "Action",
       width: 200,
       renderCell: (params) => (
         <button onClick={() => handleNavigate(params.row.ID)}>View PDF</button>
@@ -207,6 +207,7 @@ export default function DataTable() {
     y1 = addTextIfExists(page1, "Middle Name", data.middleName, y1);
     y1 = addTextIfExists(page1, "Last Name", data.lastName, y1);
     y1 = addTextIfExists(page1, "Email Address", data.emailAddress, y1);
+    y1 = addTextIfExists(page1, "Phone Extension", data.phoneNumberExt, y1);
     //   y1 = addTextIfExists(page1, 'Email address (re-enter)', data.emailAddressReEnter, y1);
     y1 = addTextIfExists(page1, "Phone", data.phone, y1);
     //   y1 = addTextIfExists(page1, 'Phone (re-enter)', data.phoneReEnter, y1);
@@ -418,6 +419,13 @@ export default function DataTable() {
       y2
     );
     y2 -= 10;
+    y2 = addTextIfExists(
+      page2,
+      "Indicate which countries/territories you are a citizen of",
+      data.citizenship,
+      y2
+    );
+    y2 -= 10;
     let { page: page3, y: y3 } = createPage("Consent and Declaration");
     // y2 = addTextIfExists(page2, "Consent and Declaration", "", y2);
     y3 -= 10;
@@ -458,13 +466,14 @@ export default function DataTable() {
   };
 
   const handleGeneratePDF = async (pdfRows) => {
-    console.log("rows", pdfRows);
+    console.log("rows", countries[pdfRows.citizenship]?.name,);
     const data = {
       firstName: pdfRows.firstName,
       middleName: pdfRows.middleName,
       lastName: pdfRows.lastName,
       emailAddress: pdfRows.email,
       phone: pdfRows.phoneNumber,
+      phoneNumberExt:pdfRows.phoneNumberExt,
       dateOfBirth: pdfRows.dob?.split("T")[0],
       gender: pdfRows.gender,
       countryOfBIrth: countries[pdfRows.countryOfBIrth]?.name,
@@ -490,6 +499,7 @@ export default function DataTable() {
       cityTown: pdfRows.city,
       districtRegion: pdfRows.district,
       country: countries[pdfRows.country]?.name,
+      citizenship:countries[pdfRows.citizenship]?.name,
       occupation: pdfRows.occupation,
       jobTitle: pdfRows.job,
       nameOfEmployer: pdfRows.employer,
