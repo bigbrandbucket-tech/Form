@@ -439,11 +439,11 @@ export default function DataTable() {
     y4 -= 10;
     y4 = addTextIfExists(
       page4,
-      "* Please briefly indicate if there are additional  details pertinent \n to your application. For example, an urgent need to \n travel to Canada. Provide relevant details to avoid \n  delays in the processing of your application.",
+      "* Please briefly indicate if there are additional  details pertinent \n to your application. For example, an urgent need to \n travel to Canada. Provide relevant details to avoid \n  delays in the processing of your application. \n",
       data.additionalDetails,
       y4
     );
-    y4 -= 85;
+    y4 -= 100;
     y4 = addTextIfExists(page4, "Signature of Applicant \n", data.signature, y4);
     y4 -= 40;
     y4 = addTextIfExists(
