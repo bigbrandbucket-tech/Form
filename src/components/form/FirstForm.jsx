@@ -67,6 +67,10 @@ export default function FirstForm() {
     });
   };
 
+  useEffect(() =>{
+    console.log('czll')
+    localStorage.clear();
+  } ,[])
   useEffect(() => {
     console.log(id);
     if (id) {

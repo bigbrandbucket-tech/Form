@@ -89,6 +89,7 @@ export default function Consents() {
         return obj;
       }, {});
     setLoading(true);
+    localStorage.clear();
     const response = await axios
       .put(
         `https://form-backend-gamma.vercel.app/api/user/${currentState.ID}`,

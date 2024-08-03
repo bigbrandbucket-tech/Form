@@ -314,39 +314,39 @@ export default function DataTable() {
       data.refusedVisa,
       y2
     );
-    y2 -= 30;
+    y2 -= 50;
 
     y2 = addTextIfExists(
       page2,
-      "For each refusal, please indicate the country that \n refused you a visa or permit, or denied  you entry, as well as the reasons provided to you by the country",
+      "* For each refusal, please indicate the country that \n refused you a visa or permit, or denied  you entry,\n  as well as the reasons provided to you by \n the country",
       data.refusedVisaTextArea,
       y2
     );
-    y2 -= 30;
+    y2 -= 70;
     y2 = addTextIfExists(
       page2,
-      "* Have you ever committed, been arrested for, \n been charged with or convicted \n of any criminal  offence in any country/territory?",
+      "* Have you ever committed, been arrested for, \n been charged with or convicted \n of any criminal  offence   in any country/territory?",
       data.criminalOffence,
       y2
     );
-    y2 -= 30;
+    y2 -= 50;
     y2 = addTextIfExists(
       page2,
-      "For each arrest, charge, or conviction,\n please indicate  where (city, country), when (month/year), the nature of the offence, and the sentence.?",
+      "* For each arrest, charge, or conviction,\n please indicate  where (city, country), when (month/year), \n  the nature of the offence, and the sentence.?",
       data.criminalOffenceTextArea,
       y2
     );
-    y2 -= 30;
+    y2 -= 50;
     y2 = addTextIfExists(
       page2,
       "* In the past two years, were you diagnosed with \n tuberculosis or have you been in close  contact with\n a person with tuberculosis?",
       data.tuberculosisDiagnosis,
       y2
     );
-    y2 -= 30;
+    y2 -= 50;
     y2 = addTextIfExists(
       page2,
-      "Is your contact with tuberculosis the result of being a health care worker?",
+      "Is your contact with tuberculosis the result of being a \n health care worker?",
       data.healthcareWorkerContact,
       y2
     );
@@ -367,31 +367,39 @@ export default function DataTable() {
 
     y2 -= 10;
     //   let { page: page6, y: y6 } = createPage('Travel Information');
-    y2 = addText2(page2, "Travel Information", "", y2);
-    y2 -= 10;
-    y2 = addTextIfExists(
-      page2,
+    let { page: page3, y: y3 } = createPage("Travel Information");
+    y3 -= 10;
+    y3 = addTextIfExists(
+      page3,
       "Have you ever applied for or obtained a visa,  \n an eTA or a permit to visit, live, work or study in Canada?",
       data.appliedForVisa,
-      y2
+      y3
     );
-    y2 -= 20;
-    y2 = addTextIfExists(
-      page2,
+    y3 -= 30;
+    y3 = addTextIfExists(
+      page3,
+      "UCI Number",
+      data.uciPreviousVisaNumber,
+      y3
+    );
+    
+    y3 -= 10;
+    y3 = addTextIfExists(
+      page3,
       "Do you know when you will travel to Canada?",
       data.knowTravelDate,
-      y2
+      y3
     );
-    y2 -= 10;
-    y2 = addTextIfExists(
-      page2,
+    y3 -= 10;
+    y3 = addTextIfExists(
+      page3,
       "When do you plan to travel to Canada?",
       data.travelDate,
-      y2
+      y3
     );
-    y2 -= 10;
-    y2 = addTextIfExists(
-      page2,
+    y3 -= 10;
+    y3 = addTextIfExists(
+      page3,
       "Time your flight to Canada will depart",
       data.travelTime.length
         ? JSON.parse(data.travelTime)[0] +
@@ -400,52 +408,52 @@ export default function DataTable() {
             " " +
             JSON.parse(data.travelTime)[2]
         : "",
-      y2
+      y3
     );
-    y2 -= 10;
-    y2 = addTextIfExists(page2, "Are you traveling alone?", data.travelingAlone, y2);
-    y2 -= 10;
-    y2 = addTextIfExists(
-      page2,
-      "How many members traveling with you?",
-      data.travelingMembers,
-      y2
-    );
-    y2 -= 10;
-    y2 = addTextIfExists(
-      page2,
-      "Do you have Additional nationalities?",
-      data.additionalNationalities,
-      y2
-    );
-    y2 -= 10;
-    y2 = addTextIfExists(
-      page2,
-      "Indicate which countries/territories you are a citizen of",
-      data.citizenship,
-      y2
-    );
-    y2 -= 10;
-    let { page: page3, y: y3 } = createPage("Consent and Declaration");
-    // y2 = addTextIfExists(page2, "Consent and Declaration", "", y2);
+    y3 -= 10;
+    y3 = addTextIfExists(page3, "Are you traveling alone?", data.travelingAlone, y3);
     y3 -= 10;
     y3 = addTextIfExists(
       page3,
-      "* Please briefly indicate if there are additional  details pertinent \n to your application. For example, an urgent need to \n travel to Canada. Provide relevant details to avoid \n  delays in the processing of your application.",
-      data.additionalDetails,
+      "How many members traveling with you?",
+      data.travelingMembers,
       y3
     );
-    y3 -= 85;
-    y3 = addTextIfExists(page3, "Signature of Applicant \n", data.signature, y3);
-    y3 -= 40;
+    y3 -= 10;
     y3 = addTextIfExists(
       page3,
-      "Agree Privacy Policy, Terms and Conditions & Refund Policy",
-      data.agreePrivacyPolicy,
+      "Do you have Additional nationalities?",
+      data.additionalNationalities,
       y3
     );
-    y3 -= 20;
-    y3 = addTextIfExists(page3, "IP Address", data.ipAddress, y3);
+    y3 -= 10;
+    y3 = addTextIfExists(
+      page3,
+      "Indicate which countries/territories you are a citizen of",
+      data.citizenship,
+      y3
+    );
+    y3 -= 10;
+    let { page: page4, y: y4 } = createPage("Consent and Declaration");
+    // y3 = addTextIfExists(page4, "Consent and Declaration", "", y3);
+    y4 -= 10;
+    y4 = addTextIfExists(
+      page4,
+      "* Please briefly indicate if there are additional  details pertinent \n to your application. For example, an urgent need to \n travel to Canada. Provide relevant details to avoid \n  delays in the processing of your application.",
+      data.additionalDetails,
+      y4
+    );
+    y4 -= 85;
+    y4 = addTextIfExists(page4, "Signature of Applicant \n", data.signature, y4);
+    y4 -= 40;
+    y4 = addTextIfExists(
+      page4,
+      "Agree Privacy Policy, Terms and Conditions & Refund Policy",
+      data.agreePrivacyPolicy,
+      y4
+    );
+    y4 -= 20;
+    y4 = addTextIfExists(page4, "IP Address", data.ipAddress, y4);
 
     // Save the PDF to a blob
     const pdfBytes = await pdfDoc.save();
@@ -515,6 +523,7 @@ export default function DataTable() {
       tuberculosisDiagnosis: pdfRows.tuberculosisDiagnosis,
       tuberculosisDiagnosed: pdfRows.tuberculosisDiagnosed,
       appliedForVisa: pdfRows.appliedForVisa,
+      uciPreviousVisaNumber: pdfRows.uciPreviousVisaNumber,
       knowTravelDate: pdfRows.knowTravelDate,
       travelDate: pdfRows.travelDate?.split("T")[0],
       travelTime: pdfRows.travelTime,
