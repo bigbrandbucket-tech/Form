@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 import { countries } from "countries-list";
 import { useNavigate } from "react-router-dom";
 import { FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { splitString } from "../../../utils/SplitString";
 
 export default function DataTable() {
   const navigate = useNavigate()
@@ -314,15 +315,15 @@ export default function DataTable() {
       data.refusedVisa,
       y2
     );
-    y2 -= 50;
+    y2 -= 40;
 
     y2 = addTextIfExists(
       page2,
-      "* For each refusal, please indicate the country that \n refused you a visa or permit, or denied  you entry,\n  as well as the reasons provided to you by \n the country",
-      data.refusedVisaTextArea,
+      "* For each refusal, please indicate the country that \n refused you a visa or permit, or denied  you entry,\n  as well as the reasons provided to you by \n the country \n",
+      splitString(data.refusedVisaTextArea, 100),
       y2
     );
-    y2 -= 70;
+    y2 -= 120;
     y2 = addTextIfExists(
       page2,
       "* Have you ever committed, been arrested for, \n been charged with or convicted \n of any criminal  offence   in any country/territory?",
@@ -332,11 +333,11 @@ export default function DataTable() {
     y2 -= 50;
     y2 = addTextIfExists(
       page2,
-      "* For each arrest, charge, or conviction,\n please indicate  where (city, country), when (month/year), \n  the nature of the offence, and the sentence.?",
+      "* For each arrest, charge, or conviction,\n please indicate  where (city, country), when (month/year), \n  the nature of the offence, and the sentence.? \n",
       data.criminalOffenceTextArea,
       y2
     );
-    y2 -= 50;
+    y2 -= 70;
     y2 = addTextIfExists(
       page2,
       "* In the past two years, were you diagnosed with \n tuberculosis or have you been in close  contact with\n a person with tuberculosis?",
@@ -440,10 +441,10 @@ export default function DataTable() {
     y4 = addTextIfExists(
       page4,
       "* Please briefly indicate if there are additional  details pertinent \n to your application. For example, an urgent need to \n travel to Canada. Provide relevant details to avoid \n  delays in the processing of your application. \n",
-      data.additionalDetails,
+      splitString(data.additionalDetails,100),
       y4
     );
-    y4 -= 100;
+    y4 -= 120;
     y4 = addTextIfExists(page4, "Signature of Applicant \n", data.signature, y4);
     y4 -= 40;
     y4 = addTextIfExists(
