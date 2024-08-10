@@ -1,13 +1,8 @@
-import { PaymentElement } from "@stripe/react-stripe-js";
-import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
-import {
-  CardNumberElement,
-  CardCvcElement,
-  CardExpiryElement,
-} from "@stripe/react-stripe-js";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import '../../styles/style.css'
 
 const Payment = () => {
   const stripe = useStripe();
@@ -90,7 +85,7 @@ const Payment = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ width: "50%", marginLeft: "25%" }}>
+    <form onSubmit={handleSubmit} className="payment-div">
       <div
         className="form-group"
         style={{ border: "2px solid black", padding: "10px" }}

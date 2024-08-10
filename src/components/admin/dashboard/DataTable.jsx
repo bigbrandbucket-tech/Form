@@ -323,7 +323,7 @@ export default function DataTable() {
       splitString(data.refusedVisaTextArea, 100),
       y2
     );
-    y2 -= 120;
+    y2 -= 150;
     y2 = addTextIfExists(
       page2,
       "* Have you ever committed, been arrested for, \n been charged with or convicted \n of any criminal  offence   in any country/territory?",
@@ -334,10 +334,10 @@ export default function DataTable() {
     y2 = addTextIfExists(
       page2,
       "* For each arrest, charge, or conviction,\n please indicate  where (city, country), when (month/year), \n  the nature of the offence, and the sentence.? \n",
-      data.criminalOffenceTextArea,
+      splitString(data.criminalOffenceTextArea,100),
       y2
     );
-    y2 -= 70;
+    y2 -= 120;
     y2 = addTextIfExists(
       page2,
       "* In the past two years, were you diagnosed with \n tuberculosis or have you been in close  contact with\n a person with tuberculosis?",
@@ -444,7 +444,7 @@ export default function DataTable() {
       splitString(data.additionalDetails,100),
       y4
     );
-    y4 -= 120;
+    y4 -=150;
     y4 = addTextIfExists(page4, "Signature of Applicant \n", data.signature, y4);
     y4 -= 40;
     y4 = addTextIfExists(

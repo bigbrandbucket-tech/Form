@@ -1,0 +1,12 @@
+
+.payment-div {
+    width: 50%;
+    margin-left: 25%;
+}
+
+@media (max-width: 600px) {
+    .payment-div {
+        width: 87%;
+        margin-left: 2px;
+    }
+}
