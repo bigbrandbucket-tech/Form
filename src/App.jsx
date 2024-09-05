@@ -26,9 +26,9 @@ function App() {
           </Route>
 
           <Route path="/payment/:id" element={<Layout />}>
-            <Route index element={<StripeContainer />}></Route>
+            <Route index element={<Payment />}></Route>
           </Route>
-          <Route path="/payment-success" element={<Layout />}>
+          <Route path="/payment-success/:id" element={<Layout />}>
             <Route index element={<PaymentSuccess />}></Route>
           </Route>
 
