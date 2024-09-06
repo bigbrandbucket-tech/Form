@@ -59,7 +59,10 @@ const Payment = () => {
         if (order.status === "COMPLETED") {
           await axios.put(`https://form-backend-gamma.vercel.app/api/user/${id}`, { payment: true });
           console.log(order);
+          const response = await axios.get( `https://form-backend-gamma.vercel.app/api/user/${id}` );
+          const userData = response.data;
           const { data } = await axios.post("https://form-backend-gamma.vercel.app/api/payment", {
+            details:userData,
             id:id,
             email: details.email,
             lastName:details.lastName,
