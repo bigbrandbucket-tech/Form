@@ -8,7 +8,7 @@ const Payment = () => {
   const [details, setDetails] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
-
+  console.log(details);
   useEffect(() => {
     fetchApi();
     // Load PayPal SDK if not loaded
@@ -31,32 +31,43 @@ const Payment = () => {
   };
 
   const initializePayPalButton = () => {
-    // Render PayPal buttons and force Debit/Credit Card fields to open by default
     window.paypal.Buttons({
-      fundingSource: window.paypal.FUNDING.CARD, // Show card payment fields directly
+      fundingSource: window.paypal.FUNDING.CARD, 
       style: {
         shape: 'rect',
         label: 'pay',
       },
-      createOrder: (data, actions) => {
-        return actions.order.create({
-          purchase_units: [{
-            amount: {
-              //currency_code: 'USD',
-              value: '1000', // Specify payment amount
-            },
-          }],
-        });
+      createOrder: async (data, actions) => {
+        // Instead of creating order on frontend, make a call to the backend
+        try {
+          const response = await axios.post("https://form-backend-gamma.vercel.app/api/create-payment", {
+            id: id, // Include userId or other necessary data
+          });
+  
+          if (response.status === 201) {
+            return response.data.id; // Return the order ID from backend
+          } else {
+            alert("Error creating order. Please try again.");
+          }
+        } catch (error) {
+          console.error("Error creating order:", error);
+          alert("Payment initialization failed. Please try again.");
+        }
       },
       onApprove: async (data, actions) => {
         const order = await actions.order.capture();
         if (order.status === "COMPLETED") {
           await axios.put(`https://form-backend-gamma.vercel.app/api/user/${id}`, { payment: true });
-          await axios.post("https://form-backend-gamma.vercel.app/api/payment", {
-            ...details,
+          console.log(order);
+          const { data } = await axios.post("https://form-backend-gamma.vercel.app/api/payment", {
+            id:id,
+            email: details.email,
+            lastName:details.lastName,
+            firstName:details.firstName,
             orderId: order.id,
             paymentIntent: order,
           });
+          console.log(data);
           navigate(`/payment-success/${id}`);
         } else {
           alert("Payment could not be completed. Please try again.");
@@ -66,23 +77,11 @@ const Payment = () => {
         console.error(err);
         alert("Payment failed. Please try again.");
       },
-    }).render("#paypal-button-container"); // Render the button and card fields immediately
+    }).render("#paypal-button-container");
   
-    // Use MutationObserver to detect when the card button is added to the DOM
-    const observer = new MutationObserver((mutationsList, observer) => {
-      const debitCardButton = document.querySelector('button[data-funding-source="card"]');
-      if (debitCardButton) {
-        debitCardButton.click(); // Simulate click to focus on the card fields
-        observer.disconnect(); // Stop observing once we found and clicked the button
-      }
-    });
-  
-    // Start observing the DOM changes in the #paypal-button-container
-    const targetNode = document.getElementById('paypal-button-container');
-    if (targetNode) {
-      observer.observe(targetNode, { childList: true, subtree: true });
-    }
+    // MutationObserver logic remains the same
   };
+  
   
   
   
@@ -99,7 +98,7 @@ const Payment = () => {
         style={{ border: "2px solid black", padding: "10px" }}
       >
         <div htmlFor="card-element" style={{ fontFamily: "sans-serif",marginBottom:'18px' }}>
-          Pay with PayPal (Application Number: <b>{id}</b>)
+          Pay with PayPal (Application Number: <b>{id}</b>) $1000.00
         </div>
         {/* <div className="form-container">
           <label htmlFor="lastName">
@@ -128,7 +127,7 @@ const Payment = () => {
           }}
         >
           <h2 style={{ fontSize: "18px", fontWeight: "bold" }}>
-            Order Summary
+            Passenger Summary
           </h2>
           <h3>Passenger Details</h3>
           <p>Given Name: {details.firstName}</p>
