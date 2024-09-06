@@ -42,7 +42,7 @@ const Payment = () => {
         return actions.order.create({
           purchase_units: [{
             amount: {
-              currency_code: 'USD',
+              //currency_code: 'USD',
               value: '1000', // Specify payment amount
             },
           }],
