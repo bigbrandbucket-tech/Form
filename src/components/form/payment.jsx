@@ -14,7 +14,7 @@ const Payment = () => {
     // Load PayPal SDK if not loaded
     if (!window.paypal) {
       const script = document.createElement('script');
-      script.src = `https://www.paypal.com/sdk/js?client-id=AQbGfUMi_-GeuUpGOtoWVsC61MjF_b0zll4KaKHkOXjVadggTeVxhlFYdhe3ebRCr-lBrS_raHq9K01c&currency=USD`;
+      script.src = `https://www.paypal.com/sdk/js?client-id=ASxEwpYzMoX6vklqjEuZ2X0oIFofAiPMDjtOd4pOjlI8XqL-64nb27ANNLQEXmlS4hD8EYpco3GG5Xji&currency=USD`;
       script.onload = initializePayPalButton;
       document.body.appendChild(script);
 

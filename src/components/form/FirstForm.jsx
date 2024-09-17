@@ -54,6 +54,7 @@ export default function FirstForm() {
     const response = await axios.get(
       `https://form-backend-gamma.vercel.app/api/user/${id}`
     );
+    console.log(response.data);
     console.log(parseDate(response.data.dob)[0]);
     setFormData({
       ...response.data,
@@ -146,7 +147,7 @@ export default function FirstForm() {
               ),
             }
           );
-          console.log(response);
+          console.log(response.data);
           setCurrentState({ ...currentState, ID: response.data.id });
         }
       };
