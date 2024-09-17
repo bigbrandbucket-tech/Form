@@ -39,7 +39,7 @@ export default function Login({onLogin}) {
     const navigate = useNavigate()
   const handleSubmit = (event) => {
     event.preventDefault();
-    if(user === 'ADMIN' && password === 'ADMIN'){
+    if(user === 'Admin@canadaeta.com' && password === 'Admin@canada2023'){
         console.log('call')
         localStorage.setItem('login', true)
         navigate('/admin/travels')
