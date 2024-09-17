@@ -101,7 +101,7 @@ const Payment = () => {
         style={{ border: "2px solid black", padding: "10px" }}
       >
         <div htmlFor="card-element" style={{ fontFamily: "sans-serif",marginBottom:'18px' }}>
-          Pay with PayPal (Application Number: <b>{id}</b>) $1000.00
+          Pay with PayPal (Application Number: <b>{id}</b>) $1.00
         </div>
         {/* <div className="form-container">
           <label htmlFor="lastName">
@@ -136,7 +136,7 @@ const Payment = () => {
           <p>Given Name: {details.firstName}</p>
           <p>Surname: {details.lastName}</p>
           <p>Passport No: {details.passportNumber}</p>
-          <p>Amount: $1000</p>
+          <p>Amount: $1</p>
         </div>
       </div>
     </div>
